@@ -1,8 +1,5 @@
 'use strict';
 
-const bcrypt = require("bcryptjs");
-
-
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -11,35 +8,23 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 
-  
+
   async up (queryInterface, Sequelize) {
 
-    options.tableName = 'Users';
+    options.tableName = 'SpotImages';
 await queryInterface.bulkInsert(options, [
-  {
-    email: 'demo@user.io',
-    username: 'Demo-lition',
-    hashedPassword: bcrypt.hashSync('password'),
-    firstName: 'Demo',
-    lastName: 'Lition'
-
+  {spotId:1,
+    url:'adahskjd',
+    preview: true
   },
-  {
-    email: 'user1@user.io',
-    username: 'FakeUser1',
-    hashedPassword: bcrypt.hashSync('password2'),
-    firstName: 'Fake',
-    lastName: 'User1'
+  {spotId:2,
+    url:'sfss',
+    preview: false
   },
-  {
-    email: 'user2@user.io',
-    username: 'FakeUser2',
-    hashedPassword: bcrypt.hashSync('password3'),
-    firstName: 'Fake',
-    lastName: 'User2'
-  }
-], {});
-
+  {spotId:3,
+    url:'sgsfgdfg',
+    preview: true
+  },
     /**
      * Add seed commands here.
      *
@@ -49,13 +34,14 @@ await queryInterface.bulkInsert(options, [
      *   isBetaMember: false
      * }], {});
     */
+  ], {});
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'Users';
+    options.tableName = 'SpotImages';
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
+      spotId: { [Op.in]: [1, 2, 3] }
     }, {});
     /**
      * Add commands to revert seed here.
