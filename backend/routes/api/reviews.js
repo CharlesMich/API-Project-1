@@ -25,11 +25,11 @@ router.get('/current', requireAuth, async (req,res,next)=> {
     reviewById.forEach(list => {
         reviewList.push(list.toJSON())
     })
-    console.log(reviewList)
+   
 
     reviewList.forEach(list => {
         list.Spot.SpotImages.forEach(ele => {
-             console.log(ele.preview)
+            
                     if(ele.preview === true){
                         list.Spot.previewImage = ele.url
                     }     

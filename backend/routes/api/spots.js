@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/current', requireAuth, async (req, res) => {
 
     let userid = req.user.id
-    console.log(userid)
+   
     const spotbyId = await Spot.findAll({
         where:{ownerId: userid},
         attributes: {
@@ -25,12 +25,12 @@ router.get('/current', requireAuth, async (req, res) => {
             {model: SpotImage}
         ]
     })
-    console.log(spotbyId)
+    
     let spotList = [];
     spotbyId.forEach(list => {
         spotList.push(list.toJSON())
     })
-    // console.log(spotList)
+   
 
     spotList.forEach(list => {
         list.SpotImages.forEach(img => {
@@ -75,10 +75,10 @@ router.get('/:id', async (req, res) => {
         ]
     })
     let spot = spotbyId.toJSON();
-    console.log(spot)
+   
     spot['Owner'] = spot['User'];
     delete spot['User'];
-    console.log(spot)
+   
     res.json(spot)
 })
 
@@ -111,7 +111,7 @@ router.get('/', async (req, res) => {
     spots.forEach(list => {
         spotList.push(list.toJSON())
     })
-    // console.log(spotList)
+   
 
     spotList.forEach(list => {
         list.SpotImages.forEach(img => {
