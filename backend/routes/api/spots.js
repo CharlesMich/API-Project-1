@@ -12,22 +12,40 @@ const router = express.Router();
 router.get('/current', requireAuth, async (req, res) => {
 
     let userid = req.user.id
-    const spotbyId = await Spot.findByPk(userid, {
+    console.log(userid)
+    const spotbyId = await Spot.findAll({
+        where:{ownerId: userid},
         attributes: {
             include: [
-                [
-                    Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
-                    "avgRating"
-                ],
+                [ Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
             ],
         },
-        include: [{
-            model: Review,
-            attributes: []
-        },
+        include: [ 
+            {model: Review, attributes: []},
+            {model: SpotImage}
         ]
     })
-    res.json(spotbyId)
+    console.log(spotbyId)
+    let spotList = [];
+    spotbyId.forEach(list => {
+        spotList.push(list.toJSON())
+    })
+    // console.log(spotList)
+
+    spotList.forEach(list => {
+        list.SpotImages.forEach(img => {
+            if (img.preview === true) {
+
+                list.previewImage = img.url
+            }
+        })
+
+    })
+    spotList.forEach(ele => {
+        delete ele.SpotImages
+    })
+
+    res.json({ spots: spotList })
 })
 
 
@@ -36,7 +54,7 @@ router.get('/:id', async (req, res) => {
 
     const spotbyId = await Spot.findByPk(req.params.id, {
 
-    
+
 
 
         attributes: {
@@ -50,17 +68,17 @@ router.get('/:id', async (req, res) => {
             ],
         },
         include: [
-            { model: SpotImage, attributes:['id', 'url', 'preview'] },
-         {model: User, attributes: ['id', 'firstName', 'lastName']},
-         {model: Review, attributes: [] }
-         
+            { model: SpotImage, attributes: ['id', 'url', 'preview'] },
+            { model: User, attributes: ['id', 'firstName', 'lastName'] },
+            { model: Review, attributes: [] }
+
         ]
     })
-   let spot = spotbyId.toJSON();
-   console.log(spot)
+    let spot = spotbyId.toJSON();
+    console.log(spot)
     spot['Owner'] = spot['User'];
-delete spot[ 'User' ];
-console.log(spot)
+    delete spot['User'];
+    console.log(spot)
     res.json(spot)
 })
 
@@ -113,28 +131,18 @@ router.get('/', async (req, res) => {
 
 
 // Get all Reviews by a Spot's id
-router.get('/:spotId/reviews', async (req, res)=> {
+router.get('/:spotId/reviews', async (req, res) => {
     const SpotId1 = req.params.spotId;
-const reviewsBySpot = await Review.findAll({
-    where: {SpotId:SpotId1},
-    include:[{model:User, attributes:['id', 'firstName', 'lastName']},
-        {model:ReviewImage, attributes: ['id', 'url']}
+    const reviewsBySpot = await Review.findAll({
+        where: { SpotId: SpotId1 },
+        include: [{ model: User, attributes: ['id', 'firstName', 'lastName'] },
+        { model: ReviewImage, attributes: ['id', 'url'] }
 
-    ]
-})
+        ]
+    })
 
-   
-//     const reviewsBySpot = await Spot.findByPk(req.params.spotId,{
-//         attributes:[],
-//         include:[{model: Review},
-//        {model: User, attributes: ['id', 'firstName', 'lastName']},
-//             {model: ReviewImage, through: { model: Review}}
-//         ]
-// })
-        
-//     })
 
-    res.json({Reviews:reviewsBySpot})
+    res.json({ Reviews: reviewsBySpot })
 })
 
 
