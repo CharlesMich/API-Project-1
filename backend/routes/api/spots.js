@@ -2,7 +2,7 @@ const express = require('express');
 
 const Sequelize = require('sequelize');
 
-const { Spot, Review, SpotImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
@@ -86,11 +86,9 @@ router.get('/', async (req, res) => {
             model: SpotImage,
             // attributes:[]
         }
-
         ]
-
-
     })
+
     let spotList = [];
     spots.forEach(list => {
         spotList.push(list.toJSON())
@@ -112,5 +110,32 @@ router.get('/', async (req, res) => {
 
     res.json({ spots: spotList })
 })
+
+
+// Get all Reviews by a Spot's id
+router.get('/:spotId/reviews', async (req, res)=> {
+    const SpotId1 = req.params.spotId;
+const reviewsBySpot = await Review.findAll({
+    where: {SpotId:SpotId1},
+    include:[{model:User, attributes:['id', 'firstName', 'lastName']},
+        {model:ReviewImage, attributes: ['id', 'url']}
+
+    ]
+})
+
+   
+//     const reviewsBySpot = await Spot.findByPk(req.params.spotId,{
+//         attributes:[],
+//         include:[{model: Review},
+//        {model: User, attributes: ['id', 'firstName', 'lastName']},
+//             {model: ReviewImage, through: { model: Review}}
+//         ]
+// })
+        
+//     })
+
+    res.json({Reviews:reviewsBySpot})
+})
+
 
 module.exports = router;
