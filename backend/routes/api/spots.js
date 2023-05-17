@@ -12,25 +12,25 @@ const router = express.Router();
 router.get('/current', requireAuth, async (req, res) => {
 
     let userid = req.user.id
-   
+
     const spotbyId = await Spot.findAll({
-        where:{ownerId: userid},
+        where: { ownerId: userid },
         attributes: {
             include: [
-                [ Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
+                [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
             ],
         },
-        include: [ 
-            {model: Review, attributes: []},
-            {model: SpotImage}
+        include: [
+            { model: Review, attributes: [] },
+            { model: SpotImage }
         ]
     })
-    
+
     let spotList = [];
     spotbyId.forEach(list => {
         spotList.push(list.toJSON())
     })
-   
+
 
     spotList.forEach(list => {
         list.SpotImages.forEach(img => {
@@ -54,9 +54,6 @@ router.get('/:id', async (req, res) => {
 
     const spotbyId = await Spot.findByPk(req.params.id, {
 
-
-
-
         attributes: {
             include: [
 
@@ -75,65 +72,65 @@ router.get('/:id', async (req, res) => {
         ]
     })
     let spot = spotbyId.toJSON();
-   
+
     spot['Owner'] = spot['User'];
     delete spot['User'];
-   
+
     res.json(spot)
 })
 
 // Create a Spot
 router.post('/', requireAuth, async (req, res, next) => {
     // Your code here
-    console.log(req.user.id)
+
     const ownerId = req.user.id;
 
-    
+
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    if(!address){
-    res.statusCode = 400
-    return res.json({
-        message: "Bad Request",
-        error: "Street address is required"
-    })
+    if (!address) {
+        res.statusCode = 400
+        return res.json({
+            message: "Bad Request",
+            error: "Street address is required"
+        })
     }
-    if(!city){
+    if (!city) {
         res.statusCode = 400
         return res.json({
             message: "Bad Request",
             error: "City is required"
         })
-     }
-     if(!state){
+    }
+    if (!state) {
         res.statusCode = 400
         return res.json({
             message: "Bad Request",
             error: "State is required"
         })
-     }
-     if(!country){
+    }
+    if (!country) {
         res.statusCode = 400
         return res.json({
             message: "Bad Request",
             error: "Country is required"
         })
-     }
-     if(!lat || isNaN(lat)){
+    }
+    if (!lat || isNaN(lat)) {
         res.statusCode = 400
         return res.json({
             message: "Bad Request",
             error: "Latitude is not Valid"
         })
-     }
-     if(!lng || isNaN(lat)){
+    }
+    if (!lng || isNaN(lat)) {
         res.statusCode = 400
         return res.json({
             message: "Bad Request",
             error: "Latitude is not valid"
         })
-       
-     }
+
+    }
     const newSpot = await Spot.create({
         ownerId,
         address,
@@ -143,7 +140,7 @@ router.post('/', requireAuth, async (req, res, next) => {
         lat,
         lng,
         name,
-        description, 
+        description,
         price
     })
     res.statusCode = 201;
@@ -178,7 +175,7 @@ router.get('/', async (req, res) => {
     spots.forEach(list => {
         spotList.push(list.toJSON())
     })
-   
+
 
     spotList.forEach(list => {
         list.SpotImages.forEach(img => {
@@ -196,6 +193,106 @@ router.get('/', async (req, res) => {
     res.json({ spots: spotList })
 })
 
+// Add an Image to a Spot based on the Spot's id
+// create an image for a spot
+
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+
+    const { url, preview } = req.body;
+
+
+    const spotId = req.params.spotId;
+
+    const spotCheck = await Spot.findByPk(spotId);
+    if (spotCheck) {
+        const newImage = await SpotImage.create({
+            spotId,
+            url,
+            preview
+        })
+        const imageRes = newImage.toJSON();
+        console.log(imageRes)
+        delete imageRes['spotId'],
+            delete imageRes['updatedAt'],
+            delete imageRes['createdAt']
+        res.json(
+            imageRes
+        )
+    } else {
+        res.statusCode = 404;
+        res.json({
+            "message": "Spot couldn't be found"
+        })
+    }
+
+})
+
+
+// Create a Review for a Spot based on the Spot's id
+router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+    let spotId = parseInt(req.params.spotId);
+   
+    const userId = req.user.id;
+   
+    
+
+    const spotCheck = await Spot.findByPk(spotId)
+
+    const { review, stars } = req.body;
+
+    // if(!review){
+    //     res.statusCode = 400;
+    //     return res.json(
+    //         {"message" : "Bad Request",
+    //         "errors": {"review":"Review text is required"}
+    //     }
+    //         )
+    // }
+    // if(!stars || stars > 5 || stars < 1 || !Number.isInteger(stars)){
+    //     res.statusCode = 400;
+    //     return res.json(
+    //         {"message" : "Bad Request",
+    //         "errors": {"stars": "Stars must be an integer from 1 to 5"}
+    //     }
+    //         )
+    // }
+
+    if (spotCheck) {
+
+        if(!review){
+            res.statusCode = 400;
+            return res.json(
+                {"message" : "Bad Request",
+                "errors": {"review":"Review text is required"}
+            }
+                )
+        }
+        if(!stars || stars > 5 || stars < 1 || !Number.isInteger(stars)){
+            res.statusCode = 400;
+            return res.json(
+                {"message" : "Bad Request",
+                "errors": {"stars": "Stars must be an integer from 1 to 5"}
+            }
+                )
+        }
+        const newReview = await Review.create({
+            userId,
+            spotId,
+            review,
+            stars
+        })
+
+        res.statusCode = 201;
+        res.json(newReview)
+    } else {
+        res.statusCode = 404;
+        return res.json({
+            "message": "Spot couldn't be found"
+        })
+    }
+
+
+})
 
 // Get all Reviews by a Spot's id
 router.get('/:spotId/reviews', async (req, res) => {
