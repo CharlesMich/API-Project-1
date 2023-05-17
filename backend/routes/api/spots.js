@@ -2,10 +2,108 @@ const express = require('express');
 
 const Sequelize = require('sequelize');
 
-const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
+
+// Create a Booking from a Spot based on the Spot's id
+router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+    currentSpot = parseInt(req.params.spotId);
+    currentUser = req.user.id;
+    console.log(currentUser)
+
+    const { startDate, endDate } = req.body;
+
+    if (endDate < startDate) {
+        res.statusCode = 400;
+        return res.json({
+            message: "Bad Request",
+            errors: {
+                endDate:
+                    "endDate cannot be on or before startDate"
+            }
+        })
+    }
+
+    const spotCheck = await Spot.findByPk(currentSpot);
+
+    if (!spotCheck) {
+        res.statusCode = 404;
+        return res.json({ "message": "Spot couldn't be found" })
+    }
+    if (spotCheck.ownerId == currentUser) {
+        res.statusCode = 400;
+        return res.json({ "message": "Owner cannot book his own Property" })
+    }
+
+    const checkBooking = await Booking.findAll({
+        where: { spotId: currentSpot }
+    })
+    const newArr = []
+    console.log(checkBooking)
+    checkBooking.forEach(ele => {
+        console.log(ele.dataValues)
+        newArr.push(ele.dataValues)
+    })
+    console.log('new',newArr)
+
+    for (let key of newArr) {
+        if ((key.startDate < startDate && key.endDate > startDate) || (key.startDate < endDate && key.endDate > endDate)) {
+            res.statusCode = 403;
+            return res.json({
+                "message": "Sorry, this spot is already booked for the specified dates"
+                ,
+                "errors": {
+                    "startDate": "Start date conflicts with an existing booking"
+                    ,
+                    "endDate": "End date conflicts with an existing booking"
+                }
+            })
+        } else {
+        const confirmBooking = await Booking.create({
+            spotId: currentSpot,
+            userId: currentUser,
+            startDate,
+            endDate
+
+        })
+        res.json(confirmBooking)
+    }
+
+}
+})
+
+// Get all Bookings for a Spot based on the Spot's id
+
+router.get('/:spotId/bookings', async (req, res)=> {
+
+
+
+    const currentSpot = req.params.spotId;
+    currentUserId = req.user.id;
+    const currentBookings = await Spot.findByPk(currentSpot, {
+       include:[{model:Booking}, {model:User}]
+    })
+    if(currentBookings){
+        if(currentUserId === currentBookings.ownerId){
+            const list = []
+            list.push(currentBookings.User);
+            list.push(currentBookings.Bookings)
+            res.json({"Bookings": list});
+           }else {
+            res.json({"Bookings": currentBookings})
+           }
+    } else {
+        res.statusCode = 404;
+        res.json({
+            "message":"Spot couldn't be found"
+            })
+    }
+   
+   
+})
+
 
 
 // Get all Spots owned by the Current User
@@ -230,67 +328,64 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 // Create a Review for a Spot based on the Spot's id
 router.post('/:spotId/reviews', requireAuth, async (req, res) => {
-    let spotId = parseInt(req.params.spotId);
-   
+
+    const spotId = parseInt(req.params.spotId);
     const userId = req.user.id;
-   
-    
 
-    const spotCheck = await Spot.findByPk(spotId)
-
-    const { review, stars } = req.body;
-
-    // if(!review){
-    //     res.statusCode = 400;
-    //     return res.json(
-    //         {"message" : "Bad Request",
-    //         "errors": {"review":"Review text is required"}
-    //     }
-    //         )
-    // }
-    // if(!stars || stars > 5 || stars < 1 || !Number.isInteger(stars)){
-    //     res.statusCode = 400;
-    //     return res.json(
-    //         {"message" : "Bad Request",
-    //         "errors": {"stars": "Stars must be an integer from 1 to 5"}
-    //     }
-    //         )
-    // }
-
-    if (spotCheck) {
-
-        if(!review){
-            res.statusCode = 400;
-            return res.json(
-                {"message" : "Bad Request",
-                "errors": {"review":"Review text is required"}
-            }
-                )
-        }
-        if(!stars || stars > 5 || stars < 1 || !Number.isInteger(stars)){
-            res.statusCode = 400;
-            return res.json(
-                {"message" : "Bad Request",
-                "errors": {"stars": "Stars must be an integer from 1 to 5"}
-            }
-                )
-        }
-        const newReview = await Review.create({
-            userId,
-            spotId,
-            review,
-            stars
-        })
-
-        res.statusCode = 201;
-        res.json(newReview)
-    } else {
-        res.statusCode = 404;
+    const userSpotCheck = await Review.findAll({
+        where: { spotId: spotId, userId: userId }
+        //    where: { $and: [{spotId: spotId}, {userId: userId}] }
+    })
+    if (userSpotCheck) {
+        res.statusCode = 500;
+        // res.json(userSpotCheck)
         return res.json({
-            "message": "Spot couldn't be found"
+            "message": "User already has a review for this spot"
         })
-    }
+    } else {
 
+        const spotCheck = await Spot.findByPk(spotId)
+
+        const { review, stars } = req.body;
+
+
+
+        if (spotCheck) {
+
+            if (!review) {
+                res.statusCode = 400;
+                return res.json(
+                    {
+                        "message": "Bad Request",
+                        "errors": { "review": "Review text is required" }
+                    }
+                )
+            }
+            if (!stars || stars > 5 || stars < 1 || !Number.isInteger(stars)) {
+                res.statusCode = 400;
+                return res.json(
+                    {
+                        "message": "Bad Request",
+                        "errors": { "stars": "Stars must be an integer from 1 to 5" }
+                    }
+                )
+            }
+            const newReview = await Review.create({
+                userId,
+                spotId,
+                review,
+                stars
+            })
+
+            res.statusCode = 201;
+            res.json(newReview)
+        } else {
+            res.statusCode = 404;
+            return res.json({
+                "message": "Spot couldn't be found"
+            })
+        }
+    }
 
 })
 
