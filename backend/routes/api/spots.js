@@ -82,6 +82,73 @@ router.get('/:id', async (req, res) => {
     res.json(spot)
 })
 
+// Create a Spot
+router.post('/', requireAuth, async (req, res, next) => {
+    // Your code here
+    console.log(req.user.id)
+    const ownerId = req.user.id;
+
+    
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+    if(!address){
+    res.statusCode = 400
+    return res.json({
+        message: "Bad Request",
+        error: "Street address is required"
+    })
+    }
+    if(!city){
+        res.statusCode = 400
+        return res.json({
+            message: "Bad Request",
+            error: "City is required"
+        })
+     }
+     if(!state){
+        res.statusCode = 400
+        return res.json({
+            message: "Bad Request",
+            error: "State is required"
+        })
+     }
+     if(!country){
+        res.statusCode = 400
+        return res.json({
+            message: "Bad Request",
+            error: "Country is required"
+        })
+     }
+     if(!lat || isNaN(lat)){
+        res.statusCode = 400
+        return res.json({
+            message: "Bad Request",
+            error: "Latitude is not Valid"
+        })
+     }
+     if(!lng || isNaN(lat)){
+        res.statusCode = 400
+        return res.json({
+            message: "Bad Request",
+            error: "Latitude is not valid"
+        })
+       
+     }
+    const newSpot = await Spot.create({
+        ownerId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description, 
+        price
+    })
+    res.statusCode = 201;
+    res.json(newSpot)
+})
 
 // Get all Spots
 
