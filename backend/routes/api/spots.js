@@ -329,7 +329,7 @@ router.get('/', async (req, res) => {
                     "avgRating"
                 ],
             ],
-            group: ['id']
+            group: ['Spot.id']
         },
         group: ['id'],
         include: [{
