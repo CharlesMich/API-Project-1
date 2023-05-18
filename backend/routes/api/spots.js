@@ -243,12 +243,21 @@ router.get('/:id', async (req, res) => {
 
         ]
     })
+
+    if(!spotbyId){
+        res.statusCode= 404;
+        res.json({
+            "message": "Spot couldn't be found"})
+    }else {
+
+    
     let spot = spotbyId.toJSON();
 
     spot['Owner'] = spot['User'];
     delete spot['User'];
 
     res.json(spot)
+    }
 })
 
 // Create a Spot
