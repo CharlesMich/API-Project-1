@@ -235,7 +235,7 @@ router.get('/:id', async (req, res) => {
                 [Sequelize.fn("COUNT", Sequelize.col("Reviews.id")), "numReviews"]
             ],
         },
-        group:['Spot.id', 'SpotImages.id'],
+        group:['Spot.id', 'SpotImages.id', 'User.id'],
         include: [
             { model: SpotImage, attributes: ['id', 'url', 'preview'] },
             { model: User, attributes: ['id', 'firstName', 'lastName'] },
