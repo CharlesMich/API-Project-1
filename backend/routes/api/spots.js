@@ -329,7 +329,7 @@ router.get('/', async (req, res) => {
                     "avgRating"
                 ],
             ],
-            group: id
+            group: 'id'
         },
         include: [{
             model: Review,
