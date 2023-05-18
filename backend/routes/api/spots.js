@@ -331,7 +331,7 @@ router.get('/', async (req, res) => {
             ],
           
         },
-        group: ['Spot.id'],
+        group: ['Spot.id', 'SpotImages.id'],
         include: [{
             model: Review,
             attributes: []
