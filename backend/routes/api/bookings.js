@@ -16,9 +16,7 @@ router.delete('/:bookingId', requireAuth, async (req, res)=> {
         where:{[Op.or]: [{userId : currentUser}, { include: {model:Spot, ownerId :currentUser}}]},
         // include: {model: Spot, where:{ownerId: currentUser}}
     })
-    console.log(deleteBooking.startDate)
-    console.log(deleteBooking.startDate.toDateString())
-    console.log(deleteBooking)
+   
     if(!deleteBooking){
         res.statusCode = 404;
         res.json({ "message": "Booking couldn't be found"})

@@ -16,15 +16,27 @@ await queryInterface.bulkInsert(options, [
 
   {
     reviewId:1,
-    url:'abcdef'
+    url:'img1.url'
   },
   {
     reviewId:2,
-    url:'abcdef'
+    url:'img2.url'
   },
   {
     reviewId:3,
-    url:'abcdef'
+    url:'img3.url'
+  },
+  {
+    reviewId:4,
+    url:'img4.url'
+  },
+  {
+    reviewId:5,
+    url:'img5.url'
+  },
+  {
+    reviewId:5,
+    url:'img6.url'
   }
     /**
      * Add seed commands here.

@@ -45,11 +45,67 @@ router.put('/:reviewId', validateReview, requireAuth, async (req,res)=> {
         editReview.stars = stars;
         editReview.save();
         res.Json(editReview)
+    }  
+})
+
+// Delete a Review
+router.delete('/:reviewId', requireAuth, async (req, res)=> {
+
+    const currentUser = req.user.id;
+    const reviewId = req.params.reviewId;
+
+    const deleteReview = await Review.findByPk(reviewId);
+    
+    if(!deleteReview){
+        res.statusCode=400;
+        return res.json({"message" : "Review couldn't be found"})
+    }else{
+        if(deleteReview.userId !== currentUser){
+            res.statusCode = 404;
+            res.json({"message": "Require proper authorization: Review must belong to the current user"})
+        } else {
+            await deleteReview.destroy();
+            res.json({ "message" : "Successfully deleted"})
+        }
     }
 
-    
-    
 })
+
+router.post('/:reviewId/images', async (req, res)=> {
+    const currentUser = req.user.id;
+    const reviewId = req.params.reviewId;
+    const {url} = req.body
+   
+    const newImg = await Review.findByPk(reviewId, {
+        include: {model: ReviewImage}
+    })
+  if(!newImg){
+    res.statusCode = 404;
+    res.json({"message" : "Review couldn't be found"})
+  }
+  console.log(newImg.userId)
+    if(newImg.userId !== currentUser){
+        res.statusCode = 400;
+        res.json({"message": "Require proper authorization: Review must belong to the current user"})
+    } else {
+
+        const addImg = await ReviewImage.findAll({
+            where:{reviewId: reviewId}
+        })
+        if (addImg.length >= 10){
+            res.statusCode= 403;
+            res.json({ "message" : "Maximum number of images for this resource was reached"})
+        } else {
+            const newImg1 = await ReviewImage.create({
+                reviewId,
+                url
+            })
+            res.json({"id":newImg1.id, "url":newImg1.url})
+
+        }
+    }
+})
+
 
 
 // Get all Reviews of the Current User
@@ -84,7 +140,6 @@ router.get('/current', requireAuth, async (req,res,next)=> {
       })
    res.json({Reviews: reviewList});
 })
-
 
 
 
