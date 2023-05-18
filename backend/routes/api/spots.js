@@ -190,6 +190,7 @@ router.get('/current', requireAuth, async (req, res) => {
                 [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
             ],
         },
+        group:['Spot.id', 'SpotImages.id'],
         include: [
             { model: Review, attributes: [] },
             { model: SpotImage }
