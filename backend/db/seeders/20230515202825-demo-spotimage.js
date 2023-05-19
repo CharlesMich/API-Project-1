@@ -14,17 +14,25 @@ module.exports = {
     options.tableName = 'SpotImages';
 await queryInterface.bulkInsert(options, [
   {spotId:1,
-    url:'adahskjd',
+    url:'img1.url',
     preview: true
   },
   {spotId:2,
-    url:'sfss',
+    url:'img2.url',
     preview: false
   },
   {spotId:3,
-    url:'sgsfgdfg',
+    url:'img3.url',
     preview: true
   },
+  {spotId:4,
+    url:'img4.url',
+    preview: true
+  },
+  {spotId:5,
+    url:'img5.url',
+    preview: true
+  }
     /**
      * Add seed commands here.
      *

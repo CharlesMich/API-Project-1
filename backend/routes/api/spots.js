@@ -364,21 +364,21 @@ router.get('/', async (req, res) => {
      if (!page) page = 1;
     if (!size) size = 20;
 
-    if (page >= 1 && size >= 1) {
+    // if (page >= 1 && size >= 1) {
         // pagination.limit = size;
         pagination.offset = size * (page - 1);
-    }
+    // }
     const spots = await Spot.findAll({
 
-        attributes: {
-            include: [
+        attributes: [
+            
                 [
                     Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
                     "avgRating"
-                ],
-            ],
+                ], 'id', 
+    
 
-        },
+            ],
 
         group: ['Spot.id', 'SpotImages.id', 'Reviews.id'],
         include: [{
@@ -441,18 +441,6 @@ router.get('/', async (req, res) => {
     res.json({ spots: spotList })
 })
 
-// router.get('/', async (req, res) => {
-
-//     const allSpots = await Spot.findAll({
-//             attributes: [ Sequelize.fn("AVG", Sequelize.col("Reviews.stars") ), "avgRating",],
-//             where: ['']
-                       
-//             group: ['Spots.id', 'Reviews.spotId']            
-                 
-//     })
-
-//     res.json(allSpots);
-// })
 
 // Add an Image to a Spot based on the Spot's id
 // create an image for a spot

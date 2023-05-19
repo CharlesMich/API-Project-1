@@ -30,6 +30,18 @@ module.exports = {
         review: 'smelly place',
         stars: 2,
       },
+      {
+        spotId: 4,
+        userId: 4,
+        review: 'Not good',
+        stars: 2,
+      },
+      {
+        spotId: 5,
+        userId: 5,
+        review: 'Very Good',
+        stars: 4,
+      },
       /**
        * Add seed commands here.
        *
