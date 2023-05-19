@@ -78,7 +78,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     }
 })
 
-
 const validateupDate = [
     check('address')
         .exists({ checkFalsy: true })
@@ -142,8 +141,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
 })
 
-
-
 // Edit a Spot
 router.put('/:spotId', requireAuth, validateupDate, async (req, res) => {
     const currentSpot = req.params.spotId;
@@ -159,8 +156,8 @@ router.put('/:spotId', requireAuth, validateupDate, async (req, res) => {
             "message": "Spot couldn't be found"
         })
     } else if (spotCheck.ownerId !== userId) {
-        res.statusCode = 400;
-        res.json({ "message": "Spot must belong to the current User" })
+        res.statusCode = 403;
+        res.json({ "message": "Forbidden" })
     } else {
 
         spotCheck.address = address;
@@ -177,9 +174,6 @@ router.put('/:spotId', requireAuth, validateupDate, async (req, res) => {
     }
 })
 
-
-
-
 // Get all Spots owned by the Current User
 router.get('/current', requireAuth, async (req, res) => {
 
@@ -195,7 +189,7 @@ router.get('/current', requireAuth, async (req, res) => {
         group: ['Spot.id', 'SpotImages.id'],
         include: [
             { model: Review, attributes: [] },
-            { model: SpotImage }
+            { model: SpotImage}
         ]
     })
 
@@ -229,7 +223,6 @@ router.get('/:id', async (req, res) => {
 
         attributes: {
             include: [
-
                 [
                     Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
                     "avgStarRating"
@@ -255,10 +248,11 @@ router.get('/:id', async (req, res) => {
 
 
         let spot = spotbyId.toJSON();
-
+        console.log(spot.numReviews)
         spot['Owner'] = spot['User'];
         delete spot['User'];
-
+        
+        spot.numReviews = parseInt(spot.numReviews)
         res.json(spot)
     }
 })
@@ -364,10 +358,10 @@ router.get('/', async (req, res) => {
      if (!page) page = 1;
     if (!size) size = 20;
 
-    // if (page >= 1 && size >= 1) {
-        // pagination.limit = size;
-        // pagination.offset = size * (page - 1);
-    // }
+    if (page >= 1 && size >= 1) {
+        pagination.limit = size;
+        pagination.offset = size * (page - 1);
+    }
     const spots = await Spot.findAll({
 
         attributes: [
@@ -391,7 +385,7 @@ router.get('/', async (req, res) => {
             // attributes:[]
         }
         ],
-        ...pagination, 
+        // ...pagination, 
     })
 
     let spotList = [];
@@ -552,7 +546,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
 
     if (!deleteSpot) {
-        res.statusCode = 400;
+        res.statusCode = 404;
         res.json({ "message": "Spot couldn't be found" })
     }
 
@@ -561,8 +555,8 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
         await deleteSpot.destroy();
         res.json({ "message": "Successfully deleted" })
     } else {
-        res.statusCode = 404;
-        res.json({ "message": "Require proper authorization: Spot must belong to the current user" })
+        res.statusCode = 403;
+        res.json({ "message": "Forbidden" })
     }
 
 })
