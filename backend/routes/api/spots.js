@@ -145,7 +145,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
 
 // Edit a Spot
-router.put('/:spotId', validateupDate, requireAuth, async (req, res) => {
+router.put('/:spotId', requireAuth, validateupDate, async (req, res) => {
     const currentSpot = req.params.spotId;
     const userId = req.user.id;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -366,7 +366,7 @@ router.get('/', async (req, res) => {
 
     // if (page >= 1 && size >= 1) {
         // pagination.limit = size;
-        pagination.offset = size * (page - 1);
+        // pagination.offset = size * (page - 1);
     // }
     const spots = await Spot.findAll({
 
@@ -383,6 +383,7 @@ router.get('/', async (req, res) => {
         group: ['Spot.id', 'SpotImages.id', 'Reviews.id'],
         include: [{
             model: Review,
+            as:'Reviews',
             attributes: []
         },
         {
@@ -393,32 +394,6 @@ router.get('/', async (req, res) => {
         ...pagination, 
     })
 
-    // const spots1 = await Spot.findAll({
-    //     attributes: [
-
-    //             [
-    //                 Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
-    //                 "avgRating"
-    //             ],
-    //         ],
-
-    //     group: ['Spot.id', 'SpotImages.id', 'Reviews.id'],
-    //     include: [{
-    //         model: Review,
-    //         attributes: []
-    //     },
-    //     {
-    //         model: SpotImage,
-    //         // attributes:[]
-    //     }
-    //     ],
-    //     ...pagination,
-    // })
-    
-
-    
-    
-    // console.log('spots1', spotList1)
     let spotList = [];
     spots.forEach(list => {
         spotList.push(list.toJSON())

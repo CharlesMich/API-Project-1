@@ -25,7 +25,7 @@ const validateReview = [
 
 
 // Edit a Review
-router.put('/:reviewId', validateReview, requireAuth, async (req,res)=> {
+router.put('/:reviewId', requireAuth, validateReview, async (req,res)=> {
     const reviewId = req.params.reviewId;
     const currentUser = req.user.id;
     const { review, stars } = req.body;
@@ -70,8 +70,8 @@ router.delete('/:reviewId', requireAuth, async (req, res)=> {
     }
 
 })
-
-router.post('/:reviewId/images', async (req, res)=> {
+// create/add an image for a review
+router.post('/:reviewId/images', requireAuth, async (req, res)=> {
     const currentUser = req.user.id;
     const reviewId = req.params.reviewId;
     const {url} = req.body
