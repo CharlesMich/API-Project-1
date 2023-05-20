@@ -41,10 +41,19 @@ router.put('/:bookingId', requireAuth, async (req, res)=> {
     }
 
     const upDate = await Booking.findByPk(bookingId);
+    console.log(upDate);
+    console.log(currentUser);
+
     if(!upDate){
         res.statusCode = 404;
         return res.json({ "message" : "Booking couldn't be found" })
     }
+
+    if(upDate.userId !== currentUser){
+        res.statusCode = 403;
+        res.json({"message": "Forbidden"})
+    }
+    
     else if (Date.parse(upDate.endDate) < Date.now()){
         res.statusCode = 403;
         return res.json({"message": "Past bookings can't be modified" })
@@ -77,6 +86,10 @@ router.get('/current', requireAuth, async (req, res) => {
         where: { userId: userId },
         include: { model: Spot, include: { model: SpotImage } }
     });
+ 
+   if (!bookings.length) {
+    res.json({"message": "The user has no bookings"});
+   }
 
     let spotList = [];
     bookings.forEach(list => {

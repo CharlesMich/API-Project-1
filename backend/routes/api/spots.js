@@ -17,6 +17,15 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     currentUser = req.user.id;
 
     const { startDate, endDate } = req.body;
+
+    const spotCheck = await Spot.findByPk(currentSpot);
+
+    if (!spotCheck) {
+        res.statusCode = 404;
+        return res.json({ "message": "Spot couldn't be found" })
+    }
+
+
     if (Date.parse(endDate) < Date.parse(startDate)) {
         res.statusCode = 400;
         return res.json({
@@ -27,15 +36,8 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
             }
         })
     }
-
-    const spotCheck = await Spot.findByPk(currentSpot);
-
-    if (!spotCheck) {
-        res.statusCode = 404;
-        return res.json({ "message": "Spot couldn't be found" })
-    }
-    else if (spotCheck.ownerId == currentUser) {
-        res.statusCode = 400;
+     else if (spotCheck.ownerId == currentUser) {
+        res.statusCode = 403;
         return res.json({ "message": "Owner cannot book his own Property" })
     }
 

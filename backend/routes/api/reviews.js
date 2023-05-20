@@ -15,7 +15,7 @@ const router = express.Router();
 const validateReview = [
     check('review')
     .exists({ checkFalsy: true })
-    .withMessage("Street address is required"),
+    .withMessage("Review text is required"),
     check('stars')
     .exists({ checkFalsy: true })
     .isInt({min: 1, max: 5})
@@ -57,12 +57,12 @@ router.delete('/:reviewId', requireAuth, async (req, res)=> {
     const deleteReview = await Review.findByPk(reviewId);
     
     if(!deleteReview){
-        res.statusCode=400;
+        res.statusCode=404;
         return res.json({"message" : "Review couldn't be found"})
     }else{
         if(deleteReview.userId !== currentUser){
             res.statusCode = 404;
-            res.json({"message": "Require proper authorization: Review must belong to the current user"})
+            res.json({"message": "Forbidden"})
         } else {
             await deleteReview.destroy();
             res.json({ "message" : "Successfully deleted"})
