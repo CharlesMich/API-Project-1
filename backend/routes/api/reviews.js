@@ -36,15 +36,15 @@ router.put('/:reviewId', requireAuth, validateReview, async (req,res)=> {
         res.statusCode = 404;
         return res.json({"message":"Review couldn't be found"})
     } else if(currentUser !== editReview.userId){
-        res.statusCode = 400;
+        res.statusCode = 403;
         return res.json({
-            "message":"Require proper authorization: Review must belong to the current user"
+            "message":"Forbidden"
         })
     } else {
         editReview.review = review;
         editReview.stars = stars;
         editReview.save();
-        res.Json(editReview)
+        res.json(editReview)
     }  
 })
 
@@ -86,7 +86,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res)=> {
 //   console.log(newImg.userId)
     if(newImg.userId !== currentUser){
         res.statusCode = 400;
-        res.json({"message": "Require proper authorization: Review must belong to the current user"})
+        res.json({"message": "Forbidden"})
     } else {
 
         const addImg = await ReviewImage.findAll({

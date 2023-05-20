@@ -477,7 +477,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     // if there is no spot
 
     if (!spotCheck) {
-        res.statusCode = 400;
+        res.statusCode = 404;
         return res.json({ "message": "Spot couldn't be found" })
     }
     // if there is a spot    
