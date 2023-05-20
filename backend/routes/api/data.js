@@ -8,32 +8,44 @@ const router = express.Router();
 
 router.get('/users', async (req,res)=> {
     
-    const users = await User.findAll()
+    const users = await User.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
+    })
     res.json(users)
 })
 router.get('/spots', async (req,res)=> {
     
-    const spots = await Spot.findAll()
+    const spots = await Spot.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
+    })
     res.json(spots)
 })
 router.get('/reviews', async (req,res)=> {
     
-    const reviews = await Review.findAll()
+    const reviews = await Review.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
+    })
     res.json(reviews)
 })
 router.get('/bookings', async (req,res)=> {
     
-    const bookings = await Booking.findAll()
+    const bookings = await Booking.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
+    })
     res.json(bookings)
 })
 router.get('/reviewimages', async (req,res)=> {
     
-    const reviewimages = await ReviewImage.findAll()
+    const reviewimages = await ReviewImage.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
+    })
     res.json(reviewimages)
 })
 router.get('/spotimages', async (req,res)=> {
     
-    const spotimages = await SpotImage.findAll()
+    const spotimages = await SpotImage.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
+    })
     res.json(spotimages)
 })
 
