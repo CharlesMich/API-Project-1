@@ -6,8 +6,6 @@ const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
 
-
-
 // delete a booking
 router.delete('/:bookingId', requireAuth, async (req, res)=> {
     const currentUser = req.user.id;
@@ -59,19 +57,22 @@ router.put('/:bookingId', requireAuth, async (req, res)=> {
         return res.json({"message": "Past bookings can't be modified" })
     }
 
-    else if ((Date.parse(startDate)> Date.parse(upDate.startDate)) && (Date.parse(startDate)< Date.parse(upDate.endDate))){
+    else if ((Date.parse(startDate)>= Date.parse(upDate.startDate)) && (Date.parse(startDate)<= Date.parse(upDate.endDate))){
         res.statusCode = 403;
         return res.json({"message": "Start date conflicts with an existing booking" })
     }
-   else if ((Date.parse(endDate)> Date.parse(upDate.startDate)) && (Date.parse(end)< Date.parse(upDate.endDate))){
+   else if ((Date.parse(endDate)>= Date.parse(upDate.startDate)) && (Date.parse(endDate)<= Date.parse(upDate.endDate))){
     res.statusCode = 403;
-    return res.json({"message": "Start date conflicts with an existing booking" })
+    return res.json({"message": "End date conflicts with an existing booking" })
+
+   }else if ((Date.parse(startDate)< Date.parse(upDate.startDate)) && (Date.parse(endDate)> Date.parse(upDate.endDate))){
+        res.statusCode = 403;
+        return res.json({"message": "Start date and end date conflicts with an existing booking" })
    } else {
-            const newBooking = Booking.create({
-                startDate,
-                endDate
-            })
-            res.json(newBooking)
+    upDate.startDate = startDate;
+    upDate.endDate = endDate;
+    upDate.save();
+    res.json(upDate);
    }
    
 
