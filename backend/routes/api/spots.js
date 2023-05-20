@@ -529,12 +529,14 @@ router.get('/:spotId/reviews', async (req, res) => {
         where: { spotId: SpotId1 },
         include: [{ model: User, attributes: ['id', 'firstName', 'lastName'] },
         { model: ReviewImage, attributes: ['id', 'url'] }
-
         ]
     })
-
-
-    res.json({ Reviews: reviewsBySpot })
+    if(!reviewsBySpot){
+        res.statusCode = 404;
+        res.json({"message":"Spot couldn't be found"})       
+    }else{
+        res.json({ Reviews: reviewsBySpot })
+    }
 })
 
 // delete a spot
