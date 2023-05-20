@@ -526,7 +526,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 router.get('/:spotId/reviews', async (req, res) => {
     const SpotId1 = req.params.spotId;
     const reviewsBySpot = await Review.findAll({
-        where: { SpotId: SpotId1 },
+        where: { spotId: SpotId1 },
         include: [{ model: User, attributes: ['id', 'firstName', 'lastName'] },
         { model: ReviewImage, attributes: ['id', 'url'] }
 
