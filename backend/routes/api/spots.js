@@ -51,9 +51,9 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         })
         res.json(confirmBooking)
     } else {
-        console.log(newBooking.length)
+        // console.log(newBooking.length)
         for (let i = 0; i < newBooking.length; i++) {
-            console.log(newBooking[i].startDate)
+            // console.log(newBooking[i].startDate)
             if (Date.parse(newBooking[i].startDate) <= Date.parse(startDate) && Date.parse(startDate) <= Date.parse(newBooking[i].endDate) || Date.parse(newBooking[i].startDate) <= Date.parse(endDate) && Date.parse(endDate) <= Date.parse(newBooking[i].endDate)) {
 
                 res.statusCode = 403;
@@ -248,7 +248,7 @@ router.get('/:id', async (req, res) => {
 
 
         let spot = spotbyId.toJSON();
-        console.log(spot.numReviews)
+        // console.log(spot.numReviews)
         spot['Owner'] = spot['User'];
         delete spot['User'];
         
@@ -429,7 +429,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
             preview
         })
         const imageRes = newImage.toJSON();
-        console.log(imageRes)
+       
         delete imageRes['spotId'],
             delete imageRes['updatedAt'],
             delete imageRes['createdAt']
@@ -503,7 +503,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
             ele.toJSON()
         });
         spotReviewCheck.forEach(item => {
-            console.log('item.userId', item.userId)
+            
             if (item.userId == userId) {
                 res.statusCode = 500;
                 return res.json({ "message": "User already has a review for this spot" })
@@ -524,20 +524,22 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 
 // Get all Reviews by a Spot's id
 router.get('/:spotId/reviews', async (req, res) => {
-    const SpotId1 = req.params.spotId;
+    const spotId1 = req.params.spotId;
+
+    const spotcheck = await Spot.findByPk(spotId1)
     const reviewsBySpot = await Review.findAll({
-        where: { spotId: SpotId1 },
+        where: { spotId: spotId1 },
         include: [{ model: User, attributes: ['id', 'firstName', 'lastName'] },
         { model: ReviewImage, attributes: ['id', 'url'] }
         ]
     })
-    console.log(reviewsBySpot.length)
-    if(!reviewsBySpot){
+    
+    if(!spotcheck){
         res.statusCode = 404;
         res.json({"message":"Spot couldn't be found"})       
-    }else if (!reviewsBySpot.length){
-        res.json({'message': 'There are no reviews for this spot'})
-    } else {
+    } else if(!reviewsBySpot.length) {
+        res.json({"message": "There are no reviews for the spot"})
+    }else {
         res.json({ Reviews: reviewsBySpot })
     }
 })

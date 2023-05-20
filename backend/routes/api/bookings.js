@@ -34,7 +34,7 @@ router.put('/:bookingId', requireAuth, async (req, res)=> {
     const bookingId = req.params.bookingId;
 
     const {startDate, endDate} = req.body;
-    console.log(Date.now())
+    // console.log(Date.now())
     if (Date.parse(startDate)> Date.parse(endDate)){
         res.statusCode = 400;
         return res.json( {"message": "endDate cannot come before startDate"})
@@ -82,7 +82,7 @@ router.get('/current', requireAuth, async (req, res) => {
     bookings.forEach(list => {
         spotList.push(list.toJSON())
     })
-    console.log(spotList[0].Spot.SpotImages[0].preview)
+    // console.log(spotList[0].Spot.SpotImages[0].preview)
 
     spotList.forEach(ele => {
         // console.log('1', ele)

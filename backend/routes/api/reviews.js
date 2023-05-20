@@ -83,7 +83,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res)=> {
     res.statusCode = 404;
     res.json({"message" : "Review couldn't be found"})
   }
-  console.log(newImg.userId)
+//   console.log(newImg.userId)
     if(newImg.userId !== currentUser){
         res.statusCode = 400;
         res.json({"message": "Require proper authorization: Review must belong to the current user"})
