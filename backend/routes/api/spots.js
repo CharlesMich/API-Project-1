@@ -95,11 +95,9 @@ const validateupDate = [
         .withMessage("Country is required"),
     check('lat')
         .exists({ checkFalsy: true })
-        .isNumeric()
         .withMessage("Latitude is not valid"),
     check('lng')
         .exists({ checkFalsy: true })
-        .isNumeric()
         .withMessage("Longitude is not valid"),
     check('name')
         .exists({ checkFalsy: true })
