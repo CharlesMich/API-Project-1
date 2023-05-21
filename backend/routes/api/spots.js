@@ -266,69 +266,69 @@ router.post('/', requireAuth, async (req, res, next) => {
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    if (!address) {
-        res.statusCode = 400
-        return res.json({
-            message: "Bad Request",
-            error: "Street address is required"
-        })
-    }
-    if (!city) {
-        res.statusCode = 400
-        return res.json({
-            message: "Bad Request",
-            error: "City is required"
-        })
-    }
-    if (!state) {
-        res.statusCode = 400
-        return res.json({
-            message: "Bad Request",
-            error: "State is required"
-        })
-    }
-    if (!country) {
-        res.statusCode = 400
-        return res.json({
-            message: "Bad Request",
-            error: "Country is required"
-        })
-    }
-    if (!lat) {
-        res.statusCode = 400
-        return res.json({
-            message: "Bad Request",
-            error: "Latitude is not Valid"
-        })
-    }
-    if (!lng) {
-        res.statusCode = 400
-        return res.json({
-            message: "Bad Request",
-            error: "Latitude is not valid"
-        })
-    }
-    if (!name) {
-        res.statusCode = 400
-        return res.json({
-            message: "Bad Request",
-            error: "name is required"
-        })
-    }
-    if (!description) {
-        res.statusCode = 400
-        return res.json({
-            message: "Bad Request",
-            error: "description is required"
-        })
-    }
-    if (!price) {
-        res.statusCode = 400
-        return res.json({
-            message: "Bad Request",
-            error: "Price per day is required"
-        })
-    }
+    // if (!address) {
+    //     res.statusCode = 400
+    //     return res.json({
+    //         message: "Bad Request",
+    //         error: "Street address is required"
+    //     })
+    // }
+    // if (!city) {
+    //     res.statusCode = 400
+    //     return res.json({
+    //         message: "Bad Request",
+    //         error: "City is required"
+    //     })
+    // }
+    // if (!state) {
+    //     res.statusCode = 400
+    //     return res.json({
+    //         message: "Bad Request",
+    //         error: "State is required"
+    //     })
+    // }
+    // if (!country) {
+    //     res.statusCode = 400
+    //     return res.json({
+    //         message: "Bad Request",
+    //         error: "Country is required"
+    //     })
+    // }
+    // if (!lat) {
+    //     res.statusCode = 400
+    //     return res.json({
+    //         message: "Bad Request",
+    //         error: "Latitude is not Valid"
+    //     })
+    // }
+    // if (!lng) {
+    //     res.statusCode = 400
+    //     return res.json({
+    //         message: "Bad Request",
+    //         error: "Latitude is not valid"
+    //     })
+    // }
+    // if (!name) {
+    //     res.statusCode = 400
+    //     return res.json({
+    //         message: "Bad Request",
+    //         error: "name is required"
+    //     })
+    // }
+    // if (!description) {
+    //     res.statusCode = 400
+    //     return res.json({
+    //         message: "Bad Request",
+    //         error: "description is required"
+    //     })
+    // }
+    // if (!price) {
+    //     res.statusCode = 400
+    //     return res.json({
+    //         message: "Bad Request",
+    //         error: "Price per day is required"
+    //     })
+    // }
 
     const newSpot = await Spot.create({
         ownerId,
