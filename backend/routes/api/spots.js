@@ -511,7 +511,13 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
     const spotCheck = await Spot.findByPk(spotId);
     console.log(spotCheck.ownerId)
-    if (spotCheck) {
+
+    if (!spotCheck) {
+        res.statusCode = 404;
+        return res.json({
+            "message": "Spot couldn't be found"
+        })
+    }else {
         if(spotCheck.ownerId == userId){
             const newImage = await SpotImage.create({
                 spotId,
@@ -520,7 +526,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
             })
             const imageRes = newImage.toJSON();
            
-            delete imageRes['spotId'],
+                delete imageRes['spotId'],
                 delete imageRes['updatedAt'],
                 delete imageRes['createdAt']
             res.json(
@@ -528,16 +534,10 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
             )
         } else {
             res.statusCode = 403;
-            return res.json({"message": "Forbidden"})
+            return res.json({"message": "Spot must belong to the current user"})
         }
         
-    } else {
-        res.statusCode = 404;
-        return res.json({
-            "message": "Spot couldn't be found"
-        })
     }
-
 })
 
 
