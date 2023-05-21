@@ -10,12 +10,12 @@ const router = express.Router();
 router.delete('/:bookingId', requireAuth, async (req, res)=> {
     const currentUser = req.user.id;
     const currentBooking = req.params.bookingId;
-    console.log(currentUser)
+    
     const deleteBooking = await Booking.findByPk((currentBooking), {
       include: [{model: Spot}],
     //   raw:true,
     })
-    console.log(deleteBooking)
+    
     if(!deleteBooking){
         res.statusCode = 404;
         res.json({ "message": "Booking couldn't be found"})
@@ -48,8 +48,7 @@ router.put('/:bookingId', requireAuth, async (req, res)=> {
     }
 
     const upDate = await Booking.findByPk(bookingId);
-    console.log(upDate);
-    console.log(currentUser);
+    
 
     if(!upDate){
         res.statusCode = 404;
@@ -110,10 +109,10 @@ router.get('/current', requireAuth, async (req, res) => {
     spotList.forEach(ele => {
         // console.log('1', ele)
         ele.Spot.SpotImages.forEach(item => {
-            console.log('2', item.preview)
+            
             if (item.preview === true) {
                 spotList.forEach(element => {
-                    console.log(element)
+                   
                     element.Spot.previewImage = item.url;
                 })
             }

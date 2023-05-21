@@ -38,7 +38,7 @@ router.put('/:reviewId', requireAuth, validateReview, async (req,res)=> {
     } else if(currentUser !== editReview.userId){
         res.statusCode = 403;
         return res.json({
-            "message":"Forbidden"
+            "message":"Review must belong to the current user"
         })
     } else {
         editReview.review = review;
@@ -86,7 +86,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res)=> {
 //   console.log(newImg.userId)
     if(newImg.userId !== currentUser){
         res.statusCode = 400;
-        res.json({"message": "Forbidden"})
+        return res.json({"message": "Review must belong to the current user"})
     } else {
 
         const addImg = await ReviewImage.findAll({
