@@ -120,21 +120,20 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const currentBookings = await Spot.findByPk(currentSpot)
 
     if (!currentBookings) {
-        const err = new Error("Spot couldn't be found");
-        err.status = 404;
-        return next(err);
+       res.statusCode = 404;
+       return res.json({"message": "Spot couldn't be found"})
     }
 
     // if not owner, only booking dates are visible
-    let notOwner = await Spot.findByPk(req.params.spotId, {
+    let notOwner = await Spot.findByPk(currentSpot, {
         attributes: ["ownerId"],
     });
 
     let ownerIdJson = notOwner.toJSON().ownerId;
-
+        console.log(ownerIdJson)
     if (ownerIdJson !== currentUserId) {
         let bookings = await Booking.findAll({
-            where: { spotId: currentUserId },
+            where: { spotId: currentSpot },
             attributes: { exclude: ['id', 'userId', 'createdAt', 'updatedAt'] }
         })
         return res.json({ bookings });
