@@ -431,109 +431,11 @@ router.get('/', async (req, res, next)=> {
 
     res.json(spots)
 
-        // attributes: [
-            
-        //             [
-        //                 Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
-        //                 "avgRating" 
-        //             ]
-        //         ],
-        // include:[{model:Review, attributes: []}], 
-        //  , 
         
-        // include:{model:SpotImage, attributes:[]},
-        // include: {model:Review, attributes:[[
-        //                     Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
-        //                     "avgRating" 
-        //                 ]]},
-        // raw:true,
-        // group: ['Spot.id'],
-        // ...pagination
-    // })
+   
 
-// let allList = []
-//     allSpots.forEach(ele=> {
-//         allList.push(ele.toJSON())
-//     })
-//     console.log(allSpots)
-// allSpots.forEach(ele => {
-//     if (ele.preview === true) {
-//     ele.previewImage = ele.url;
-
-//  } else {
-//     ele.previewImage = "No Preview Image"
-//  }
-// })
-
-// allSpots.forEach(ele => {
-//         delete ele.preview;
-//         delete ele.url;
-//     })
-
-    // res.json({Spots: allSpots, page, size})
 })
 
-// router.get('/', async (req, res) => {
-//    let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-// //    console.log(page)
-//     const pagination = {};
-//     page = parseInt(page);
-//     size = parseInt(size);
-
-//      if (!page) page = 1;
-//     if (!size) size = 20;
-
-//     if (page >= 1 && size >= 1) {
-//         pagination.limit = size;
-//         pagination.offset = size * (page - 1);
-//     }
-//     const spots = await Spot.findAll({
-
-        // attributes: [
-            
-        //         [
-        //             Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
-        //             "avgRating"
-        //         ], 'id', 
-    
-
-        //     ],
-
-        // group: ['Spot.id', 'SpotImages.id', 'Reviews.id'],
-        // include: [{
-        //     model: Review,
-        //     as:'Reviews',
-        //     attributes: []
-        // },
-    //     {
-    //         model: SpotImage,
-    //         // attributes:[]
-    //     }
-    //     ],
-    //     // ...pagination, 
-    // })
-
-    // let spotList = [];
-    // spots.forEach(list => {
-    //     spotList.push(list.toJSON())
-    // });
-
-
-//     spotList.forEach(list => {
-//         list.SpotImages.forEach(img => {
-//             if (img.preview === true) {
-
-//                 list.previewImage = img.url
-//             }
-//         })
-
-//     })
-//     spotList.forEach(ele => {
-//         delete ele.SpotImages
-//     })
-
-//     res.json({ spots: spotList })
-// })
 
 
 // Add an Image to a Spot based on the Spot's id
