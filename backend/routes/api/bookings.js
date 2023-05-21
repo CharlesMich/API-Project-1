@@ -28,7 +28,11 @@ router.delete('/:bookingId', requireAuth, async (req, res)=> {
             res.json({
                 "message":"Bookings that have been started can't be deleted"})
         }
-    } 
+    } else {
+        res.statusCode= 403;
+        res.json({"message": "forbidden"})
+
+    }
 })
     
 // update a booking

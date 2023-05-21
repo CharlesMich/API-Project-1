@@ -350,67 +350,190 @@ router.post('/', requireAuth, async (req, res, next) => {
 
 // Get all Spots
 
-router.get('/', async (req, res) => {
-   let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-//    console.log(page)
-    const pagination = {};
+router.get('/', async (req, res, next)=> {
+
+    let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+    
+    let pagination = {};
     page = parseInt(page);
     size = parseInt(size);
 
-     if (!page) page = 1;
-    if (!size) size = 20;
+    if (!page) page = 1;
+    if (!size) size =20;
+    if(page > 10) page = 10;
+    if (size > 20) size = 20;
+
+    if (page < 1){
+        const err = new Error("Page must be greater than or equal to 1");
+        err.status = 400;
+        return next(err)
+    }
+
+    if (size < 1){
+        const err = new Error("Size must be greater than or equal to 1")
+        err.status = 400;
+        return next(err)
+    }
 
     if (page >= 1 && size >= 1) {
-        pagination.limit = size;
-        pagination.offset = size * (page - 1);
-    }
-    const spots = await Spot.findAll({
+                pagination.limit = size;
+                pagination.offset = size * (page - 1);
+            }
 
-        attributes: [
-            
-                [
-                    Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
-                    "avgRating"
-                ], 'id', 
-    
-
-            ],
-
-        group: ['Spot.id', 'SpotImages.id', 'Reviews.id'],
-        include: [{
-            model: Review,
-            as:'Reviews',
-            attributes: []
-        },
-        {
-            model: SpotImage,
-            // attributes:[]
-        }
-        ],
-        // ...pagination, 
-    })
-
-    let spotList = [];
-    spots.forEach(list => {
-        spotList.push(list.toJSON())
+    let allSpots = await Spot.findAll({
+        ...pagination
     });
 
+    let spotlist = [];
 
-    spotList.forEach(list => {
-        list.SpotImages.forEach(img => {
-            if (img.preview === true) {
-
-                list.previewImage = img.url
-            }
-        })
-
+    allSpots.forEach(ele => {
+        spotlist.push(ele.toJSON())
     })
-    spotList.forEach(ele => {
-        delete ele.SpotImages
-    })
+    // console.log(spotlist)
 
-    res.json({ spots: spotList })
+    for (let i = 0; i < spotlist.length; i++){
+        let spotId = spotlist[i]['id'];
+        const avgRating = await Review.findOne({
+            where: {spotId:spotId},
+            attributes: [
+                [ Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating" ]
+            ],
+
+        });
+        let parsedReview = avgRating.toJSON();
+        spotlist[i].avgRating = parsedReview.avgRating;
+       
+    }
+
+    for (let i = 0; i < spotlist.length; i++){
+        let spotId = spotlist[i]['id'];
+        const spotImg = await SpotImage.findOne({
+            where: {
+                spotId:spotId,
+                preview:true,
+            },
+            attributes: ['url', 'preview']
+        });
+
+        if(!spotImg) spotlist[i].previewImage = "no preview image";
+
+        if(spotImg){
+            let previewImg = spotImg.toJSON();
+            spotlist[i].previewImage = previewImg.url
+        }
+    }
+    let spots = {};
+    spots.Spots = spotlist;
+    spots.page = page;
+    spots.size = size;
+
+
+
+    res.json(spots)
+
+        // attributes: [
+            
+        //             [
+        //                 Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
+        //                 "avgRating" 
+        //             ]
+        //         ],
+        // include:[{model:Review, attributes: []}], 
+        //  , 
+        
+        // include:{model:SpotImage, attributes:[]},
+        // include: {model:Review, attributes:[[
+        //                     Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
+        //                     "avgRating" 
+        //                 ]]},
+        // raw:true,
+        // group: ['Spot.id'],
+        // ...pagination
+    // })
+
+// let allList = []
+//     allSpots.forEach(ele=> {
+//         allList.push(ele.toJSON())
+//     })
+//     console.log(allSpots)
+// allSpots.forEach(ele => {
+//     if (ele.preview === true) {
+//     ele.previewImage = ele.url;
+
+//  } else {
+//     ele.previewImage = "No Preview Image"
+//  }
+// })
+
+// allSpots.forEach(ele => {
+//         delete ele.preview;
+//         delete ele.url;
+//     })
+
+    // res.json({Spots: allSpots, page, size})
 })
+
+// router.get('/', async (req, res) => {
+//    let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+// //    console.log(page)
+//     const pagination = {};
+//     page = parseInt(page);
+//     size = parseInt(size);
+
+//      if (!page) page = 1;
+//     if (!size) size = 20;
+
+//     if (page >= 1 && size >= 1) {
+//         pagination.limit = size;
+//         pagination.offset = size * (page - 1);
+//     }
+//     const spots = await Spot.findAll({
+
+        // attributes: [
+            
+        //         [
+        //             Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
+        //             "avgRating"
+        //         ], 'id', 
+    
+
+        //     ],
+
+        // group: ['Spot.id', 'SpotImages.id', 'Reviews.id'],
+        // include: [{
+        //     model: Review,
+        //     as:'Reviews',
+        //     attributes: []
+        // },
+    //     {
+    //         model: SpotImage,
+    //         // attributes:[]
+    //     }
+    //     ],
+    //     // ...pagination, 
+    // })
+
+    // let spotList = [];
+    // spots.forEach(list => {
+    //     spotList.push(list.toJSON())
+    // });
+
+
+//     spotList.forEach(list => {
+//         list.SpotImages.forEach(img => {
+//             if (img.preview === true) {
+
+//                 list.previewImage = img.url
+//             }
+//         })
+
+//     })
+//     spotList.forEach(ele => {
+//         delete ele.SpotImages
+//     })
+
+//     res.json({ spots: spotList })
+// })
 
 
 // Add an Image to a Spot based on the Spot's id
