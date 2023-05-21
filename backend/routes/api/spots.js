@@ -199,9 +199,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
             [Sequelize.fn("AVG", Sequelize.col("stars")), "avgStarRating"],
           ],
         });
-    
+        console.log()
          let reviewJson = starRating.toJSON();
-        //  console.log(reviewJson);
+         console.log(reviewJson);
     
          spotsList[i].avgRating = reviewJson.avgStarRating;
       }
@@ -235,8 +235,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
     
       let spots = {}
       spots.Spots = spotsList
-      // console.log(spotsList)
-    
+      
+      
       res.json(spots)
 
     // let userid = req.user.id
@@ -505,27 +505,34 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
     const { url, preview } = req.body;
 
+    const userId = req.user.id;
 
     const spotId = req.params.spotId;
 
     const spotCheck = await Spot.findByPk(spotId);
     if (spotCheck) {
-        const newImage = await SpotImage.create({
-            spotId,
-            url,
-            preview
-        })
-        const imageRes = newImage.toJSON();
-       
-        delete imageRes['spotId'],
-            delete imageRes['updatedAt'],
-            delete imageRes['createdAt']
-        res.json(
-            imageRes
-        )
+        if(ownerId == userId){
+            const newImage = await SpotImage.create({
+                spotId,
+                url,
+                preview
+            })
+            const imageRes = newImage.toJSON();
+           
+            delete imageRes['spotId'],
+                delete imageRes['updatedAt'],
+                delete imageRes['createdAt']
+            res.json(
+                imageRes
+            )
+        } else {
+            res.statusCode = 403;
+            return res.json({"message": "Forbidden"})
+        }
+        
     } else {
         res.statusCode = 404;
-        res.json({
+        return res.json({
             "message": "Spot couldn't be found"
         })
     }
