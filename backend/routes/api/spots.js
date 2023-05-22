@@ -161,16 +161,17 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
                 },
             },
         });
-        Bookings.forEach(ele => {
-            if(ele.startDate && ele.startDate.includes('T')){          
-                let start = ele.startDate;
-                ele.startDate = start.toJSON().split("T")[0]
-            }
-            if(ele.endDate && ele.endDate.includes('T')){
-                let end = ele.endDate;
-                ele.endDate = end.toJSON().split("T")[0]
-            }
-        })
+        // console.log(Bookings[0].startDate)
+        // Bookings.forEach(ele => {
+        //     if(ele.startDate){          
+        //         let start = ele.startDate;
+        //         ele.startDate = start.toJSON().split("T")[0]
+        //     }
+        //     if(ele.endDate){
+        //         let end = ele.endDate;
+        //         ele.endDate = end.toJSON().split("T")[0]
+        //     }
+        // })
         
         return res.send({ Bookings });
     }
@@ -500,6 +501,16 @@ router.get('/', async (req, res, next) => {
     let pagination = {};
     page = parseInt(page);
     size = parseInt(size);
+    if(!minLat) minLat = -90;
+    if(!maxLat) maxLat = 90;
+    if(!minLng) minLat = -180;
+    if(!maxLng) maxLat = 180;
+    if(!minPrice) minPrice = 0;
+    if(!maxPrice) maxPrice = Infinity;
+
+    pagination.where.lat = {[Op.between]: [minLat, maxLat]};
+    pagination.where.lng = {[Op.between]: [minLng, maxLng]};
+    pagination.where.lat = {[Op.between]: [minPrice, maxPrice]};
 
     if (!page) page = 1;
     if (!size) size = 20;
