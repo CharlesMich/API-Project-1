@@ -30,7 +30,7 @@ router.delete('/:bookingId', requireAuth, async (req, res)=> {
         }
     } else {
         res.statusCode= 403;
-        res.json({"message": "forbidden"})
+        res.json({"message": "Booking must belong to the current user or the Spot must belong to the current user"})
 
     }
 })

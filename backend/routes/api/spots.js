@@ -128,23 +128,23 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     });
 
     let ownerIdJson = notOwner.toJSON().ownerId;
-        console.log(ownerIdJson)
+     
     if (ownerIdJson !== currentUserId) {
         let bookings = await Booking.findAll({
             where: { spotId: currentSpot },
             attributes: { exclude: ['id', 'userId', 'createdAt', 'updatedAt'] }
         })
 
-        bookings.forEach(ele => {
-            if(ele.startDate){          
-                let start = ele.startDate;
-                ele.startDate = start.toJSON().split("T")[0]
-            }
-            if(ele.endDate){
-                let end = ele.endDate;
-                ele.endDate = end.toJSON().split("T")[0]
-            }
-        })
+        // bookings.forEach(ele => {
+        //     if(ele.startDate){   
+                       
+        //         let start = ele.startDate;
+        //     }
+        //     if(ele.endDate){
+        //         let end = ele.endDate;
+        //         // ele.endDate = end.toJSON().split("T")[0]
+        //     }
+        // })
         return res.json({ bookings });
     } else {
         // if owner of spot, they can see additional data on booker and booking
