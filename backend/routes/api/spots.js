@@ -132,6 +132,17 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
             where: { spotId: currentSpot },
             attributes: { exclude: ['id', 'userId', 'createdAt', 'updatedAt'] }
         })
+
+        bookings.forEach(ele => {
+            if(ele.startDate && ele.startDate.includes('T')){          
+                let start = ele.startDate;
+                ele.startDate = start.toJSON().split("T")[0]
+            }
+            if(ele.endDate && ele.endDate.includes('T')){
+                let end = ele.endDate;
+                ele.endDate = end.toJSON().split("T")[0]
+            }
+        })
         return res.json({ bookings });
     } else {
         // if owner of spot, they can see additional data on booker and booking
@@ -151,12 +162,11 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
             },
         });
         Bookings.forEach(ele => {
-            if(ele.startDate){          
+            if(ele.startDate && ele.startDate.includes('T')){          
                 let start = ele.startDate;
-                console.log(start)
                 ele.startDate = start.toJSON().split("T")[0]
             }
-            if(ele.endDate){
+            if(ele.endDate && ele.endDate.includes('T')){
                 let end = ele.endDate;
                 ele.endDate = end.toJSON().split("T")[0]
             }
