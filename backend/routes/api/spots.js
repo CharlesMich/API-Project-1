@@ -6,6 +6,8 @@ const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../d
 
 const { requireAuth } = require('../../utils/auth');
 
+// const Op = require('sequelize')
+
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -498,19 +500,21 @@ router.get('/', async (req, res, next) => {
 
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
-    let pagination = {};
+    let pagination = {
+        // where:{}
+    };
     page = parseInt(page);
     size = parseInt(size);
-    if(!minLat) minLat = -90;
-    if(!maxLat) maxLat = 90;
-    if(!minLng) minLat = -180;
-    if(!maxLng) maxLat = 180;
-    if(!minPrice) minPrice = 0;
-    if(!maxPrice) maxPrice = Infinity;
+    // if(!minLat) minLat = -90;
+    // if(!maxLat) maxLat = 90;
+    // if(!minLng) minLat = -180.00;
+    // // if(!maxLng) maxLat = 180.00;
+    // if(!minPrice) minPrice = 0;
+    // if(!maxPrice) maxPrice = Infinity;
 
-    pagination.where.lat = {[Op.between]: [minLat, maxLat]};
-    pagination.where.lng = {[Op.between]: [minLng, maxLng]};
-    pagination.where.lat = {[Op.between]: [minPrice, maxPrice]};
+    // pagination.where.lat = {[Op.between]: [minLat, maxLat]};
+    // pagination.where.lng = {[Op.between]: [minLng, maxLng]};
+    // pagination.where.price = {[Op.between]: [minPrice, maxPrice]};
 
     if (!page) page = 1;
     if (!size) size = 20;
