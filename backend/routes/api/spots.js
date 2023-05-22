@@ -262,7 +262,24 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
     }
 
-
+    spotsList.forEach(ele => {
+        if(ele.price){
+            let item = ele.price;
+            ele.price = parseInt(item)
+        };
+        if(ele.lat){
+            let item = ele.lat;
+            ele.lat = +item
+        };
+        if(ele.lng){
+            let item = ele.lng;
+            ele.lng = +item
+        };
+        if(ele.avgRating){
+            let item = ele.avgRating;
+            ele.avgRating = +item
+        };
+    })
 
 
     let spots = {}
@@ -519,19 +536,19 @@ router.get('/', async (req, res, next) => {
         if(ele.price){
             let item = ele.price;
             ele.price = parseInt(item)
-        }
+        };
         if(ele.lat){
             let item = ele.lat;
-            ele.lat = parseInt(item)
-        }
+            ele.lat = +item
+        };
         if(ele.lng){
             let item = ele.lng;
             ele.lng = +item
-        }
+        };
         if(ele.avgRating){
             let item = ele.avgRating;
             ele.avgRating = +item
-        }
+        };
     })
    
     let spots = {};
