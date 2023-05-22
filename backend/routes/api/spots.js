@@ -134,11 +134,11 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         })
 
         bookings.forEach(ele => {
-            if(ele.startDate && ele.startDate.includes('T')){          
+            if(ele.startDate){          
                 let start = ele.startDate;
                 ele.startDate = start.toJSON().split("T")[0]
             }
-            if(ele.endDate && ele.endDate.includes('T')){
+            if(ele.endDate){
                 let end = ele.endDate;
                 ele.endDate = end.toJSON().split("T")[0]
             }
