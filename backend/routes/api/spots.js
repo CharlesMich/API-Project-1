@@ -526,11 +526,11 @@ router.get('/', async (req, res, next) => {
         }
         if(ele.lng){
             let item = ele.lng;
-            ele.lng = parseInt(item)
+            ele.lng = +item
         }
         if(ele.avgRating){
             let item = ele.avgRating;
-            ele.avgRating = parseInt(item)
+            ele.avgRating = +item
         }
     })
    
