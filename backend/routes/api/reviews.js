@@ -142,15 +142,15 @@ router.get('/current', requireAuth, async (req,res,next)=> {
       reviewList.forEach(ele => {
         if(ele.Spot.price){
             let item = ele.Spot.price;
-            ele.price = parseInt(item)
+            ele.Spot.price = parseInt(item)
         };
         if(ele.Spot.lat){
             let item = ele.Spot.lat;
-            ele.lat = +item
+            ele.Spot.lat = +item
         };
         if(ele.Spot.lng){
             let item = ele.Spot.lng;
-            ele.lng = +item
+            ele.Spot.lng = +item
         };
     }) 
 

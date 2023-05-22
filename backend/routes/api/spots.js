@@ -150,6 +150,16 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
                 },
             },
         });
+        Bookings.forEach(ele => {
+            if(ele.startDate){          
+                let start = ele.startDate;
+                ele.startDate = start.toJSON().split("T")[0]
+            }
+            if(ele.endDate){
+                let end = ele.endDate;
+                ele.endDate = end.toJSON().split("T")[0]
+            }
+        })
 
         return res.send({ Bookings });
     }
