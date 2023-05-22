@@ -514,6 +514,14 @@ router.get('/', async (req, res, next) => {
             spotlist[i].previewImage = previewImg.url
         }
     }
+    // parse numeric values
+    spotlist.forEach(ele => {
+        if(ele.price){
+            let item = ele.price;
+            ele.price = parseInt(item)
+        }
+    })
+   
     let spots = {};
     spots.Spots = spotlist;
     spots.page = page;

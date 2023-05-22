@@ -31,7 +31,7 @@ module.exports = {
         city: 'Dallas', state:'Texas',
         country:'USA', 
         lat: 24.657465,
-        lng: 958.465536,
+        lng: 98.465536,
         name: 'Dream Home',
         description: 'Spacious and elegant',
         price: 99
@@ -43,7 +43,7 @@ module.exports = {
         city: 'Austin', state:'Texas',
         country:'USA', 
         lat: 13.322443,
-        lng: 998.866554,
+        lng: 78.866554,
         name: 'Beautiful',
         description: 'clean and quiet',
         price: 89
@@ -54,7 +54,7 @@ module.exports = {
         city: 'Somerset', state:'NJ',
         country:'USA', 
         lat: 13.322443,
-        lng: 998.866554,
+        lng: 48.866554,
         name: 'Bright and Sunny',
         description: 'clean and quiet',
         price: 79
@@ -65,7 +65,7 @@ module.exports = {
         city: 'Dallas', state:'Texas',
         country:'USA', 
         lat: 13.322443,
-        lng: 998.866554,
+        lng: 143.866554,
         name: 'Best in Town',
         description: 'clean and quiet',
         price: 129
@@ -76,7 +76,7 @@ module.exports = {
         city: 'Oklohoma City', state:'Oklahoma',
         country:'USA', 
         lat: 13.322443,
-        lng: 998.866554,
+        lng: 28.866554,
         name: 'White House',
         description: 'clean and quiet',
         price: 49
