@@ -359,11 +359,25 @@ router.get('/:id', async (req, res) => {
 
 
         let spot = spotbyId.toJSON();
-        // console.log(spot.numReviews)
+        console.log(spot.numReviews)
         spot['Owner'] = spot['User'];
         delete spot['User'];
 
         spot.numReviews = parseInt(spot.numReviews)
+        let parsedLat = spot.lat;
+        spot.lat = +parsedLat
+
+        let parsedLng = spot.lng;
+        spot.lng = +parsedLng
+
+        let parsedPrice = spot.price;
+        spot.price = parseInt(parsedPrice);
+
+        let parsedRating = spot.avgStarRating;
+        spot.avgStarRating = +parsedRating;
+
+
+        spot.
         res.json(spot)
     }
 })
