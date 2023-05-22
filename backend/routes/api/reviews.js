@@ -138,6 +138,23 @@ router.get('/current', requireAuth, async (req,res,next)=> {
      reviewList.forEach(ele => {
           delete ele.Spot.SpotImages
       })
+
+      reviewList.forEach(ele => {
+        if(ele.price){
+            let item = ele.price;
+            ele.price = parseInt(item)
+        };
+        if(ele.lat){
+            let item = ele.lat;
+            ele.lat = +item
+        };
+        if(ele.lng){
+            let item = ele.lng;
+            ele.lng = +item
+        };
+    }) 
+
+
    res.json({Reviews: reviewList});
 })
 
