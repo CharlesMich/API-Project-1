@@ -57,7 +57,7 @@ router.put('/:bookingId', requireAuth, async (req, res)=> {
 
     if(upDate.userId !== currentUser){
         res.statusCode = 403;
-        res.json({"message": "Forbidden"})
+        return res.json({"message": "Booking must belong to the current user"})
     }
     
     else if (Date.parse(upDate.endDate) < Date.now()){

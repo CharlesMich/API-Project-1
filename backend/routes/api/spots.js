@@ -28,12 +28,8 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 
     if (Date.parse(endDate) < Date.parse(startDate)) {
         res.statusCode = 400;
-        return res.json({
-            message: "Bad Request",
-            errors: {
-                endDate:
-                    "endDate cannot be on or before startDate"
-            }
+        return res.json({ "endDate": "endDate cannot be on or before startDate"
+            
         })
     }
     else if (spotCheck.ownerId == currentUser) {
