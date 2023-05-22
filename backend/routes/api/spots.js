@@ -377,7 +377,6 @@ router.get('/:id', async (req, res) => {
         spot.avgStarRating = +parsedRating;
 
 
-        spot.
         res.json(spot)
     }
 })
