@@ -520,6 +520,18 @@ router.get('/', async (req, res, next) => {
             let item = ele.price;
             ele.price = parseInt(item)
         }
+        if(ele.lat){
+            let item = ele.lat;
+            ele.lat = parseInt(item)
+        }
+        if(ele.lng){
+            let item = ele.lng;
+            ele.lng = parseInt(item)
+        }
+        if(ele.avgRating){
+            let item = ele.avgRating;
+            ele.avgRating = parseInt(item)
+        }
     })
    
     let spots = {};
