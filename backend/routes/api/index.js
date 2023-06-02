@@ -30,6 +30,14 @@ router.use('/review-images', reviewImageRouter);
 router.use('/data', dataRouter);
 
 
+// ... after `router.use('/api', apiRouter);`
+
+
+
+
+
+// ------------------------------------
+
 router.post('/test', (req, res) => {
   res.json({ requestBody: req.body });
 });
