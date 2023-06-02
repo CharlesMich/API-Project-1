@@ -25,31 +25,38 @@ function LoginFormPage() {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
+    
+    <div class = "container">
+      <h1>Welcome to Yourbnb</h1>
+      <h2>Log In</h2>
       <form onSubmit={handleSubmit}>
+        <div>
         <label>
-          Username or Email
+      
           <input
-            type="text"
+            type="text" placeholder="Username"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
+        </div>
+        <div>
         <label>
-          Password
+        
           <input
-            type="password"
+            type="password" placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
+        </div>
         {errors.credential && <p>{errors.credential}</p>}
-        <button type="submit">Log In</button>
+        <button type="submit">Continue</button>
       </form>
-    </>
+      </div>
+    
   );
 }
 
