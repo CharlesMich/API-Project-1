@@ -1,0 +1,29 @@
+ul {
+    list-style-type: none;
+}
+
+.hidden {
+    display:none
+}
+
+.profile-button{
+    background: white;
+    color:  rgb(230, 3, 60);
+}
+.profileButton{
+    width: 50px;
+    padding: 2px;
+    
+}
+.fa-user-circle{
+    color:rgb(230, 3, 60);
+   
+}
+
+.fa-house {
+    color: rgb(230, 3, 60);
+    
+}
+.iconButton{
+    background-color: white;
+}

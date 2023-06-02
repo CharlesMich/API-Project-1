@@ -44,13 +44,13 @@ function SignupFormPage() {
   return (
     <div class = "container">
       <h1>Welcome to Yourbnb</h1>
-      <h2>Log In</h2>
+      <h2>Sign up</h2>
       <form onSubmit={handleSubmit}>
       <div>
         <label>
-          Email
+         
           <input
-            type="text"
+            type="text" placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -60,9 +60,10 @@ function SignupFormPage() {
         {errors.email && <p>{errors.email}</p>}
         <div>
         <label>
-          Username
+          
           <input
             type="text"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -73,9 +74,10 @@ function SignupFormPage() {
         {errors.username && <p>{errors.username}</p>}
         <div>
         <label>
-          First Name
+         
           <input
             type="text"
+            placeholder="First Name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
@@ -85,9 +87,10 @@ function SignupFormPage() {
         {errors.firstName && <p>{errors.firstName}</p>}
         <div>
         <label>
-          Last Name
+         
           <input
             type="text"
+            placeholder=" Last Name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
@@ -97,9 +100,10 @@ function SignupFormPage() {
         {errors.lastName && <p>{errors.lastName}</p>}
         <div>
         <label>
-          Password
+          
           <input
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -109,9 +113,10 @@ function SignupFormPage() {
         {errors.password && <p>{errors.password}</p>}
         <div>
         <label>
-          Confirm Password
+          
           <input
             type="password"
+            placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
