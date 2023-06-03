@@ -33,14 +33,18 @@ function Navigation({ isLoaded }) {
   }
 
   return (
+    <div className = "topbar">
+      <div className = "logotitle">
+    <i className ="fa-solid fa-seedling"/>
+    <span className='title'>YourBnB</span>
+    </div>
     <div className = 'menu-right'>
-    <ul> <li><NavLink exact to="/"><i className="fa-solid fa-house"/></NavLink></li>
-      
-     
+    <ul className="top-right"> <li><NavLink exact to="/"><i className="fa-solid fa-house"/></NavLink></li>
+      <div class = 'test1'>
       {isLoaded && sessionLinks}
-     
-      
+      </div>
     </ul>
+    </div>
     </div>
   );
 }

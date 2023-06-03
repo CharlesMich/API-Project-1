@@ -1,21 +1,47 @@
+.logotitle {
+    display:inline-flex;
+    flex-direction: row;
+    color:  rgb(230, 3, 60);
+    padding-left: 10px;
+}
+.title{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    display: inline;
+    padding-left: 5px;
+}
+
+.topbar{
+    display: flex;
+    align-items:baseline;
+    justify-content: space-between;
+}
+
 ul {
     list-style-type: none;
     margin-top: 5px;
+    
+}
+
+.top-right{
+    padding-left: 0px;
+    margin: 0px;
 }
 
 .profile-dropdown {
-
-  right:0;
-  left:auto;
+  left:0;
+  
   border: 1px solid black;
+  padding-left: 0px;
 }
 
 .profile-dropdown li {
     
-    display: block;
+    display: flex;
     font-size: 10px;
-  text-align:left;
+  text-align:right;
  padding-left: 0px;
+
 }
 
 .hidden {
@@ -46,6 +72,10 @@ ul {
 }
 .iconButton{
     background-color: white;
+    width: 20px;
+    
+ 
+
 }
 button {
     background-color:white;
@@ -62,6 +92,13 @@ ul li {
 }
 .menu-right{
  
-    display: flex;
-    justify-content: end;
+    display: inline-flex;
+    justify-content: flex-end;
+}
+.ulClassName{
+    right: 0;
+    left: auto;
+}
+.test{
+    right:0;
 }

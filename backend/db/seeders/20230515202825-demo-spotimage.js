@@ -14,23 +14,23 @@ module.exports = {
     options.tableName = 'SpotImages';
 await queryInterface.bulkInsert(options, [
   {spotId:1,
-    url:'img1.url',
+    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685818125/576489e8-0740-4d30-9731-c08b22ffa06c.jpeg_galcoc.webp',
     preview: true
   },
   {spotId:2,
-    url:'img2.url',
+    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685818125/576489e8-0740-4d30-9731-c08b22ffa06c.jpeg_galcoc.webp',
     preview: false
   },
   {spotId:3,
-    url:'img3.url',
+    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685818125/51bb6602-d192-4401-97c5-40dc74924795.jpg_a90ile.webp',
     preview: true
   },
   {spotId:4,
-    url:'img4.url',
+    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685818125/053b9bc2-65d8-47b4-b713-b6ac9ff11b5a.jpeg_x0jbjr.webp',
     preview: true
   },
   {spotId:5,
-    url:'img5.url',
+    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685818125/ae8b8858-7777-4003-8bc3-593e38d0b8e8.jpeg_upnozk.webp',
     preview: true
   }
     /**
