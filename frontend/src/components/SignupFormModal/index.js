@@ -43,12 +43,14 @@ function SignupFormModal() {
 
   return (
     <>
+    <div class = "container">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
+        <div>
         <label>
-          Email
+        
           <input
-            type="text"
+            type="text" placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -56,19 +58,22 @@ function SignupFormModal() {
         </label>
         {errors.email && <p>{errors.email}</p>}
         <label>
-          Username
+         
           <input
-            type="text"
+            type="text" placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </label>
+       
         {errors.username && <p>{errors.username}</p>}
+        </div>
+        <div>
         <label>
-          First Name
+         
           <input
-            type="text"
+            type="text" placeholder="First Name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
@@ -76,19 +81,21 @@ function SignupFormModal() {
         </label>
         {errors.firstName && <p>{errors.firstName}</p>}
         <label>
-          Last Name
+        
           <input
-            type="text"
+            type="text" placeholder="Last Name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
         </label>
         {errors.lastName && <p>{errors.lastName}</p>}
+        </div>
+        <div>
         <label>
-          Password
+        
           <input
-            type="password"
+            type="password" placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -96,19 +103,25 @@ function SignupFormModal() {
         </label>
         {errors.password && <p>{errors.password}</p>}
         <label>
-          Confirm Password
+         
           <input
-            type="password"
+            type="password" placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>
+       
+        
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
+         </div>
+        <div>
         <button type="submit">Sign Up</button>
+        </div>
       </form>
+      </div>
     </>
   );
 }
