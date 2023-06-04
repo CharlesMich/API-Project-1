@@ -6,6 +6,7 @@ import * as sessionActions from "./store/session";
 
 import Navigation from "./components/Navigation";
 import SpotsIndex from "./components/spots/spots";
+import SpotDetails from "./components/SpotDetails";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
     {isLoaded && (
       <Switch>
          <Route exact path="/"><SpotsIndex/></Route>
+         <Route exact path="/spots/:spotId"><SpotDetails/></Route>
       </Switch>
     )}
   </>

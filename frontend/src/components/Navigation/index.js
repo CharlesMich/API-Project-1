@@ -40,7 +40,7 @@ function Navigation({ isLoaded }) {
     </div>
     <div className = 'menu-right'>
     <ul className="top-right"> <li><NavLink exact to="/"><i className="fa-solid fa-house"/></NavLink></li>
-      <div class = 'test1'>
+      <div className = 'test1'>
       {isLoaded && sessionLinks}
       </div>
     </ul>

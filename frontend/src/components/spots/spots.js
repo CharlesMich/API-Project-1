@@ -1,7 +1,9 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchSpots } from '../../store/SpotsReducer';
+
 import './spots.css'
 
 
@@ -13,7 +15,7 @@ function SpotsIndex() {
         useSelector((state) => (state.spots ? state.spots : []))
     );
     const dispatch = useDispatch();
-    console.log('spots in component', spots)
+    // console.log('spots in component', spots)
 
     useEffect(() => {
         dispatch(fetchSpots());
@@ -21,7 +23,7 @@ function SpotsIndex() {
     return (
         <div className='spotimage'>
             {spots.map((spot) => (<div className='spotscontainer'>
-                <div className='divimage'><img className="image" src={spot.previewImage} alt={spot.name} /></div>
+                <div className='divimage'><Link to={`/spots/${spot.id}`} key ="spot.id"><img className="image" src={spot.previewImage} alt={spot.name}/></Link></div>
                 <div className = 'line1and2'>
                 <div className='line1'><div>{spot.city}, {spot.state}</div>
                 <div><i class="fa-solid fa-star"></i>{spot.avgRating}</div></div>
