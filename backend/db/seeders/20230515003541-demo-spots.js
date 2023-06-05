@@ -22,7 +22,7 @@ module.exports = {
         lng: 122.345678,
         name: 'Beach Resort',
         description: 'beautiful two bedroom house',
-        price: 64
+        price: 64.0
       },
 
       {
@@ -34,7 +34,7 @@ module.exports = {
         lng: 98.465536,
         name: 'Dream Home',
         description: 'Spacious and elegant',
-        price: 99
+        price: 99.0
       },
 
       {
@@ -46,7 +46,7 @@ module.exports = {
         lng: 78.866554,
         name: 'Ocean and sea view',
         description: 'clean and quiet',
-        price: 89
+        price: 89.0
       },
       {
         ownerId: 4,
@@ -57,7 +57,7 @@ module.exports = {
         lng: 48.866554,
         name: 'Bright and Sunny',
         description: 'clean and quiet',
-        price: 79
+        price: 79.0
       },
       {
         ownerId: 5,
@@ -68,7 +68,7 @@ module.exports = {
         lng: 143.866554,
         name: 'Best in Town',
         description: 'clean and quiet',
-        price: 129
+        price: 129.0
       },
       {
         ownerId: 6,
@@ -79,7 +79,7 @@ module.exports = {
         lng: 28.866554,
         name: 'Historic',
         description: 'clean and quiet',
-        price: 49
+        price: 49.0
       },
 
     ], {});

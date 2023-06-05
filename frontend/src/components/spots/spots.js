@@ -16,12 +16,13 @@ function SpotsIndex() {
     );
     const dispatch = useDispatch();
     // console.log('spots in component', spots)
-
+    
     useEffect(() => {
         dispatch(fetchSpots());
     }, [dispatch]);
     return (
         <div className='spotimage'>
+           
             {spots.map((spot) => (<div className='spotscontainer'>
                 <div className='divimage'><Link to={`/spots/${spot.id}`} key ="spot.id"><img className="image" src={spot.previewImage} alt={spot.name}/></Link></div>
                 <div className = 'line1and2'>

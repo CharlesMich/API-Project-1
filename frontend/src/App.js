@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import SpotsIndex from "./components/spots/spots";
 import SpotDetails from "./components/SpotDetails";
 import CreateSpot from "./components/CreateSpot";
+import SpotsofUser from "./components/UserSpots";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
          <Route exact path="/"><SpotsIndex/></Route>
          <Route exact path="/spots/new"><CreateSpot/></Route>
          <Route exact path="/spots/:spotId"><SpotDetails/></Route>
+         <Route path="/spots/current"><SpotsofUser/></Route>
       </Switch>
     )}
   </>

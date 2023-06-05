@@ -38,26 +38,15 @@ await queryInterface.bulkInsert(options, [
     reviewId:5,
     url:'img6.url'
   }
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
-
+   
 ], {});
 
   },
   async down (queryInterface, Sequelize) {
 
      options.tableName = 'ReviewImages';
-    const Op = Sequelize.Op;
-    await queryInterface.bulkDelete(options, {
-      reviewId: { [Op.in]: [1,2,3] }
-    }, {});
+    // const Op = Sequelize.Op;
+    return queryInterface.bulkDelete(options, null, {});
     /**
      * Add commands to revert seed here.
      *

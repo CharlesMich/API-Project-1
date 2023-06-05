@@ -87,6 +87,7 @@ const spotsReducer = (state = {}, action)=>{
 
             case USER_SPOTS:
             const userSpots = {...action.spots.Spots}
+            console.log(userSpots)
             return userSpots
 
             default: return state;
