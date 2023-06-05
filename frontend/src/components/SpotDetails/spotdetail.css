@@ -1,3 +1,27 @@
 .outer-container{
     max-width: 1000px;
+   margin:auto
 }
+.image-container{
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   gap:10px;
+    
+}
+
+.img1{
+    max-width:500px
+}
+.img2{
+    max-width: 250px
+}
+.img-center{
+    display: flex;
+    flex-direction: column;
+}
+.img-right{
+    display: flex;
+    flex-direction: column;
+}
+

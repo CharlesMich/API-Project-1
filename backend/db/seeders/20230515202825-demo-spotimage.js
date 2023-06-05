@@ -17,6 +17,22 @@ await queryInterface.bulkInsert(options, [
     url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685818125/576489e8-0740-4d30-9731-c08b22ffa06c.jpeg_galcoc.webp',
     preview: true
   },
+  {spotId:1,
+    url:'../../../images/spot1img1.jpg',
+    preview: false
+  },
+  {spotId:1,
+    url:'../../../images/spot1img2.jpeg',
+    preview: false
+  },
+  {spotId:1,
+    url:'../../../images/spot1img3.jpg',
+    preview: false
+  },
+  {spotId:1,
+    url:'../../../images/spot1img4.webp',
+    preview: false
+  },
   {spotId:2,
     url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685823125/contemorary-living-room-decor-ideas-decorilla_sb8yua.jpg',
     preview: true
@@ -54,7 +70,7 @@ await queryInterface.bulkInsert(options, [
     options.tableName = 'SpotImages';
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete(options, {
-      spotId: { [Op.in]: [1, 2, 3, 4, 5, 6] }
+      spotId: { [Op.in]: [1, 2, 3, 4, 5, 6,7, 8, 9,10] }
     }, {});
     /**
      * Add commands to revert seed here.
