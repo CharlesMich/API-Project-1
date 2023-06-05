@@ -1,6 +1,10 @@
-const LOAD_SPOTS = 'spots/LOAD_SPOTS';
-const LOAD_DETAILS = 'spots/LODA_DETAILS'
+import { csrfFetch } from "./csrf";
 
+const LOAD_SPOTS = 'spots/LOAD_SPOTS';
+const LOAD_DETAILS = 'spots/LODA_DETAILS';
+const USER_SPOTS = 'spots/USER_SPOTS';
+
+// all spots
 export const loadSpots = (allspots)=> {
     return {
         type: LOAD_SPOTS,
@@ -8,11 +12,21 @@ export const loadSpots = (allspots)=> {
     }
 }
 
+// spot details
 export const loadDetails = (spotdetails)=>{
     return {
         type: LOAD_DETAILS,
         spotdetails
     }
+}
+
+// User spots
+const userSpots = spots => {
+    return {
+        type: USER_SPOTS,
+        spots
+    }
+   
 }
 
 export const fetchSpotDetails = (spotId) => async (dispatch)=> {
@@ -43,24 +57,38 @@ export const fetchSpots= ()=> async (dispatch) => {
     }
 } 
 
+export const fetchUserSpots =()=> async (dispatch)=> {
+    const res = await csrfFetch('/api/spots/current')
+   
+    if (res.ok){
+        const spots = await res.json();
+        dispatch(userSpots(spots))
+        console.log('res', spots)
+    }
+}
+
 
 
 
 const spotsReducer = (state = {}, action)=>{
     
     switch(action.type){
-        case LOAD_SPOTS:
+            case LOAD_SPOTS:
             // const allSpots = { ...action.allspots.Spots };
             // const newState = {...state, allSpots}
             const newState = {};
             action.allspots.Spots.forEach(spot => {
                 newState[spot.id] = spot;
             });
-           
             return newState;
+
             case LOAD_DETAILS:
-               
-                return { ...state, [action.spotdetails.id]: action.spotdetails};
+            return { ...state, [action.spotdetails.id]: action.spotdetails};
+
+            case USER_SPOTS:
+            const userSpots = {...action.spots.Spots}
+            return userSpots
+
             default: return state;
            
     }

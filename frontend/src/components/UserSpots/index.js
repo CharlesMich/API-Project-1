@@ -1,4 +1,4 @@
- import { fetchUserSpots } from '../../store/SpotsReducer';
+import { fetchUserSpots } from '../../store/SpotsReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 

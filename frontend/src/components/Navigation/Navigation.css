@@ -3,22 +3,29 @@
     flex-direction: row;
     color:  rgb(230, 3, 60);
     padding-left: 10px;
+    text-decoration: none
 }
 .title{
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     display: inline;
     padding-left: 5px;
+    color:  rgb(230, 3, 60);
 }
 
 .topbar{
     display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
     align-items:baseline;
     justify-content: space-between;
     border-bottom: 1px solid rgba(0, 0, 0, 0.276);
 }
 
-ul {
+
+ul{
     list-style-type: none;
     margin-top: 5px;
     
@@ -49,10 +56,10 @@ ul {
     display:none
 }
 
-.profile-button{
+/* .profile-button{
     background: white;
     color:  rgb(230, 3, 60);
-}
+} */
 .profileButton{
     width: 50px;
     padding: 0px;
@@ -61,19 +68,24 @@ ul {
     background-color: black;
     
 }
+
+.profilebutton{
+    background-color:grey;
+    border-radius: 15px;
+    color:white;
+}
+
 .fa-user-circle{
-    color:rgb(230, 3, 60);
+    padding-left: 5px;
    
 }
 
-.fa-house {
-    color: rgb(230, 3, 60);
-    margin-right: 5px;
-    
-}
+
 .iconButton{
     background-color: white;
     width: 20px;
+   align-items: end;
+
     
  
 
@@ -82,24 +94,66 @@ button {
     background-color:white;
     width: 60px;
     color:  rgb(230, 3, 60);
+    font-size: 10px;
    
 }
 
 
 
 ul li {
-   
-    display: inline
+    display: inline;
+    list-style-type: none;
+
 }
 .menu-right{
  
     display: inline-flex;
     justify-content: flex-end;
+    gap: 20px
 }
-.ulClassName{
-    right: 0;
-    left: auto;
+.profile-dropdown{
+position:absolute;
+   width:200px;
+   margin-right: 50px;
+   height:150px;
+   border: 1px solid rgba(0, 0, 0, 0.308);
+   border-radius: 10px;
+   box-shadow: 0 0 10px #0c0c0c;
+   background-color: rgb(248, 242, 242);
+   left: auto; 
+   right: 0;
+   padding-top: 20px;
 }
-.test{
-    right:0;
+.profile-dropdown li{
+    list-style-type: none;
+    position:relative;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+   
+}
+
+
+li {
+    list-style-type: none;
+    position:relative;
+    height: 30px;
+}
+
+li:hover{
+    background-color: white;
+}
+
+li a {
+    font-size: 20px;
+}
+.menu-right  a{
+   padding-top: 8px;
+}
+
+.abc button{
+    background-color: rgb(90, 89, 89);
+    color: white;
+    width: 100%;
 }

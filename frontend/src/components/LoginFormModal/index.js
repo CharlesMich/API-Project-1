@@ -53,7 +53,7 @@ function LoginFormModal() {
         </label>
         </div>
         {errors.credential && <p>{errors.credential}</p>}
-        <button type="submit">Continue</button>
+        <button className= "loginButton" type="submit">Continue</button>
       </form>
       </div>
     
