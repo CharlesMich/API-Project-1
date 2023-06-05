@@ -20,7 +20,7 @@ module.exports = {
         allowNull:false,
         references: {
           model: "Spots",
-          id: "id",
+          key: "id",
         },
        
       },
@@ -29,7 +29,7 @@ module.exports = {
         allowNull:false,
         references: {
           model: "Users",
-          id: "id",
+          key: "id",
         },
        
       },
