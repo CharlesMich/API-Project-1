@@ -383,7 +383,7 @@ router.get('/:id', async (req, res) => {
 
 
         let spot = spotbyId.toJSON();
-        console.log(spot.numReviews)
+       
         spot['Owner'] = spot['User'];
         delete spot['User'];
 

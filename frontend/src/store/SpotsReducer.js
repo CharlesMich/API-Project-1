@@ -37,7 +37,7 @@ export const fetchSpotDetails = (spotId) => async (dispatch)=> {
        
         dispatch(loadDetails(spotdetails))
     } else {
-        console.log('inside fetch')
+       
         const errors = await res.json();
         return errors;
       }
@@ -63,7 +63,7 @@ export const fetchUserSpots =()=> async (dispatch)=> {
     if (res.ok){
         const spots = await res.json();
         dispatch(userSpots(spots))
-        console.log('res', spots)
+      
     }
 }
 

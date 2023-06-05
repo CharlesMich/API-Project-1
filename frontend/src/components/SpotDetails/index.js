@@ -36,7 +36,7 @@ function SpotDetails() {
                         <div><img className="img1" src="https://myaaprojects.s3.us-east-2.amazonaws.com/spot1img1.jpg" alt="charles" /></div>
                     </div>
                     <div className="img-center">
-                        <div><img className="img2" src="s3://myaaprojects/spot1img1.jpg" alt="charles" /></div>
+                        <div><img className="img2" src="https://myaaprojects.s3.us-east-2.amazonaws.com/spot1img1.jpg" alt="charles" /></div>
                         <div><img className="img2" src="https://myaaprojects.s3.us-east-2.amazonaws.com/spot1img1.jpg" alt="charles" /></div>
                     </div>
                     <div className="img-right">
