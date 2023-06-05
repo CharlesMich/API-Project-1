@@ -34,23 +34,23 @@ await queryInterface.bulkInsert(options, [
     preview: false
   },
   {spotId:2,
-    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685823125/contemorary-living-room-decor-ideas-decorilla_sb8yua.jpg',
+    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/df4a2993-381b-4a94-8ec9-d0533fb50180.jpg.webp',
     preview: true
   },
   {spotId:3,
-    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685818125/51bb6602-d192-4401-97c5-40dc74924795.jpg_a90ile.webp',
+    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/df4a2993-381b-4a94-8ec9-d0533fb50180.jpg.webp',
     preview: true
   },
   {spotId:4,
-    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685823126/INSPIRATIONS-Top-13-Luxury-Home-Decor-Ideas-for-a-High-End-Interior_riudjo.png',
+    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/df4a2993-381b-4a94-8ec9-d0533fb50180.jpg.webp',
     preview: true
   },
   {spotId:5,
-    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685823126/INSPIRATIONS-Top-13-Luxury-Home-Decor-Ideas-for-a-High-End-Interior_riudjo.png',
+    url:'ohttps://myaaprojects.s3.us-east-2.amazonaws.com/df4a2993-381b-4a94-8ec9-d0533fb50180.jpg.webp',
     preview: true
   },
   {spotId:6,
-    url:'https://res.cloudinary.com/dupxil2cy/image/upload/v1685823126/INSPIRATIONS-Top-13-Luxury-Home-Decor-Ideas-for-a-High-End-Interior_riudjo.png',
+    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/df4a2993-381b-4a94-8ec9-d0533fb50180.jpg.webp',
     preview: true
   }
 

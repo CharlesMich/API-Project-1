@@ -44,7 +44,7 @@ module.exports = {
         country:'USA', 
         lat: 13.322443,
         lng: 78.866554,
-        name: 'Beautiful',
+        name: 'Ocean and sea view',
         description: 'clean and quiet',
         price: 89
       },
@@ -77,7 +77,7 @@ module.exports = {
         country:'USA', 
         lat: 13.322443,
         lng: 28.866554,
-        name: 'White House',
+        name: 'Historic',
         description: 'clean and quiet',
         price: 49
       },
