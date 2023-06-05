@@ -37,7 +37,7 @@ h2{
 input{
     width: 150px;
 padding-right: 10px;
-    
+margin-right: 10px;    
 }
 input::placeholder {
     font: 10px/3 sans-serif;
@@ -45,5 +45,5 @@ input::placeholder {
 
 #wrapper {
     display: flex;
-    justify-content: center;
+    justify-content:space-around;
   }
