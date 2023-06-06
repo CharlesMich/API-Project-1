@@ -46,7 +46,7 @@ await queryInterface.bulkInsert(options, [
     preview: true
   },
   {spotId:5,
-    url:'ohttps://myaaprojects.s3.us-east-2.amazonaws.com/df4a2993-381b-4a94-8ec9-d0533fb50180.jpg.webp',
+    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/df4a2993-381b-4a94-8ec9-d0533fb50180.jpg.webp',
     preview: true
   },
   {spotId:6,

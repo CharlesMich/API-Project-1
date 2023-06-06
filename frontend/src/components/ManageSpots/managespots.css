@@ -1,0 +1,49 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    padding: 30px 30px 30px 30px;
+}
+
+.map{
+    display: flex;
+    flex-direction:column;
+    justify-content: start;
+}
+
+.cityState {
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between;
+    padding: 10px 5px 5px 5px;
+}
+h1{
+    font-size: 20px;
+    padding: 30px 30px 10px 30px;
+}
+
+.createNew {
+    font-size: 15px;
+    margin-left: 30px;
+    background-color: black;
+    padding: 4px; 
+}
+.update{
+    display: flex;
+    flex-direction: row; 
+    justify-content:space-around;
+    padding-top: 20px
+}
+
+.update *{
+   
+    background-color: black;
+    padding: 4px; 
+    border-radius: 5px;
+    width: 100px;
+    text-align: center;
+}
+
+img{
+    box-shadow: 3px;
+}
+

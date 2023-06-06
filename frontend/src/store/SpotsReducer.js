@@ -1,8 +1,8 @@
 import { csrfFetch } from "./csrf";
 
-const LOAD_SPOTS = 'spots/LOAD_SPOTS';
-const LOAD_DETAILS = 'spots/LODA_DETAILS';
-const USER_SPOTS = 'spots/USER_SPOTS';
+export const LOAD_SPOTS = 'spots/LOAD_SPOTS';
+export const LOAD_DETAIL = 'spots/LODA_DETAILS';
+export const USER_SPOTS = 'spots/USER_SPOTS';
 
 // all spots
 export const loadSpots = (allspots)=> {
@@ -15,12 +15,12 @@ export const loadSpots = (allspots)=> {
 // spot details
 export const loadDetails = (spotdetails)=>{
     return {
-        type: LOAD_DETAILS,
+        type: LOAD_DETAIL,
         spotdetails
     }
 }
 
-// User spots
+// MANAGE SPOTS
 const userSpots = spots => {
     return {
         type: USER_SPOTS,
@@ -31,13 +31,11 @@ const userSpots = spots => {
 
 export const fetchSpotDetails = (spotId) => async (dispatch)=> {
     const res = await fetch(`/api/spots/${spotId}`);
-   
+   console.log(spotId)
     if(res.ok){
         const spotdetails = await res.json();
-       
         dispatch(loadDetails(spotdetails))
     } else {
-       
         const errors = await res.json();
         return errors;
       }
@@ -57,7 +55,7 @@ export const fetchSpots= ()=> async (dispatch) => {
     }
 } 
 
-export const fetchUserSpots =()=> async (dispatch)=> {
+export const fetchManageSpots =()=> async (dispatch)=> {
     const res = await csrfFetch('/api/spots/current')
    
     if (res.ok){
@@ -82,12 +80,12 @@ const spotsReducer = (state = {}, action)=>{
             });
             return newState;
 
-            case LOAD_DETAILS:
+            case LOAD_DETAIL:
             return { ...state, [action.spotdetails.id]: action.spotdetails};
 
             case USER_SPOTS:
             const userSpots = {...action.spots.Spots}
-            console.log(userSpots)
+            
             return userSpots
 
             default: return state;

@@ -13,6 +13,126 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
+// Get all Spots owned by the Current User
+router.get('/current', requireAuth, async (req, res, next) => {
+
+    let yourSpots = await Spot.findAll({
+        where: { ownerId: req.user.id }
+    })
+    let spotsList = []
+
+
+    yourSpots.forEach(spot => {
+        let spotObj = spot.toJSON()
+
+        spotsList.push(spotObj)
+    });
+
+    //for loop to add avg rating to each spot
+    for (let i = 0; i < spotsList.length; i++) {
+        let spotId = spotsList[i]['id']
+        // console.log(spotId)
+        const starRating = await Review.findOne({
+            where: { spotId: spotId },
+            attributes: [
+                [Sequelize.fn("AVG", Sequelize.col("stars")), "avgStarRating"],
+            ],
+        });
+
+        let reviewJson = starRating.toJSON();
+
+
+        spotsList[i].avgRating = reviewJson.avgStarRating;
+    }
+
+    //for loop to add preview Image to each spot
+    for (let i = 0; i < spotsList.length; i++) {
+        let spotId = spotsList[i]["id"];
+        // console.log(spotId);
+        const spotImg = await SpotImage.findOne({
+            where: {
+                spotId: spotId,
+                preview: true
+            },
+            attributes: [
+                'url', 'preview'
+            ],
+        });
+
+        if (!spotImg) spotsList[i].previewImage = "no preview image"
+
+        if (spotImg) {
+            let previewImg = spotImg.toJSON();
+            spotsList[i].previewImage = previewImg.url;
+        }
+
+
+    }
+
+    spotsList.forEach(ele => {
+        if(ele.price){
+            let item = ele.price;
+            ele.price = parseInt(item)
+        };
+        if(ele.lat){
+            let item = ele.lat;
+            ele.lat = +item
+        };
+        if(ele.lng){
+            let item = ele.lng;
+            ele.lng = +item
+        };
+        if(ele.avgRating){
+            let item = ele.avgRating;
+            ele.avgRating = +item
+        };
+    })
+
+
+    let spots = {}
+    spots.Spots = spotsList
+
+
+    res.json(spots)
+
+    // let userid = req.user.id
+
+    // const spotbyId = await Spot.findAll({
+    //     where: { ownerId: userid },
+    //     attributes: {
+    //         include: [
+    //             [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
+    //         ],
+    //     },
+    //     group: ['Spot.id', 'SpotImages.id'],
+    //     include: [
+    //         { model: Review, attributes: [] },
+    //         { model: SpotImage}
+    //     ]
+    // })
+
+    // let spotList = [];
+    // spotbyId.forEach(list => {
+    //     spotList.push(list.toJSON())
+    // })
+
+
+    // spotList.forEach(list => {
+    //     list.SpotImages.forEach(img => {
+    //         if (img.preview === true) {
+
+    //             list.previewImage = img.url
+    //         }
+    //     })
+
+    // })
+    // spotList.forEach(ele => {
+    //     delete ele.SpotImages
+    // })
+
+    // res.json({ Spots: spotList })
+})
+
 // Create a Booking from a Spot based on the Spot's id
 router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     currentSpot = req.params.spotId;
@@ -229,150 +349,40 @@ router.put('/:spotId', requireAuth, validateupDate, async (req, res) => {
         res.json(spotCheck)
     }
 })
-
-// Get all Spots owned by the Current User
-router.get('/current', requireAuth, async (req, res, next) => {
-
-    let yourSpots = await Spot.findAll({
-        where: { ownerId: req.user.id }
-    })
-    let spotsList = []
-
-
-    yourSpots.forEach(spot => {
-        let spotObj = spot.toJSON()
-
-        spotsList.push(spotObj)
-    });
-
-    //for loop to add avg rating to each spot
-    for (let i = 0; i < spotsList.length; i++) {
-        let spotId = spotsList[i]['id']
-        // console.log(spotId)
-        const starRating = await Review.findOne({
-            where: { spotId: spotId },
-            attributes: [
-                [Sequelize.fn("AVG", Sequelize.col("stars")), "avgStarRating"],
-            ],
-        });
-
-        let reviewJson = starRating.toJSON();
-
-
-        spotsList[i].avgRating = reviewJson.avgStarRating;
-    }
-
-    //for loop to add preview Image to each spot
-    for (let i = 0; i < spotsList.length; i++) {
-        let spotId = spotsList[i]["id"];
-        // console.log(spotId);
-        const spotImg = await SpotImage.findOne({
-            where: {
-                spotId: spotId,
-                preview: true
-            },
-            attributes: [
-                'url', 'preview'
-            ],
-        });
-
-        if (!spotImg) spotsList[i].previewImage = "no preview image"
-
-        if (spotImg) {
-            let previewImg = spotImg.toJSON();
-            spotsList[i].previewImage = previewImg.url;
-        }
-
-
-    }
-
-    spotsList.forEach(ele => {
-        if(ele.price){
-            let item = ele.price;
-            ele.price = parseInt(item)
-        };
-        if(ele.lat){
-            let item = ele.lat;
-            ele.lat = +item
-        };
-        if(ele.lng){
-            let item = ele.lng;
-            ele.lng = +item
-        };
-        if(ele.avgRating){
-            let item = ele.avgRating;
-            ele.avgRating = +item
-        };
-    })
-
-
-    let spots = {}
-    spots.Spots = spotsList
-
-
-    res.json(spots)
-
-    // let userid = req.user.id
-
-    // const spotbyId = await Spot.findAll({
-    //     where: { ownerId: userid },
-    //     attributes: {
-    //         include: [
-    //             [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
-    //         ],
-    //     },
-    //     group: ['Spot.id', 'SpotImages.id'],
-    //     include: [
-    //         { model: Review, attributes: [] },
-    //         { model: SpotImage}
-    //     ]
-    // })
-
-    // let spotList = [];
-    // spotbyId.forEach(list => {
-    //     spotList.push(list.toJSON())
-    // })
-
-
-    // spotList.forEach(list => {
-    //     list.SpotImages.forEach(img => {
-    //         if (img.preview === true) {
-
-    //             list.previewImage = img.url
-    //         }
-    //     })
-
-    // })
-    // spotList.forEach(ele => {
-    //     delete ele.SpotImages
-    // })
-
-    // res.json({ Spots: spotList })
-})
-
-
 // Get details of a Spot from an id
 router.get('/:id', async (req, res) => {
 
     const spotbyId = await Spot.findByPk(req.params.id, {
 
-        attributes: {
-            include: [
-                [
-                    Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
-                    "avgStarRating"
-                ],
-                [Sequelize.fn("COUNT", Sequelize.col("Reviews.id")), "numReviews"]
-            ],
-        },
-        group: ['Spot.id', 'SpotImages.id', 'User.id'],
-        include: [
-            { model: SpotImage, attributes: ['id', 'url', 'preview'] },
-            { model: User, attributes: ['id', 'firstName', 'lastName'] },
-            { model: Review, attributes: [] }
+        // attributes: {
+        //     include: [
+        //         [
+        //             Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
+        //             "avgStarRating"
+        //         ],
+        //         [Sequelize.fn("COUNT", Sequelize.col("Reviews.id")), "numReviews"]
+        //     ],
+        // },
+        // group: ['Spot.id', 'SpotImages.id'],
+       
+      
+       
+       
+        // include: [
+            // { model: SpotImage, attributes: ['id', 'url', 'preview'] },
+            // { model: User, attributes: ['id', 'firstName', 'lastName'] },
+            // { model: Review, attributes: [] }
 
-        ]
+        // ]
     })
+
+    const OwnerofSpot = await User.findOne(spotbyId.OwnerId) 
+    const Owner = {
+        id:OwnerofSpot.id,
+        firstName:OwnerofSpot.firstName,
+        lastName:OwnerofSpot.lastName
+    }
+   
 
     if (!spotbyId) {
         res.statusCode = 404;
@@ -384,10 +394,10 @@ router.get('/:id', async (req, res) => {
 
         let spot = spotbyId.toJSON();
        
-        spot['Owner'] = spot['User'];
-        delete spot['User'];
+        // spot['Owner'] = spot['User'];
+        // delete spot['User'];
 
-        spot.numReviews = parseInt(spot.numReviews)
+        // spot.numReviews = parseInt(spot.numReviews)
         let parsedLat = spot.lat;
         spot.lat = +parsedLat
 
@@ -397,13 +407,17 @@ router.get('/:id', async (req, res) => {
         let parsedPrice = spot.price;
         spot.price = parseInt(parsedPrice);
 
-        let parsedRating = spot.avgStarRating;
-        spot.avgStarRating = +parsedRating;
+        // let parsedRating = spot.avgStarRating;
+        // spot.avgStarRating = +parsedRating;
 
+        spot.Owner = Owner
 
         res.json(spot)
     }
 })
+
+
+
 
 // Create a Spot
 router.post('/', requireAuth, async (req, res, next) => {
