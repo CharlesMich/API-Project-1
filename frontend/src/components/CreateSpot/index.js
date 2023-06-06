@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import {addPics} from '../../store/SpotsReducer';
+import {createSpot} from '../../store/SpotsReducer';
 import "./createspot.css"
 
 function CreateSpot() {
@@ -15,13 +17,14 @@ function CreateSpot() {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [name, setName] = useState('');
-    const [preview, setPreview] = useState('');
+    const [previewImg, setPreviewImg] = useState('');
     const [img1, setImg1] = useState('');
     const [img2, setImg2] = useState('');
     const [img3, setImg3] = useState('');
     const [img4, setImg4] = useState('');
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
+
 
 
     useEffect(() => {
@@ -38,16 +41,18 @@ function CreateSpot() {
         if (name.length === 0) errors.name = 'Name is required';
         if (price.length === 0) errors.price = 'Price is required';
         if (isNaN(price) || price <= 0) errors.price = 'Price has be above 0 dollars'
-        if (preview.length === 0) errors.preview = 'Preview image is required';
-        if (!preview.match(/\.(jpg|jpeg|png)$/)) errors.preview = 'Image URL must end in .png, .jpg, or .jpeg';
+        if (previewImg.length === 0) errors.preview = 'Preview image is required';
+        if (!previewImg.match(/\.(jpg|jpeg|png)$/)) errors.preview = 'Image URL must end in .png, .jpg, or .jpeg';
         if (img1 && !img1.match(/\.(jpg|jpeg|png)$/)) errors.img1 = 'Image URL must end in .png, .jpg, or .jpeg';
         if (img2 && !img2.match(/\.(jpg|jpeg|png)$/)) errors.img2= 'Image URL must end in .png, .jpg, or .jpeg';
         if (img3 && !img3.match(/\.(jpg|jpeg|png)$/)) errors.img3 = 'Image URL must end in .png, .jpg, or .jpeg';
         if (img4 && !img4.match(/\.(jpg|jpeg|png)$/)) errors.img4 = 'Image URL must end in .png, .jpg, or .jpeg';
         setValidationErrors(errors);
-    }, [country, address, city, state, lat, lng, description, name, price, preview, img1, img2, img3, img4])
+    }, [country, address, city, state, lat, lng, description, name, price, previewImg, img1, img2, img3, img4])
 
-    const onSubmit = (e) => {
+
+    const dispatch= useDispatch()
+    const onSubmit = async (e) => {
         e.preventDefault();
 
         const createSpotFrom = {
@@ -61,8 +66,27 @@ function CreateSpot() {
             name,
             price,
         };
+
+        const picsArray = [];
+
+        const previewImage = {
+            url: previewImg,
+            preview: true
+        };
+
+        picsArray.push(previewImage);
+
+        if(img1) picsArray.push({url:img1, preview:"false"});
+        if(img2) picsArray.push({url:img2, preview:"false"});
+        if(img3) picsArray.push({url:img3, preview:"false"});
+        if(img4) picsArray.push({url:img4, preview:"false"});
+
+
+
         setHasSubmitted(true);
         if (Object.keys(validationErrors).length > 0) return;
+
+        // let newSpot = await dispatch()
 
         setCountry('');
         setAddress('');
@@ -73,8 +97,15 @@ function CreateSpot() {
         setDescription('');
         setName('');
         setPrice('');
+        
 
-        if (CreateSpot) {
+        
+        let newSpot = await dispatch(createSpot(createSpotFrom))
+        let spotId = newSpot.id;
+        if(newSpot) dispatch(addPics(picsArray, spotId))
+
+
+        if (newSpot) {
             history.push(`/spots/${CreateSpot.id}`);
           }
     }
@@ -140,9 +171,9 @@ function CreateSpot() {
 
                     <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot.</p>    
-                    <span><label htmlFor='preview'></label></span><span className='error'> {hasSubmitted && validationErrors.preview && `${validationErrors.preview}`}</span>
-                    <input id='preview' type="text" placeholder="Preview Image URL" value={preview}
-                        onChange={(e) => setPreview(e.target.value)} />
+                    <span><label htmlFor='preview'></label></span><span className='error'> {hasSubmitted && validationErrors.preview && `${validationErrors.previewImg}`}</span>
+                    <input id='preview' type="text" placeholder="Preview Image URL" value={previewImg}
+                        onChange={(e) => setPreviewImg(e.target.value)} />
                         <span><label htmlFor='img1'></label></span><span className='error'> {hasSubmitted && validationErrors.img1 && `${validationErrors.img1}`}</span>
                     <input id='img1' type="text" placeholder="Image URL" value={img1}
                         onChange={(e) => setImg1(e.target.value)} />

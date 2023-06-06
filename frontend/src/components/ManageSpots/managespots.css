@@ -26,6 +26,10 @@ h1{
     margin-left: 30px;
     background-color: black;
     padding: 4px; 
+   
+    border-radius: 5px;
+   
+   
 }
 .update{
     display: flex;

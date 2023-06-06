@@ -19,7 +19,15 @@ function ManageSpots() {
     }, [dispatch])
 
     const spotArr = Object.values(spots)
-    console.log(spotArr)
+    if(!spotArr.length){
+        return (
+            <>
+            <h1>Manage Your Spots</h1>
+            <div>There are no current Spots</div>
+            <Link to="/spots/new" className="createNew" style={{ textDecoration: 'none', color: 'white' }}>Create a new Spot</Link>
+            </>
+        )
+    }
     return (
         <>
             <h1>Manage Your Spots</h1>
