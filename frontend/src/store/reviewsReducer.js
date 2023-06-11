@@ -35,7 +35,7 @@ export const fetchReviews =(spotId)=> async (dispatch)=> {
     const res = await fetch(`/api/spots/${spotId}/reviews`);
        if(res.ok){
         const review = await res.json();
-        console.log("wrong fetch", review)
+        // console.log("wrong fetch", review)
         dispatch(loadReviews(review))
        }
 }
@@ -82,7 +82,7 @@ export const createFetchReview = (reviewFormData ,spotId)=> async (dispatch)=> {
 
 // delete review
 export const deleteFetchReview = (reviewId) => async (dispatch)=> {
-    console.log("inside delete fetch", reviewId)
+    // console.log("inside delete fetch", reviewId)
     const res = await csrfFetch(`/api/reviews/${reviewId}`, {
         method:"DELETE"
     });
@@ -98,10 +98,10 @@ const reviewReducer = (state=initialState, action)=> {
     switch (action.type){
         case LOAD_REVIEWS:
             let newState = {}
-            console.log('reviewaction',action)
+            // console.log('reviewaction',action)
             action.payload.Reviews.forEach(review=> {
                 newState[review.id]=review;
-                console.log('newState',newState)
+                // console.log('newState',newState)
                 
             });
             return newState;

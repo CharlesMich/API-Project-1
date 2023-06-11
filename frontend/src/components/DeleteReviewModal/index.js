@@ -13,7 +13,7 @@ function DeleteReviewModal({reviewId}){
     const dispatch = useDispatch();
     const {closeModal} = useModal();
 
-    console.log(reviewId)
+    // console.log(reviewId)
     
     
     const handleSubmit = (e) => {

@@ -61,7 +61,7 @@ function CreateReviewModal(spot) {
 
 
     let newReview = await  dispatch(createFetchReview(reviewFormData, spotId))
-    console.log(newReview)
+    // console.log(newReview)
          if(newReview) closeModal()
     };
 
@@ -71,8 +71,8 @@ function CreateReviewModal(spot) {
 const onChange = (number) => {
     setStars(parseInt(number));
 };
-console.log(stars)
-console.log(errors)
+// console.log(stars)
+// console.log(errors)
 return (
     <div className="addReviewContainer" style={{ width: "300px", height: " 250px" }}>
 

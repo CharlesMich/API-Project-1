@@ -27,10 +27,10 @@ export const addPics = (picsArray, spotId) => async (dispatch) => {
   
   
       if (res.ok) {
-        console.log("response from fetch", res)
+        // console.log("response from fetch", res)
         const pics = await res.json();
         dispatch(addImages(pics));
-        console.log(pics)
+        // console.log(pics)
       }
     }
   };

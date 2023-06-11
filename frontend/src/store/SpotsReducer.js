@@ -73,7 +73,7 @@ export const fetchSpots = () => async (dispatch) => {
 
     if (response.ok) {
         const allspots = await response.json();
-        console.log("allspots inside fetch", allspots)
+        // console.log("allspots inside fetch", allspots)
         dispatch(loadSpots(allspots));
     } 
 }
@@ -96,7 +96,7 @@ export const createSpot = (createSpotForm) => async (dispatch) => {
 
 // DELETE SPOT
 export const deleteFetchSpot=(spotId)=> async (dispatch)=> {
-console.log("inside fetch", spotId)
+// console.log("inside fetch", spotId)
     const res = await csrfFetch(`/api/spots/${spotId}`, {
         method:"DELETE"
     });
@@ -112,7 +112,7 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
     
     if (res.ok) {
         const spot = await res.json();
-        console.log("inside fetch", spot)
+        
         dispatch(loadDetails(spot))
         
     }
@@ -120,7 +120,7 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
 
 // UPDATE SPOT
 export const updateSpot =(updateSpotForm, spotId)=> async (dispatch) => {
-    console.log(updateSpotForm)
+   
     const res = await csrfFetch(`/api/spots/${spotId}`, {
         method: "PUT",
         headers: {
@@ -169,7 +169,7 @@ const spotsReducer = (state = initialState, action) => {
         
         
         case LOAD_DETAIL:
-            console.log("spot detail, action in reducer",action.payload)
+           
             return {...state, [action.payload.id]:action.payload}
          
            
@@ -192,7 +192,7 @@ const spotsReducer = (state = initialState, action) => {
 
         case UPDATE_SPOT:
             const  editState = {...state, [action.spot.id]: action.spot}
-            console.log('editedstate', editState)
+           
             return editState
            
         default: return state;

@@ -18,7 +18,7 @@ function SpotsIndex() {
   
     const allSpots = Object.values(spots)
 
-    console.log("all spots array", allSpots)
+    // console.log("all spots array", allSpots)
 
     useEffect(() => {
         dispatch(fetchSpots());

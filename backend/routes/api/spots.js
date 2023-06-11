@@ -462,7 +462,7 @@ router.get('/:spotId', async (req, res, next) => {
   
    
   
-    console.log(newSpot)
+    // console.log(newSpot)
     res.json(newSpot)
   
   })
@@ -690,9 +690,9 @@ router.get('/', async (req, res, next) => {
 router.post('/:spotId/images1', requireAuth, async (req, res)=>{
     const { url, preview } = req.body;
     const spotId = req.params.spotId;
-    console.log(spotId)
-    console.log(req.body)
-    console.log("what type of data", typeof spotId)
+    // console.log(spotId)
+    // console.log(req.body)
+    // console.log("what type of data", typeof spotId)
     const newImage = await SpotImage.create({
         spotId,
         url,
@@ -864,7 +864,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
 })
 
 router.use((err, req, res, next) => {
-    console.log(err);
+    // console.log(err);
     res.status(err.status || 500)
     res.send({
       error: err.message,

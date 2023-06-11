@@ -31,7 +31,7 @@ function SpotDetails() {
 
 
     const reviews = useSelector(state => state.reviews)
-    console.log('reviews inside selector', Object.values(reviews))
+    // console.log('reviews inside selector', Object.values(reviews))
 
     useEffect(() => {
         dispatch(fetchReviews(spotId));

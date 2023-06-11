@@ -14,7 +14,7 @@ function ManageSpots() {
 
     const spots = useSelector((state) => state.spots);
        
-    console.log("manage spots", spots)
+    // console.log("manage spots", spots)
 
     useEffect(() => {
         dispatch(fetchManageSpots())
