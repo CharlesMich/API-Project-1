@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
      SpotImage.belongsTo(
       models.Spot,
       {foreignKey: 'spotId', 
-       onDelete: 'CASCADE' }
+       onDelete: 'CASCADE',
+      hooks: true }
      )
     }
   }
