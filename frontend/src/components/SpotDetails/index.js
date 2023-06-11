@@ -131,7 +131,7 @@ function SpotDetails() {
                         <div className="abc">${spot.price} night</div>
                         <div className="abc">
                             <span><i class="fa-solid fa-star"></i></span>
-                            {/* <span>{spot.avgStarRating && spot.avgStarRating.toFixed(1)}</span> */}
+                            <span>{spot.avgStarRating?spot.avgStarRating.toFixed(1):null}</span>
                             <span > ·</span>
                         </div>
                        {spot.numReviews === 1?<div className="abc">{spot.numReviews} Review</div>:<div className="abc">{spot.numReviews} Reviews</div>} 
