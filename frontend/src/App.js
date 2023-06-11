@@ -9,6 +9,9 @@ import SpotsIndex from "./components/spots/spots";
 import SpotDetails from "./components/SpotDetails";
 import CreateSpot from "./components/CreateSpot";
 import ManageSpots from "./components/ManageSpots";
+import UpdateSpot from "./components/UpdateSpot";
+import ManageReviews from "./components/ManageReviews";
+import CreateReviewModal from "./components/CreateReviewModal";
 
 
 function App() {
@@ -25,9 +28,12 @@ function App() {
     {isLoaded && (
       <Switch>
          <Route exact path="/"><SpotsIndex/></Route>
+       
          <Route exact path="/spots/new"><CreateSpot/></Route>
          <Route path="/spots/current"><ManageSpots/></Route>
          <Route exact path="/spots/:spotId"><SpotDetails/></Route>
+         <Route exact path="/spots/:spotId/edit"><UpdateSpot/></Route>
+        
       </Switch>
     )}
   </>

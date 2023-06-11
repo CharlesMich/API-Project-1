@@ -39,9 +39,9 @@ textarea{
 .spotbutton{
     background-color: rgb(230, 3, 60);
     color: white;
-    font-size: 8px;
+    font-size: 15px;
     width: 200px;
-    border: none;
+    border: 1px solid black;
     border-radius: 5px;
   
 }

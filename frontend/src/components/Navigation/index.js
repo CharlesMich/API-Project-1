@@ -36,12 +36,12 @@ function Navigation({ isLoaded }) {
   return (
     <div className = "topbar">
       <div className = "logotitle">
-    <i className ="fa-solid fa-seedling"/>
-    <span className='title'><NavLink exact to="/"  style={{ textDecoration: 'none', color: 'inherit' }}>YourBnB</NavLink></span>
+    <Link to ="/"><img className = "logo" src = "https://myaaprojects.s3.us-east-2.amazonaws.com/yourbnbfav.png" alt=""/></Link>
+    <span className='title'><NavLink exact to="/"  style={{ textDecoration: 'none', color: 'rgb(168 42 100)' }}>YourBnB</NavLink></span>
     </div>
     <div className = 'menu-right'>
 
-    {sessionUser ? <Link to="/spots/new" style={{ textDecoration: 'none', color: 'inherit'}}>Create New Spot</Link> : <></>}  
+    {sessionUser ? <Link to="/spots/new" className="" style={{ textDecoration: 'none', color: 'rgb(6 45 70)'}}>Create New Spot</Link> : <></>}  
     
       {isLoaded && <ProfileButton user={sessionUser}/>}
      

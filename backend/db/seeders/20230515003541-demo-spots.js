@@ -21,7 +21,7 @@ module.exports = {
         lat: 12.345678,
         lng: 122.345678,
         name: 'Beach Resort',
-        description: 'beautiful two bedroom house',
+        description: 'The Silo house is a unique place to stay with amazing Medina River access!!! See pics!! We took an old grain silo and rebuilt it with an additional structure holding a bedroom and bathroom up and downstairs with 20 ft ceilings at the entrance. The silo has a small living room and kitchen downstairs and a loft upstairs. It has loads of charm and can sleep plenty of your family and friends. No kidding--We had a wedding in a hurricane here- thats how cool it is-- come and make your memories!',
         price: 64.0
       },
 
@@ -33,7 +33,7 @@ module.exports = {
         lat: 24.657465,
         lng: 98.465536,
         name: 'Dream Home',
-        description: 'Spacious and elegant',
+        description: 'The Silo house is a unique place to stay with amazing Medina River access!!! See pics!! We took an old grain silo and rebuilt it with an additional structure holding a bedroom and bathroom up and downstairs with 20 ft ceilings at the entrance. The silo has a small living room and kitchen downstairs and a loft upstairs. It has loads of charm and can sleep plenty of your family and friends. No kidding--We had a wedding in a hurricane here- thats how cool it is-- come and make your memories!',
         price: 99.0
       },
 
@@ -45,7 +45,7 @@ module.exports = {
         lat: 13.322443,
         lng: 78.866554,
         name: 'Ocean and sea view',
-        description: 'clean and quiet',
+        description: 'The Silo house is a unique place to stay with amazing Medina River access!!! See pics!! We took an old grain silo and rebuilt it with an additional structure holding a bedroom and bathroom up and downstairs with 20 ft ceilings at the entrance. The silo has a small living room and kitchen downstairs and a loft upstairs. It has loads of charm and can sleep plenty of your family and friends. No kidding--We had a wedding in a hurricane here- thats how cool it is-- come and make your memories!',
         price: 89.0
       },
       {
@@ -56,7 +56,7 @@ module.exports = {
         lat: 13.322443,
         lng: 48.866554,
         name: 'Bright and Sunny',
-        description: 'clean and quiet',
+        description: 'The Silo house is a unique place to stay with amazing Medina River access!!! See pics!! We took an old grain silo and rebuilt it with an additional structure holding a bedroom and bathroom up and downstairs with 20 ft ceilings at the entrance. The silo has a small living room and kitchen downstairs and a loft upstairs. It has loads of charm and can sleep plenty of your family and friends. No kidding--We had a wedding in a hurricane here- thats how cool it is-- come and make your memories!',
         price: 79.0
       },
       {
@@ -67,7 +67,7 @@ module.exports = {
         lat: 13.322443,
         lng: 143.866554,
         name: 'Best in Town',
-        description: 'clean and quiet',
+        description: 'The Silo house is a unique place to stay with amazing Medina River access!!! See pics!! We took an old grain silo and rebuilt it with an additional structure holding a bedroom and bathroom up and downstairs with 20 ft ceilings at the entrance. The silo has a small living room and kitchen downstairs and a loft upstairs. It has loads of charm and can sleep plenty of your family and friends. No kidding--We had a wedding in a hurricane here- thats how cool it is-- come and make your memories!',
         price: 129.0
       },
       {
@@ -78,7 +78,7 @@ module.exports = {
         lat: 13.322443,
         lng: 28.866554,
         name: 'Historic',
-        description: 'clean and quiet',
+        description: 'The Silo house is a unique place to stay with amazing Medina River access!!! See pics!! We took an old grain silo and rebuilt it with an additional structure holding a bedroom and bathroom up and downstairs with 20 ft ceilings at the entrance. The silo has a small living room and kitchen downstairs and a loft upstairs. It has loads of charm and can sleep plenty of your family and friends. No kidding--We had a wedding in a hurricane here- thats how cool it is-- come and make your memories!',
         price: 49.0
       },
 

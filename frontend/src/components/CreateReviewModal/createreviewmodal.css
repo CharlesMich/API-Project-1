@@ -1,0 +1,22 @@
+.rating-input .filled {
+    color: rgb(168 42 100);
+  }
+  
+  .rating-input .empty {
+    color: rgb(132, 132, 131);
+  
+  }
+  .rating-input{
+    display: flex;
+  }
+ 
+  .addReviewContainer {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+  
+    height: fit-content;
+    align-items: center;
+  }
+
+ 

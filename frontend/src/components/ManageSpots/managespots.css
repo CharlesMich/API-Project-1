@@ -1,13 +1,12 @@
-.container{
-    display: flex;
-    flex-direction: row;
-    padding: 30px 30px 30px 30px;
-}
+
+
+
 
 .map{
     display: flex;
     flex-direction:column;
-    justify-content: start;
+    justify-content: center;
+    width:250px
 }
 
 .cityState {
@@ -19,16 +18,17 @@
 h1{
     font-size: 20px;
     padding: 30px 30px 10px 30px;
+    display: block;
 }
 
 .createNew {
+    width: 150px;
     font-size: 15px;
     margin-left: 30px;
-    background-color: black;
     padding: 4px; 
-   
+   text-align: center;
     border-radius: 5px;
-   
+   margin-bottom: 50px;
    
 }
 .update{
@@ -47,7 +47,25 @@ h1{
     text-align: center;
 }
 
-img{
-    box-shadow: 3px;
+.manageImg{
+    height: 250px;
+    width: 250px;
 }
 
+.imgclass{
+    width: 250px
+}
+
+img{
+    /* box-shadow: 3px; */
+    height:100%;
+    width:100%;
+    
+}
+
+.outerDiv{
+    width: 300px;
+    display: inline-block;
+   margin-left: 30px;
+   margin-top: 50px
+}

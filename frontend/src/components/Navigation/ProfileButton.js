@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
@@ -6,9 +7,10 @@ import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import DemoUser from "./DemoUser";
-import ManageSpots from "../ManageSpots";
+// import ManageSpots from "../ManageSpots";
 
 function ProfileButton({ user }) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -38,6 +40,7 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     closeMenu();
+    history.push(`/`);
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -51,9 +54,9 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>Hello, {user.username}</li>
-            <li>{user.email}</li>
-            <li><Link to ="/spots/current">Manage Spots</Link></li>
+            <li style={{fontSize:"12px"}}>Hello, {user.username}</li>
+            <li style={{fontSize:"12px", borderBottom: "1px solid black", paddingBottom:"10px"}}>{user.email}</li>
+            <li><Link to ="/spots/current" style={{ textDecoration: 'none', color: 'inherit'}}>Manage Spots</Link></li>
             <li className="abc">
               
               <button onClick={logout}>Log Out</button>
@@ -77,7 +80,7 @@ function ProfileButton({ user }) {
             </li >
             <li className = 'abc'>
               
-            <DemoUser onButtonClick={closeMenu}/> </li>
+            <DemoUser onClick={closeMenu}/> </li>
           </>
         )}
       </ul>

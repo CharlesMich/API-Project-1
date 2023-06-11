@@ -35,6 +35,7 @@ function LoginFormModal() {
       
           <input
             type="text" placeholder="Username"
+            style={{width:"200px"}}
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
@@ -46,6 +47,7 @@ function LoginFormModal() {
         
           <input
             type="password" placeholder="Password"
+            style={{width:"200px", }}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -53,7 +55,7 @@ function LoginFormModal() {
         </label>
         </div>
         {errors.credential && <p>{errors.credential}</p>}
-        <button className= "loginButton" type="submit">Continue</button>
+        <button className= "loginButton" style={{width:"200px"}} type="submit">Continue</button>
       </form>
       </div>
     

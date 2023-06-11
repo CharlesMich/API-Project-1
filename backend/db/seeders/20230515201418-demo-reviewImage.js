@@ -12,41 +12,24 @@ module.exports = {
   async up (queryInterface, Sequelize) {
 
      options.tableName = 'ReviewImages';
-await queryInterface.bulkInsert(options, [
-
-  {
-    reviewId:1,
-    url:'img1.url'
-  },
-  {
-    reviewId:2,
-    url:'img2.url'
-  },
-  {
-    reviewId:3,
-    url:'img3.url'
-  },
-  {
-    reviewId:4,
-    url:'img4.url'
-  },
-  {
-    reviewId:5,
-    url:'img5.url'
-  },
-  {
-    reviewId:5,
-    url:'img6.url'
-  }
-   
-], {});
+await queryInterface.bulkInsert(options, 
+ 
+  [
+    {
+      reviewId: 1,
+      url: "www.picture1.com",
+    }
+  ],
+{});
 
   },
   async down (queryInterface, Sequelize) {
 
      options.tableName = 'ReviewImages';
     // const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, null, {});
+    return queryInterface.bulkDelete(options, 
+     null,
+     {});
     /**
      * Add commands to revert seed here.
      *

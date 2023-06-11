@@ -51,6 +51,7 @@ function SignupFormModal() {
         
           <input
             type="text" placeholder="Email"
+            style={{marginRight:"15px"}}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -61,6 +62,7 @@ function SignupFormModal() {
          
           <input
             type="text" placeholder="Username"
+            style={{marginRight:"15px"}}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -74,6 +76,7 @@ function SignupFormModal() {
          
           <input
             type="text" placeholder="First Name"
+            style={{marginRight:"15px"}}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
@@ -84,6 +87,7 @@ function SignupFormModal() {
         
           <input
             type="text" placeholder="Last Name"
+            style={{marginRight:"15px"}}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
@@ -96,6 +100,7 @@ function SignupFormModal() {
         
           <input
             type="password" placeholder="Password"
+            style={{marginRight:"15px"}}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -106,6 +111,7 @@ function SignupFormModal() {
          
           <input
             type="password" placeholder="Confirm Password"
+            style={{marginRight:"15px"}}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -118,7 +124,11 @@ function SignupFormModal() {
         )}
          </div>
         <div id="wrapper">
-        <button className="loginButton" type="submit">Sign Up</button>
+        <button 
+        // disabled={
+        //   errors.length === 0 && confirmPassword === password ? false : true
+        // }
+        className="loginButton" type="submit">Sign Up</button>
         </div>
       </form>
       </div>
