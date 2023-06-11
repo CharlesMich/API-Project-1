@@ -17,22 +17,6 @@ await queryInterface.bulkInsert(options, [
     url:'https://myaaprojects.s3.us-east-2.amazonaws.com/012.jpg',
     preview: true
   },
-  {spotId:1,
-    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/0420_housecabbagetownsale_oneuseonly.jpg',
-    preview: false
-  },
-  {spotId:1,
-    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/053b9bc2-65d8-47b4-b713-b6ac9ff11b5a.jpeg',
-    preview: false
-  },
-  {spotId:1,
-    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/spot1img1.jpg',
-    preview: false
-  },
-  {spotId:1,
-    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/spot1img1.jpg',
-    preview: false
-  },
   {spotId:2,
     url:'https://myaaprojects.s3.us-east-2.amazonaws.com/1200px-Nordisches_Einfamilienhaus.jpg',
     preview: true
