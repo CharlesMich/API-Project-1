@@ -13,16 +13,16 @@ import DeleteReviewModal from '../DeleteReviewModal';
 
 function SpotDetails() {
     const { spotId } = useParams();
-   
+
     const spot = useSelector((state) => state.spots[spotId]
     );
 
 
     const sessionUser = useSelector((state) => state.session.user);
-   
-    
-  
-  
+
+
+
+
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -44,16 +44,16 @@ function SpotDetails() {
 
     if (!reviews) return null;
 
-    if(!sessionUser) return null;
+    if (!sessionUser) return null;
 
     const reviewArr = Object.values(reviews);
 
-    reviewArr.sort((a,b)=> {
+    reviewArr.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
     })
     // check if user is the owner of the property;
     let oWner;
-    spot.ownerId === sessionUser.id? oWner= true: oWner=false;
+    spot.ownerId === sessionUser.id ? oWner = true : oWner = false;
 
     //  check if user is signed in;
 
@@ -65,17 +65,17 @@ function SpotDetails() {
     // check if user has no reviews
     let userNoReview = true;
 
-  if (reviewArr.length > 0) {
-    reviewArr.forEach(review => {
-      if (review.userId === sessionUser.id) userNoReview = false;
-    });
-  }
+    if (reviewArr.length > 0) {
+        reviewArr.forEach(review => {
+            if (review.userId === sessionUser.id) userNoReview = false;
+        });
+    }
 
 
 
 
 
-    
+
 
     // console.log(reviewArr)
 
@@ -88,15 +88,15 @@ function SpotDetails() {
     //   let value = ele.createdAt.split('T')
     //   ele.createdAt=value
     // })
-    function utcToMonYear(date){
+    function utcToMonYear(date) {
         const month = date.split('T')[0].split('-')[1];
         const year = date.split('T')[0].split('-')[0];
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const monthText = months[parseInt(month)];
-        return (monthText +" " + year)
-      }
+        return (monthText + " " + year)
+    }
 
-      
+
 
     return (
 
@@ -122,7 +122,7 @@ function SpotDetails() {
                 <div className="middleLeft">
                     {/* <div className="description"> */}
                     <div className="secondTitle">Hosted by {spot.User.firstName} {spot.User.lastName}</div>
-                    <div className="descriptText"><p style={{ color: "rgb(6 45 70)", fontSize:"12px" }}>{spot.description}!</p></div>
+                    <div className="descriptText"><p style={{ color: "rgb(6 45 70)", fontSize: "12px" }}>{spot.description}!</p></div>
                     {/* </div> */}
                 </div>
 
@@ -134,45 +134,45 @@ function SpotDetails() {
                             <span>{spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : null}</span>
                             <span > ·</span>
                         </div>
-                       {spot.numReviews === 1?<div className="abc">{spot.numReviews} Review</div>:<div className="abc">{spot.numReviews} Reviews</div>} 
+                        {spot.numReviews === 1 ? <div className="abc">{spot.numReviews} Review</div> : <div className="abc">{spot.numReviews} Reviews</div>}
                     </div>
-                    <div><button className='reserve' onClick={() => alert('Feature coming soon')} style={{textAlign:"center"}}>Reserve</button></div>
+                    <div><button className='reserve' onClick={() => alert('Feature coming soon')} style={{ textAlign: "center" }}>Reserve</button></div>
                 </div>
             </div>
 
-            
-
-                <div className="lower">
-
-                    <span className="lower-top"><i class="fa-solid fa-star"></i></span>
-                    <span className="lower-top">{spot.avgStarRating && Number(spot.avgStarRating).toFixed(1)}</span>
-                    <span className="lower-top">{spot.numReviews ? `${spot.numReviews} reviews` : "New"}</span>
-                </div>
-
-        
-                <span>{sessionUser && oWner ===false && reviewArr.length ===0 ? <div><OpenModalButton buttonText="Be the first to post a Review" className="postReview" modalComponent={<CreateReviewModal spot={spotId} />} /></div>:null}</span>
-                <span>{sessionUser && oWner ===false && reviewArr.length > 0 && userNoReview? <div  ><OpenModalButton buttonText="Post your Review" className="postReview" modalComponent={<CreateReviewModal spot={spotId} />} /></div> : null}</span>
-
-                <div className="reviewMap">{reviewArr && reviewArr.map(review => (
-                    <>
-
-                        <div className="reviewName">{review.User? review.User.firstName: null}</div>
-                        <div className="reviewDate">{utcToMonYear(review.createdAt)}</div>
-                     
-                        <div className="reviewReview">{review.review}</div>
-                        <div style={{height:"20px"}}></div>
-                        <div className = "deleteReview">{sessionUser && sessionUser.id === review.userId ? <div><OpenModalButton buttonText="Delete"  modalComponent={<DeleteReviewModal reviewId={review.id} />} /></div> : null}</div>
 
 
-                    </>
+            <div className="lower">
 
-                )
+                <span className="lower-top"><i class="fa-solid fa-star"></i></span>
+                <span className="lower-top">{spot.avgStarRating && Number(spot.avgStarRating).toFixed(1)}</span>
+                <span className="lower-top">{spot.numReviews ? `${spot.numReviews} reviews` : "New"}</span>
+            </div>
 
-                )}</div>
-            </div >
 
+            <span>{sessionUser && oWner === false && reviewArr.length === 0 ? <div><OpenModalButton buttonText="Be the first to post a Review" className="postReview" modalComponent={<CreateReviewModal spot={spotId} />} /></div> : null}</span>
+            <span>{sessionUser && oWner === false && reviewArr.length > 0 && userNoReview ? <div  ><OpenModalButton buttonText="Post your Review" className="postReview" modalComponent={<CreateReviewModal spot={spotId} />} /></div> : null}</span>
+
+            <div className="reviewMap">{reviewArr && reviewArr.map(review => (
+                <>
+
+                    <div className="reviewName">{review.User ? review.User.firstName : null}</div>
+                    <div className="reviewDate">{utcToMonYear(review.createdAt)}</div>
+
+                    <div className="reviewReview">{review.review}</div>
+                    <div style={{ height: "20px" }}></div>
+                    <div className="deleteReview">{sessionUser && sessionUser.id === review.userId ? <div><OpenModalButton buttonText="Delete" modalComponent={<DeleteReviewModal reviewId={review.id} />} /></div> : null}</div>
+
+
+                </>
 
             )
+
+            )}</div>
+        </div >
+
+
+    )
 }
 
-            export default SpotDetails
+export default SpotDetails
