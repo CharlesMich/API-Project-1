@@ -1,9 +1,12 @@
 .outer-container{
-  
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
     padding-top: 40px;
-    padding-left: 150px;
-    padding-right: 150px;
-    justify-content: center;
+    /* padding-left: 150px;
+    padding-right: 150px; */
+    /* justify-content: center; */
+ margin: 0 auto;
 
   
 }
@@ -83,8 +86,8 @@
 }
 
 .previewImg img{
-  max-width: 900px;
-   max-height:600px;
+  max-width: 500px;
+   max-height:500px;
 
 }
 
@@ -95,8 +98,8 @@
 }
 .imgGrid img{
    
-    max-width: 400px;
-    max-height: 300px;
+    max-width: 250px;
+    max-height: 250px;
     border: 1px solid white;
    
     
