@@ -44,7 +44,7 @@ function SpotDetails() {
 
     if (!reviews) return null;
 
-    if (!sessionUser) return null;
+    // if (!sessionUser) return null;
 
     const reviewArr = Object.values(reviews);
 
@@ -53,7 +53,7 @@ function SpotDetails() {
     })
     // check if user is the owner of the property;
     let oWner;
-    spot.ownerId === sessionUser.id ? oWner = true : oWner = false;
+    sessionUser && spot.ownerId === sessionUser.id ? oWner = true : oWner = false;
 
     //  check if user is signed in;
 
@@ -67,7 +67,7 @@ function SpotDetails() {
 
     if (reviewArr.length > 0) {
         reviewArr.forEach(review => {
-            if (review.userId === sessionUser.id) userNoReview = false;
+            if (sessionUser && review.userId === sessionUser.id) userNoReview = false;
         });
     }
 
@@ -96,11 +96,12 @@ function SpotDetails() {
         return (monthText + " " + year)
     }
 
-
+    // console.log(spot.name)
 
     return (
 
         <div className='outer-container'>
+           
             <div className="pagetitle">{spot.name}</div>
             <div className="pagesubtitle">{spot.city},{spot.state}, {spot.country}</div>
             {/* <div>Hosted by {spot.User.firstName} {spot.User.lastName}</div>

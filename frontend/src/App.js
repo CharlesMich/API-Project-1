@@ -11,7 +11,7 @@ import CreateSpot from "./components/CreateSpot";
 import ManageSpots from "./components/ManageSpots";
 import UpdateSpot from "./components/UpdateSpot";
 import ManageReviews from "./components/ManageReviews";
-import CreateReviewModal from "./components/CreateReviewModal";
+// import CreateReviewModal from "./components/CreateReviewModal";
 
 
 function App() {
