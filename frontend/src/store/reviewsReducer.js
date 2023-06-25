@@ -41,29 +41,29 @@ export const fetchReviews =(spotId)=> async (dispatch)=> {
 }
 
 // get all reviews of a user (manage reviews)
-// export const fetchManageReviews =()=> async (dispatch) => {
-//     const res = await csrfFetch('/api/reviews/current');
-//     if(res.ok){
-//         const reviews = await res.json();
-//         console.log("inside review fetch", reviews);
-//         dispatch(loadReviews(reviews));
-//     }
-// }
+export const fetchManageReviews =()=> async (dispatch) => {
+    const res = await csrfFetch('/api/reviews/current');
+    if(res.ok){
+        const reviews = await res.json();
+        console.log("inside review fetch", reviews);
+        dispatch(loadReviews(reviews));
+    }
+}
 
 // update reviews
-// export const updateFetchReview =(updateReviewForm, reviewId)=> async (dispatch)=> {
-//     const res = await csrfFetch(`api/reviews/${reviewId}`, {
-//         method:"PUT",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body:JSON.stringify(updateReviewForm)
-//     });
-//     if(res.ok){
-//         const update = await res.json();
-//         dispatch(updateReviews(update))
-//     }
-// }
+export const updateFetchReview =(updateReviewForm, reviewId)=> async (dispatch)=> {
+    const res = await csrfFetch(`api/reviews/${reviewId}`, {
+        method:"PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body:JSON.stringify(updateReviewForm)
+    });
+    if(res.ok){
+        const update = await res.json();
+        dispatch(updateReviews(update))
+    }
+}
 
 // create review
 export const createFetchReview = (reviewFormData ,spotId)=> async (dispatch)=> {
@@ -107,15 +107,15 @@ const reviewReducer = (state=initialState, action)=> {
             return newState;
 
         case ADD_REVIEW:
-
-            return {...state, [action.payload.id]: action.payload} 
+            console.log(state)
+          return {...state, [action.payload.id]: action.payload} 
             // const newReview = { ...action.payload };
             // let spot = state.spot
             // spot[newReview.id] = newReview     
 
-        // case UPDATE_REVIEW:
-        //     const editState = {...state, [action.review.id]: action.review}  
-        //     return editState;
+        case UPDATE_REVIEW:
+            const editState = {...state, [action.review.id]: action.review}  
+            return editState;
 
         case DELETE_REVIEW:
             const reviewState = {...state};
