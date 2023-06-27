@@ -23,7 +23,7 @@ module.exports = {
         //   // key: "id"
 
         // },
-        onDelete: 'CASCADE'
+        // onDelete: 'CASCADE'
 
       },
       url: {
