@@ -26,11 +26,11 @@ await queryInterface.bulkInsert(options, [
     preview: true
   },
   {spotId:4,
-    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/40x60-4BHK-bungalow-design-bangalorearchitects-bedroom-design-1024x735.jpg',
+    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/df4a2993-381b-4a94-8ec9-d0533fb50180.jpg',
     preview: true
   },
   {spotId:5,
-    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/df4a2993-381b-4a94-8ec9-d0533fb50180.jpg',
+    url:'https://myaaprojects.s3.us-east-2.amazonaws.com/40x60-4BHK-bungalow-design-bangalorearchitects-bedroom-design-1024x735.jpg',
     preview: true
   },
   {spotId:6,
