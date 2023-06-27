@@ -69,7 +69,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false
     },
     description: {
-      type:DataTypes.STRING(5000),
+      type:DataTypes.STRING,
       allowNull:false
     },
     price: {
