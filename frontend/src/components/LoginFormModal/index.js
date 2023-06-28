@@ -39,7 +39,7 @@ function LoginFormModal() {
     <div class = "container">
       <h1>Welcome to Yourbnb</h1>
       <h2>Log In</h2>
-      <form onSubmit={handleSubmit}>
+      <form className="logform" onSubmit={handleSubmit}>
         <div>
         <label>
       
