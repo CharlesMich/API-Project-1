@@ -191,8 +191,8 @@ const spotsReducer = (state = initialState, action) => {
     
 
         case UPDATE_SPOT:
-            const  editState = {...state, [action.spot.id]: action.spot}
-           
+            // const  editState = {...state, [action.spot.id]: action.spot}
+            const  editState= { ...state }
             return editState
            
         default: return state;

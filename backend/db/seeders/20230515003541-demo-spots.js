@@ -73,13 +73,35 @@ module.exports = {
       {
         ownerId: 6,
         address:'3479 SweetOaks Lane',
-        city: 'Oklohoma City', state:'Oklahoma',
+        city: 'Atlanta', state:'Georgia',
         country:'USA', 
         lat: 13.322443,
         lng: 28.866554,
         name: 'Historic',
         description: 'The Silo house is a unique place to stay with amazing Medina River access!!! See pics!! We took an old grain silo and rebuilt it with an additional structure holding a bedroom and bathroom up and downstairs with 20 ft ceilings at the entrance. The silo has a small living room and kitchen downstairs and a loft upstairs. It has loads of charm and can sleep plenty of your family and friends. No kidding--We had a wedding in a hurricane here- thats how cool it is-- come and make your memories!',
-        price: 49.0
+        price: 79.0
+      },
+      {
+        ownerId: 6,
+        address:'3479 SweetOaks Lane',
+        city: 'Denver', state:'Colorado',
+        country:'USA', 
+        lat: 13.322443,
+        lng: 28.866554,
+        name: 'Historic',
+        description: 'The Silo house is a unique place to stay with amazing Medina River access!!! See pics!! We took an old grain silo and rebuilt it with an additional structure holding a bedroom and bathroom up and downstairs with 20 ft ceilings at the entrance. The silo has a small living room and kitchen downstairs and a loft upstairs. It has loads of charm and can sleep plenty of your family and friends. No kidding--We had a wedding in a hurricane here- thats how cool it is-- come and make your memories!',
+        price: 89.0
+      },
+      {
+        ownerId: 6,
+        address:'3479 SweetOaks Lane',
+        city: 'Detroit', state:'Michigan',
+        country:'USA', 
+        lat: 13.322443,
+        lng: 28.866554,
+        name: 'Historic',
+        description: 'The Silo house is a unique place to stay with amazing Medina River access!!! See pics!! We took an old grain silo and rebuilt it with an additional structure holding a bedroom and bathroom up and downstairs with 20 ft ceilings at the entrance. The silo has a small living room and kitchen downstairs and a loft upstairs. It has loads of charm and can sleep plenty of your family and friends. No kidding--We had a wedding in a hurricane here- thats how cool it is-- come and make your memories!',
+        price: 99.0
       },
 
     ], {});
