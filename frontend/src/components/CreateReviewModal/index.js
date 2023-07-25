@@ -9,6 +9,7 @@ import './createreviewmodal.css';
 import { createFetchReview } from "../../store/reviewsReducer";
 
 
+
 function CreateReviewModal(spot) {
 
 

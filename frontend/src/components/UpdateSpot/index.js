@@ -110,20 +110,8 @@ const dispatch = useDispatch();
        
 
         await dispatch(updateSpot(updateSpotForm, spotId));
-
-
-
-
-
-
-        
-      
-       
         history.push(`/spots/${spotId}`)
           
-
-      
-
     }
     return (
         <div className="spotform-container">

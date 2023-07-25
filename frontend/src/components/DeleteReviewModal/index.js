@@ -1,27 +1,20 @@
-
+import reactRouterDom from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-
 import { useHistory } from 'react-router-dom';
 import "./deleteReviewModal.css"
 import { deleteFetchReview } from "../../store/reviewsReducer";
-import reactRouterDom from "react-router-dom";
+import { fetchSpotReviews } from '../../store/reviewsReducer';
+import { fetchAllReviews } from '../../store/reviewsReducer';
 
-
-
-function DeleteReviewModal({reviewId}){
+function DeleteReviewModal({reviewId, spotId}){
     const dispatch = useDispatch();
     const {closeModal} = useModal();
-
-    // console.log(reviewId)
-    
-    
+  
     const handleSubmit = (e) => {
         e.preventDefault();
-       return dispatch(deleteFetchReview(reviewId))
-       .then(closeModal)        
+       dispatch(deleteFetchReview(reviewId)).then(dispatch(fetchSpotReviews(spotId))).then(dispatch(fetchAllReviews())).then(dispatch(fetchAllReviews())).then(closeModal)        
     }
-
 
     const handleCancel =(e)=> {
         closeModal()

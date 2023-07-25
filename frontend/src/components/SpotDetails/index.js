@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 // import {Link} from 'react-router-dom'
 import { fetchSpotDetails } from '../../store/SpotsReducer';
 import './spotdetail.css'
-import { fetchReviews } from '../../store/reviewsReducer';
+import { fetchSpotReviews } from '../../store/reviewsReducer';
 import OpenModalButton from '../OpenModalButton';
 import CreateReviewModal from '../CreateReviewModal';
 import DeleteReviewModal from '../DeleteReviewModal';
@@ -14,27 +14,18 @@ import DeleteReviewModal from '../DeleteReviewModal';
 function SpotDetails() {
     const { spotId } = useParams();
 
-    const spot = useSelector((state) => state.spots[spotId]
-    );
-
-
+    const spot = useSelector((state) => state.spots.singleSpot);
     const sessionUser = useSelector((state) => state.session.user);
-
-
-
-
+    const reviews = useSelector(state => state.reviews.spotReviews)
 
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchSpotDetails(spotId));
     }, [dispatch, spotId])
 
-
-    const reviews = useSelector(state => state.reviews)
-    // console.log('reviews inside selector', Object.values(reviews))
-
+   
     useEffect(() => {
-        dispatch(fetchReviews(spotId));
+        dispatch(fetchSpotReviews(spotId));
     }, [dispatch, spotId])
 
 
@@ -43,8 +34,6 @@ function SpotDetails() {
     }
 
     if (!reviews) return null;
-
-    // if (!sessionUser) return null;
 
     const reviewArr = Object.values(reviews);
 
@@ -55,13 +44,6 @@ function SpotDetails() {
     let oWner;
     sessionUser && spot.ownerId === sessionUser.id ? oWner = true : oWner = false;
 
-    //  check if user is signed in;
-
-
-    // check if there are no reviews
-
-
-
     // check if user has no reviews
     let userNoReview = true;
 
@@ -71,23 +53,6 @@ function SpotDetails() {
         });
     }
 
-
-
-
-
-
-
-    // console.log(reviewArr)
-
-    // reviewArr.forEach((ele) => {
-    // //     let date = ele.createdAt
-    // //    let dateParsed = Date.parse(date);
-    // //   let dateobj = new Date(dateParsed)
-    // //   let newdate = dateobj.toString()
-    // //   let dateArr = newdate.split(' ')
-    //   let value = ele.createdAt.split('T')
-    //   ele.createdAt=value
-    // })
     function utcToMonYear(date) {
         const month = date.split('T')[0].split('-')[1];
         const year = date.split('T')[0].split('-')[0];
@@ -162,7 +127,7 @@ function SpotDetails() {
 
                     <div className="reviewReview">{review.review}</div>
                     <div style={{ height: "20px" }}></div>
-                    <div className="deleteReview">{sessionUser && sessionUser.id === review.userId ? <div><OpenModalButton buttonText="Delete" modalComponent={<DeleteReviewModal reviewId={review.id} />} /></div> : null}</div>
+                    <div className="deleteReview">{sessionUser && sessionUser.id === review.userId ? <div><OpenModalButton buttonText="Delete" modalComponent={<DeleteReviewModal reviewId={review.id} spotId={spotId} />} /></div> : null}</div>
 
 
                 </>

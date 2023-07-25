@@ -1,0 +1,13 @@
+.update-review-container{
+   width:fit-content;
+  height:fit-content;
+  padding: 20px;
+}
+
+.update-review-button{
+    width: 100%;
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    background-color: pink;
+}

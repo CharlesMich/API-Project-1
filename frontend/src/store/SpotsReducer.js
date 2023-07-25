@@ -1,7 +1,7 @@
 import { csrfFetch } from "./csrf";
 
-const LOAD_SPOTS = 'spots/LOAD_SPOTS';
-const LOAD_DETAIL = 'spots/LOAD_DETAIL';
+const ALL_SPOTS = 'spots/ALL_SPOTS';
+const SINGLE_SPOT = 'spots/SINGLE_SPOT';
 // const USER_SPOTS = 'spots/USER_SPOTS';
 const ADD_SPOT = 'spots/ADD_SPOTS';
 // const ADD_IMAGE = 'spots/ADD_IMAGE'
@@ -10,28 +10,18 @@ const UPDATE_SPOT = "spots/UPDATE_SPOT"
 
 
 // all spots
-const loadSpots = (spots) => ({
-   
-        type: LOAD_SPOTS,
-        spots
+const allSpots = (payload) => ({
+        type: ALL_SPOTS,
+        payload
     
 })
 
 // spot details
-const loadDetails = (payload) => ({
-    
-        type: LOAD_DETAIL,
+const singleSpot = (payload) => ({
+        type: SINGLE_SPOT,
       payload
 
 })
-
-// MANAGE SPOTS
-// const userSpots = (spots) => ({
-   
-//         type: USER_SPOTS,
-//         spots
-    
-// })
 
 // ADD SPOT
 const addSpot = (spot) => ({
@@ -39,42 +29,28 @@ const addSpot = (spot) => ({
     spot
 })
 
-// ADD PICS
 
-// const addImages = (image) => ({
-    
-//         type: ADD_IMAGE,
-//         image
-   
-// })
 // DELETE SPOT
-const deleteSpot = (spotId) => ({
-   
+const deleteSpot = (spotId) => ({  
         type: DELETE_SPOT,
-        spotId
- 
+        spotId 
 })
 
 // UPDATE SPOT
 const editedSpot = (spot)=> ({
-   
         type: UPDATE_SPOT,
         spot
    
 })
-
-
 
 // Thunks
 
 // get all spots
 export const fetchSpots = () => async (dispatch) => {
     const response = await fetch('/api/spots');
-
     if (response.ok) {
-        const allspots = await response.json();
-        // console.log("allspots inside fetch", allspots)
-        dispatch(loadSpots(allspots));
+        const payload = await response.json();
+        dispatch(allSpots(payload));
     } 
 }
 
@@ -105,16 +81,12 @@ export const deleteFetchSpot=(spotId)=> async (dispatch)=> {
    }
 
 }
-// GET SPOT DETAILS
+// GET SINGLESPOT
 export const fetchSpotDetails = (spotId) => async (dispatch) => {
-    
     const res = await fetch(`/api/spots/${spotId}`);
-    
     if (res.ok) {
-        const spot = await res.json();
-        
-        dispatch(loadDetails(spot))
-        
+        const payload = await res.json();
+        dispatch(singleSpot(payload))
     }
 }
 
@@ -145,56 +117,36 @@ export const fetchManageSpots = () => async (dispatch) => {
     if (res.ok) {
         const spots = await res.json();
      
-        dispatch(loadSpots(spots))
+        // dispatch(loadSpots(spots))
 
     }
 }
 
-const initialState = {}
+const initialState = {allSpots:{}, userSpots:{}, singleSpot:{}}
 const spotsReducer = (state = initialState, action) => {
-   
-    
     switch (action.type) {
-       
-        case LOAD_SPOTS:
-            let newState ={}
-            action.spots.Spots.forEach(spot => {
-            newState[spot.id] = spot;
+        case ALL_SPOTS:
+            let allSpots ={}
+            action.payload.Spots.forEach(spot => {
+            allSpots[spot.id] = spot;
             });
-            return newState;
-        
-            
+            return {...state, allSpots};
+         
         case ADD_SPOT:
         return {...state, [action.spot.id]: action.spot}   
         
-        
-        case LOAD_DETAIL:
-           
-            return {...state, [action.payload.id]:action.payload}
+        case SINGLE_SPOT:
+            let singleSpot = action.payload;
+            return {...state, singleSpot}
          
-           
-        // case USER_SPOTS:
-        //     const userSpots = { ...action.spots.Spots}
-        //     console.log(userSpots)
-        //     let userSpotsArr = Object.values(userSpots)
-        //     console.log('array',userSpotsArr)
-        //     let userSpotObj = {}
-        //     userSpotsArr.forEach((spot)=> userSpotObj[spot.id]= spot)
-
-        //     return {...state, userSpots: userSpotObj}
-
         case DELETE_SPOT:
             const spotState = {...state};
             delete spotState[action.spotId];
             return spotState;
 
-    
-
         case UPDATE_SPOT:
-            // const  editState = {...state, [action.spot.id]: action.spot}
             const  editState= { ...state }
             return editState
-           
         default: return state;
 
     }

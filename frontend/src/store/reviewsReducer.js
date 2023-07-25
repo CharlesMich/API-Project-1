@@ -1,14 +1,20 @@
 import { csrfFetch } from "./csrf";
-
-const LOAD_REVIEWS = 'reviews/LOAD_REVIEWS';
+const LOAD_REVIEWS = 'reviews/LOAD_REVIEWS'
+const SPOT_REVIEWS = 'reviews/SPOT_REVIEWS';
 const UPDATE_REVIEW = 'reviews/UPDATE_REVIEWS';
 const ADD_REVIEW = 'reviews/ADD_REVIEW';
 const DELETE_REVIEW = 'reviews/DELETE_REVIEW';
 
 
 // load reviews
-const loadReviews = (payload)=> ({
+const loadReviews = (payload) => ({
     type: LOAD_REVIEWS,
+    payload
+})
+
+
+const spotReviews = (payload)=> ({
+    type: SPOT_REVIEWS,
     payload
 })
 
@@ -22,37 +28,35 @@ const addReview = (payload)=> ({
     payload
 })
 
-const deleteReview = (reviewId) => ({
+const deleteReview = (payload) => ({
     type:DELETE_REVIEW,
-    reviewId
+    payload
 })
 
 
 
 // thunks
 // get all reviews for a spotId
-export const fetchReviews =(spotId)=> async (dispatch)=> {
+export const fetchSpotReviews =(spotId)=> async (dispatch)=> {
     const res = await fetch(`/api/spots/${spotId}/reviews`);
        if(res.ok){
-        const review = await res.json();
-        // console.log("wrong fetch", review)
-        dispatch(loadReviews(review))
+        const payload = await res.json();
+        dispatch(spotReviews(payload))
        }
 }
 
 // get all reviews of a user (manage reviews)
-export const fetchManageReviews =()=> async (dispatch) => {
+export const fetchAllReviews =()=> async (dispatch) => {
     const res = await csrfFetch('/api/reviews/current');
     if(res.ok){
-        const reviews = await res.json();
-        console.log("inside review fetch", reviews);
-        dispatch(loadReviews(reviews));
+        const payload = await res.json();
+        dispatch(loadReviews(payload));
     }
 }
 
 // update reviews
-export const updateFetchReview =(updateReviewForm, reviewId)=> async (dispatch)=> {
-    const res = await csrfFetch(`api/reviews/${reviewId}`, {
+export const updateFetchReview =(updateReviewForm, id)=> async (dispatch)=> {
+    const res = await csrfFetch(`/api/reviews/${id}`, {
         method:"PUT",
         headers: {
             "Content-Type": "application/json",
@@ -60,8 +64,8 @@ export const updateFetchReview =(updateReviewForm, reviewId)=> async (dispatch)=
         body:JSON.stringify(updateReviewForm)
     });
     if(res.ok){
-        const update = await res.json();
-        dispatch(updateReviews(update))
+        const payload = await res.json();
+        dispatch(updateReviews(payload))
     }
 }
 
@@ -93,34 +97,34 @@ export const deleteFetchReview = (reviewId) => async (dispatch)=> {
 
 
 
-const initialState = {};
+const initialState = {spotReviews:{}, allReviews:{}};
 const reviewReducer = (state=initialState, action)=> {
     switch (action.type){
         case LOAD_REVIEWS:
-            let newState = {}
-            // console.log('reviewaction',action)
+            let allReviews = {}
             action.payload.Reviews.forEach(review=> {
-                newState[review.id]=review;
-                // console.log('newState',newState)
-                
+                allReviews[review.id]=review;
             });
-            return newState;
+            return {...state, allReviews};
+
+        case SPOT_REVIEWS:
+            let spotReviews = {}
+            action.payload.Reviews.forEach(review => {
+                spotReviews[review.id] = review;
+            });
+            return {...state, spotReviews}
 
         case ADD_REVIEW:
-            console.log(state)
-          return {...state, [action.payload.id]: action.payload} 
-            // const newReview = { ...action.payload };
-            // let spot = state.spot
-            // spot[newReview.id] = newReview     
+           return { ...state, spotReviews: { ...state.spotReviews, [action.payload.id]: action.payload }}
+          
 
         case UPDATE_REVIEW:
-            const editState = {...state, [action.review.id]: action.review}  
-            return editState;
+            return { ...state, allReviews: { ...state.allReviews, [action.payload.id]: action.payload }}
 
         case DELETE_REVIEW:
-            const reviewState = {...state};
-            delete reviewState[action.reviewId];
-            return reviewState;
+            const reviewState = {...state.spotReviews};
+            delete reviewState[action.payload];
+            return {...state};
 
         default: return state;
     }
