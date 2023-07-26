@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 // import {Link} from 'react-router-dom'
@@ -12,6 +12,7 @@ import {fetchAddBookings} from '../../store/booking'
 
 function SpotDetails() {
     const { spotId } = useParams();
+    const history = useHistory()
 
     const spot = useSelector((state) => state.spots.singleSpot);
     const sessionUser = useSelector((state) => state.session.user);
@@ -25,7 +26,8 @@ function SpotDetails() {
         const errors = {};
         if(!checkin) errors.checkin = "Please enter a checkin date";
         if(!checkout) errors.checkout = "Please enter a checkout date";
-    })
+        setErrors(errors);
+    }, [checkin, checkout])
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -72,23 +74,27 @@ function SpotDetails() {
 
     const handleBooking = async (e) => {
         e.preventDefault();
-        const startDate = new Date(checkin)
-        const endDate = new Date(checkout);
+        let startDate = new Date(checkin)
+        let endDate = new Date(checkout);
+      
         const newBookingForm ={
             spotId,
             startDate,
             endDate
         }
-        return dispatch(fetchAddBookings(newBookingForm, spotId)) 
+        dispatch(fetchAddBookings(newBookingForm, spotId)) 
         .catch(async (res) => {
             const data = await res.json();
             console.log(data)
             if(data && data.error) {
                 setErrors(data.error);
+                console.log(data.error)
             }
         })
+    setCheckin('')
+    setCheckout('')
+    history.push('/booking/current')    
     }
-
     return (
 
         <div className='outer-container'>
@@ -131,7 +137,7 @@ function SpotDetails() {
                     <div>CHECK-IN</div>
                     <input className="spotdetails-date-input" type="date" value={checkin} min={Date()} onChange={(e)=> setCheckin(e.target.value)}></input>
                     <div>CHECK-OUT</div>
-                    <div>{errors}</div>
+                    {/* <div>{errors}</div> */}
                     <input className="spotdetails-date-input" type="date" value={checkout} min={Date()} onChange={(e)=> setCheckout(e.target.value)}></input>
                     <div><button className='reserve' onClick={handleBooking} style={{ textAlign: "center" }}>Reserve</button></div>
                 </div>

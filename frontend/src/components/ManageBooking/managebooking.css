@@ -13,5 +13,20 @@
 }
 .manage-booking-h1{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
 }
+
+.managebooking-dates{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.managebooking-image{
+    width: 100px;
+    border-radius: 10px;
+}
+
+.managebooking-each-booking{
+    border-bottom: 1px solid black;
+}
+

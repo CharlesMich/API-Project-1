@@ -125,11 +125,12 @@ router.get('/current', requireAuth, async (req, res) => {
     spotList.forEach(ele => {
         if(ele.startDate){          
             let start = ele.startDate;
-            ele.startDate = start.toJSON().split("T")[0]
+            console.log(start)
+            // ele.startDate = start.toJSON().split("T")[0]
         }
         if(ele.endDate){
             let end = ele.endDate;
-            ele.endDate = end.toJSON().split("T")[0]
+            // ele.endDate = end.toJSON().split("T")[0]
         }
     })
    

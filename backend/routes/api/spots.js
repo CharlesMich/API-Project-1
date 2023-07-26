@@ -131,7 +131,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
 router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     currentSpot = req.params.spotId;
     currentUser = req.user.id;
-    const { startDate, endDate } = req.body;
+    let { startDate, endDate } = req.body;
+   startDate = startDate.split('T')[0];
+   endDate = endDate.split('T')[0];
     const spotCheck = await Spot.findByPk(currentSpot);
 
     if (!spotCheck) {
