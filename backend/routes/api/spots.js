@@ -128,12 +128,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
 })
 
 // Create a Booking from a Spot based on the Spot's id
-router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     currentSpot = req.params.spotId;
     currentUser = req.user.id;
-
     const { startDate, endDate } = req.body;
-
     const spotCheck = await Spot.findByPk(currentSpot);
 
     if (!spotCheck) {
@@ -141,16 +139,23 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         return res.json({ "message": "Spot couldn't be found" })
     }
 
-
     if (Date.parse(endDate) < Date.parse(startDate)) {
-        res.statusCode = 400;
-        return res.json({ "endDate": "endDate cannot be on or before startDate"
-            
-        })
+
+        const err = new Error('End date cannot be on or before start date');
+        err.status = 400;
+        // err.title = 'Booking failed';
+        // err.errors = { "endDate": "endDate cannot be on or before startDate" };
+        return next(err);
+        // res.statusCode = 400;
+        // return res.json({ "endDate": "endDate cannot be on or before startDate"
+        // })
     }
     else if (spotCheck.ownerId == currentUser) {
-        res.statusCode = 403;
-        return res.json({ "message": "Owner cannot book his own Property" })
+        const err = new Error('Owner cannot book his own Property');
+        err.status = 403;
+        return next(err);
+        // res.statusCode = 403;
+        // return res.json({ "message": "Owner cannot book his own Property" })
     }
 
     const newBooking = await Booking.findAll({
@@ -169,17 +174,19 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         for (let i = 0; i < newBooking.length; i++) {
             // console.log(newBooking[i].startDate)
             if (Date.parse(newBooking[i].startDate) <= Date.parse(startDate) && Date.parse(startDate) <= Date.parse(newBooking[i].endDate) || Date.parse(newBooking[i].startDate) <= Date.parse(endDate) && Date.parse(endDate) <= Date.parse(newBooking[i].endDate)) {
-
-                res.statusCode = 403;
-                return res.json({
-                    "message": "Sorry, this spot is already booked for the specified dates"
-                    ,
-                    "errors": {
-                        "startDate": "Start date conflicts with an existing booking"
-                        ,
-                        "endDate": "End date conflicts with an existing booking"
-                    }
-                })
+                const err = new Error('Sorry, this spot is already booked for the specified dates');
+                err.status = 403;
+                return next(err);
+                // res.statusCode = 403;
+                // return res.json({
+                    // "message": "Sorry, this spot is already booked for the specified dates"
+                    // ,
+                    // "errors": {
+                    //     "startDate": "Start date conflicts with an existing booking"
+                    //     ,
+                    //     "endDate": "End date conflicts with an existing booking"
+                    // }
+                // })
             }
         }
         const confirmBooking = await Booking.create({
@@ -369,10 +376,6 @@ router.get('/:spotId', async (req, res, next) => {
   
   })
   
-  
-
-
-
 
 // Create a Spot
 router.post('/', requireAuth, async (req, res, next) => {
@@ -509,8 +512,6 @@ router.get('/', async (req, res, next) => {
 
 })
 
-
-
 // Add an Image to a Spot based on the Spot's id
 // create an image for a spot
 
@@ -529,7 +530,7 @@ router.get('/', async (req, res, next) => {
 //     res.json(imageRes);
 
 // })
-router.post('/:spotId/images', singleMulterUpload("image"), requireAuth, async (req, res) => {
+router.post('/:spotId/images', singleMulterUpload("url"), requireAuth, async (req, res) => {
     const { preview } = req.body;
     console.log('req.body', req.body, preview)
     const userId = req.user.id;

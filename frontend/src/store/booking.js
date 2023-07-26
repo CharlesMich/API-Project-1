@@ -31,11 +31,13 @@ export const fetchAddBookings = (addBookingForm, spotId) => async (dispatch) => 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(addBookingForm)
     })
-    if(response.ok){
+    // if(response.ok){
         const payload = response.json();
         dispatch(add_booking(payload));
+        console.log('inside fetch', payload)
         return payload;
-    }
+        
+    // }
 }
 
 // Reducers

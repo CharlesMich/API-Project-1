@@ -7,11 +7,8 @@ const addImages = (payload)=> ({
     payload
 })
 
-
 // ADD PICS
 export const addPics = (picsArray, spotId) => async (dispatch) => {
-    // console.log("reached addPhotosToSpot Thunk");
-    // for (let pic of picsArray) {
       const {url, preview} = picsArray;
       const formData = new FormData();
       formData.append("preview", preview);
@@ -24,14 +21,11 @@ export const addPics = (picsArray, spotId) => async (dispatch) => {
         // },
         body: formData
       });
-
       if (res.ok) {
         const payload = await res.json();
         dispatch(addImages(payload));
-        // console.log(pics)
       }
     }
-  // };
 
 const spotImagesReducer = (state = {}, action) => {
 

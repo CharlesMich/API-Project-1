@@ -10,8 +10,6 @@ import CreateReviewModal from '../CreateReviewModal';
 import DeleteReviewModal from '../DeleteReviewModal';
 import {fetchAddBookings} from '../../store/booking'
 
-
-
 function SpotDetails() {
     const { spotId } = useParams();
 
@@ -20,7 +18,14 @@ function SpotDetails() {
     const reviews = useSelector(state => state.reviews.spotReviews);
 
     const [checkin, setCheckin] = useState("");
-    const [checkout, setCheckout] = useState("")
+    const [checkout, setCheckout] = useState("");
+    const [errors, setErrors] = useState("");
+
+    useEffect(()=> {
+        const errors = {};
+        if(!checkin) errors.checkin = "Please enter a checkin date";
+        if(!checkout) errors.checkout = "Please enter a checkout date";
+    })
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -74,8 +79,14 @@ function SpotDetails() {
             startDate,
             endDate
         }
-        dispatch(fetchAddBookings(newBookingForm, spotId))
-
+        return dispatch(fetchAddBookings(newBookingForm, spotId)) 
+        .catch(async (res) => {
+            const data = await res.json();
+            console.log(data)
+            if(data && data.error) {
+                setErrors(data.error);
+            }
+        })
     }
 
     return (
@@ -120,6 +131,7 @@ function SpotDetails() {
                     <div>CHECK-IN</div>
                     <input className="spotdetails-date-input" type="date" value={checkin} min={Date()} onChange={(e)=> setCheckin(e.target.value)}></input>
                     <div>CHECK-OUT</div>
+                    <div>{errors}</div>
                     <input className="spotdetails-date-input" type="date" value={checkout} min={Date()} onChange={(e)=> setCheckout(e.target.value)}></input>
                     <div><button className='reserve' onClick={handleBooking} style={{ textAlign: "center" }}>Reserve</button></div>
                 </div>

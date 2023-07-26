@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {addPics} from '../../store/SpotImagesReducer';
-import {createSpot} from '../../store/SpotsReducer';
+import { addPics } from '../../store/SpotImagesReducer';
+import { createSpot } from '../../store/SpotsReducer';
 import "./createspot.css"
 
 function CreateSpot() {
@@ -39,8 +39,8 @@ function CreateSpot() {
         if (state.length > 25) errors.state = 'State must be 25 characters or less';
         if (lat.length === 0) errors.lat = 'Latitude is required';
         if (lng.length === 0) errors.lng = 'Longitude is required';
-        if (isNaN(lat) || lat <-90 || lat > 90) errors.lat = 'Latitude must be a  number between -90 and 90';
-        if (isNaN(lng) || lng <-180 || lng > 180) errors.lng = 'Longitude must be a  number between -180 and 180';
+        if (isNaN(lat) || lat < -90 || lat > 90) errors.lat = 'Latitude must be a  number between -90 and 90';
+        if (isNaN(lng) || lng < -180 || lng > 180) errors.lng = 'Longitude must be a  number between -180 and 180';
         if (lat.length > 7) errors.lat = 'Latitude cannot be more than 6 digits long including the decimals (eg: 12.1234)'
         if (lng.length > 10) errors.lng = 'Longitude cannot be more than 9 digits long including the decimals (eg: 123.123456)'
         if (description.length < 30) errors.description = 'Description needs a minimum of 30 characters';
@@ -49,8 +49,8 @@ function CreateSpot() {
         if (name.length > 200) errors.name = 'Name cannot be more than 200 characters';
         if (price.length === 0) errors.price = 'Price is required';
         if (isNaN(price) || price <= 0) errors.price = 'Price has be above 0 dollars';
-        if(price.length >6) errors.price = 'Price has be a numeric dollar amount with maximum 6 digits including decimals';
-        if (previewImg.length === 0) errors.preview = 'Preview image is required';
+        if (price.length > 6) errors.price = 'Price has be a numeric dollar amount with maximum 6 digits including decimals';
+        // if (previewImg.length === 0) errors.preview = 'Preview image is required';
         // if (!(previewImg.match(/\.(jpg|jpeg|png)$/))) errors.previewImg = 'Image URL must end in .png, .jpg, or .jpeg';
         // if (img1 && !img1.match(/\.(jpg|jpeg|png)$/)) errors.img1 = 'Image URL must end in .png, .jpg, or .jpeg';
         // if (img2 && !img2.match(/\.(jpg|jpeg|png)$/)) errors.img2= 'Image URL must end in .png, .jpg, or .jpeg';
@@ -60,7 +60,7 @@ function CreateSpot() {
     }, [country, address, city, state, lat, lng, description, name, price, previewImg, img1, img2, img3, img4])
 
 
-    const dispatch= useDispatch()
+    const dispatch = useDispatch()
     const onSubmit = async (e) => {
         e.preventDefault();
 
@@ -78,24 +78,24 @@ function CreateSpot() {
         // console.log(createSpotFrom)
         const picsArray = [];
 
-        const previewImage = {
-            url: previewImg,
-            preview: true
-        };
-
+        const previewImage = { url: previewImg, preview: true };
+        const image1 = { url: img1, preview: "false" }
+        const image2 = { url: img2, preview: "false" }
+        const image3 = { url: img3, preview: "false" }
+        const image4 = { url: img4, preview: "false" }
         picsArray.push(previewImage);
+        picsArray.push(image1)
+        picsArray.push(image2)
+        picsArray.push(image3)
+        picsArray.push(image4)
 
-        if(img1) picsArray.push({url:img1, preview:"false"});
-        if(img2) picsArray.push({url:img2, preview:"false"});
-        if(img3) picsArray.push({url:img3, preview:"false"});
-        if(img4) picsArray.push({url:img4, preview:"false"});
-
-
+        // if(img1) picsArray.push({url:img1, preview:"false"});
+        // if(img2) picsArray.push({url:img2, preview:"false"});
+        // if(img3) picsArray.push({url:img3, preview:"false"});
+        // if(img4) picsArray.push({url:img4, preview:"false"});
 
         setHasSubmitted(true);
         if (Object.keys(validationErrors).length > 0) return;
-
-        // let newSpot = await dispatch()
 
         setCountry('');
         setAddress('');
@@ -112,131 +112,134 @@ function CreateSpot() {
         setImg3(null);
         setImg4(null)
 
-        
-
-        
         let newSpot = await dispatch(createSpot(createSpotFrom))
 
         if (newSpot) {
             let spotId = newSpot.id;
-            if(newSpot) {
-                    dispatch(addPics(previewImage, spotId))      
+            if (newSpot) {
+                dispatch(addPics(previewImage, spotId))
+                dispatch(addPics(image1, spotId))
+                dispatch(addPics(image2, spotId))
+                dispatch(addPics(image3, spotId))
+                dispatch(addPics(image4, spotId))
             }
         }
-       
-        
-        
+
         if (newSpot) {
             history.push(`/spots/${newSpot.id}`);
         }
     }
+
     const imgFilePreview = (e) => {
         const file = e.target.files[0];
         if (file) setPreviewImg(file);
-      };
+    };
 
-      const imgFile1 = (e) => {
+    const imgFile1 = (e) => {
         const file = e.target.files[0];
         if (file) setImg1(file);
-      };
+    };
 
-      const imgFile2 = (e) => {
+    const imgFile2 = (e) => {
         const file = e.target.files[0];
         if (file) setImg2(file);
-      };
+    };
 
-      const imgFile3 = (e) => {
+    const imgFile3 = (e) => {
         const file = e.target.files[0];
         if (file) setImg3(file);
-      };
+    };
 
-      const imgFile4 = (e) => {
+    const imgFile4 = (e) => {
         const file = e.target.files[0];
         if (file) setImg4(file);
-      };
+    };
     return (
         <div className="spotform-container">
-                <div>
+            <div>
                 <h2>Create a new Spot</h2>
                 <h3>Where's your place located?</h3>
                 <p>Guests will only get your exact address once they booked a reservation</p>
-                </div>
-                <form onSubmit={onSubmit}>
-                    <span><label htmlFor='country'>Country: </label></span><span className='error'> {hasSubmitted && validationErrors.country && `${validationErrors.country}`}</span>
-                    <input id='country' placeholder='Country' type="text" value={country}
-                        onChange={(e) => setCountry(e.target.value)} />
+            </div>
 
-                    <span><label htmlFor='address'>Street Address: </label></span><span className='error'> {hasSubmitted && validationErrors.address && `${validationErrors.address}`}</span>
-                    <input id='address' placeholder='Address' type="text" value={address}
-                        onChange={(e) => setAddress(e.target.value)} />
+            <form onSubmit={onSubmit}>
+                <span><label htmlFor='country'>Country: </label></span><span className='error'> {hasSubmitted && validationErrors.country && `${validationErrors.country}`}</span>
+                <input id='country' placeholder='Country' type="text" value={country}
+                    onChange={(e) => setCountry(e.target.value)} />
 
+                <span><label htmlFor='address'>Street Address: </label></span><span className='error'> {hasSubmitted && validationErrors.address && `${validationErrors.address}`}</span>
+                <input id='address' placeholder='Address' type="text" value={address}
+                    onChange={(e) => setAddress(e.target.value)} />
 
-                    <span className="cityState">
-                        <span><label htmlFor='city'>City: </label></span><span className='error'> {hasSubmitted && validationErrors.city && `${validationErrors.city}`}</span>
-                        <input id='city' placeholder='City' type="text" value={city}
-                            onChange={(e) => setCity(e.target.value)} />
+                <span className="cityState">
+                    <span><label htmlFor='city'>City: </label></span><span className='error'> {hasSubmitted && validationErrors.city && `${validationErrors.city}`}</span>
+                    <input id='city' placeholder='City' type="text" value={city}
+                        onChange={(e) => setCity(e.target.value)} />
 
-                        <span><label htmlFor='state'>State: </label></span><span className='error'> {hasSubmitted && validationErrors.state && `${validationErrors.state}`}</span>
-                        <input id='state'  placeholder='State' type="text" value={state}
-                            onChange={(e) => setState(e.target.value)} />
-                    </span>
+                    <span><label htmlFor='state'>State: </label></span><span className='error'> {hasSubmitted && validationErrors.state && `${validationErrors.state}`}</span>
+                    <input id='state' placeholder='State' type="text" value={state}
+                        onChange={(e) => setState(e.target.value)} />
+                </span>
 
-                    <span><label htmlFor='lat'>Latitude: </label></span><span className='error'> { hasSubmitted && validationErrors.lat && `${validationErrors.lat}`}</span>
-                    <input id='lat' placeholder='Latitude' type="text" value={lat}
-                        onChange={(e) => setLat(e.target.value)} />
+                <span><label htmlFor='lat'>Latitude: </label></span><span className='error'> {hasSubmitted && validationErrors.lat && `${validationErrors.lat}`}</span>
+                <input id='lat' placeholder='Latitude' type="text" value={lat}
+                    onChange={(e) => setLat(e.target.value)} />
 
-                    <span><label htmlFor='lng'>Longitude: </label></span><span className='error'> { hasSubmitted && validationErrors.lng && `${validationErrors.lng}`}</span>
-                    <input id='lng' placeholder='Longitude' type="text" value={lng}
-                        onChange={(e) => setLng(e.target.value)} />
+                <span><label htmlFor='lng'>Longitude: </label></span><span className='error'> {hasSubmitted && validationErrors.lng && `${validationErrors.lng}`}</span>
+                <input id='lng' placeholder='Longitude' type="text" value={lng}
+                    onChange={(e) => setLng(e.target.value)} />
 
-                    <h3>Describe your place to guests</h3>
-                    <p>Mention the best features of your space, any special amentities like
-                        fast wifi or parking, and what you love about the neighborhood.</p>
+                <h3>Describe your place to guests</h3>
+                <p>Mention the best features of your space, any special amentities like
+                    fast wifi or parking, and what you love about the neighborhood.</p>
 
-                    <span><label htmlFor='description' >Description: </label></span><span className='error'> { hasSubmitted && validationErrors.description && `${validationErrors.description}`}</span>
-                    <textarea id='description' placeholder='Please write atleast 30 Characters' type="text" value={description}
-                        onChange={(e) => setDescription(e.target.value)} />
+                <span><label htmlFor='description' >Description: </label></span><span className='error'> {hasSubmitted && validationErrors.description && `${validationErrors.description}`}</span>
+                <textarea id='description' placeholder='Please write atleast 30 Characters' type="text" value={description}
+                    onChange={(e) => setDescription(e.target.value)}/>
 
-                    <h3>Create a title for your spot</h3>
-                    <p>Catch guests' attention with a spot title that highlights what makes
-                        your place special.</p>
+                <h3>Create a title for your spot</h3>
+                <p>Catch guests' attention with a spot title that highlights what makes
+                    your place special.</p>
 
+                <span><label htmlFor='name'>Name: </label></span><span className='error'> {hasSubmitted && validationErrors.name && `${validationErrors.name}`}</span>
+                <input id='name' placeholder='Name of your Spot' type="text" value={name}
+                    onChange={(e) => setName(e.target.value)} />
 
-                    <span><label htmlFor='name'>Name: </label></span><span className='error'> {hasSubmitted && validationErrors.name && `${validationErrors.name}`}</span>
-                    <input id='name' placeholder='Name of your Spot' type="text" value={name}
-                        onChange={(e) => setName(e.target.value)} />
+                <h3>Set a base price for your spot</h3>
+                <p>Competitive pricing can help your listing stand out and rank higher
+                    in search results.</p>
 
-                    <h3>Set a base price for your spot</h3>
-                    <p>Competitive pricing can help your listing stand out and rank higher
-                    in search results.</p>    
+                <span><label htmlFor='price'>Price: </label></span><span className='error'> {hasSubmitted && validationErrors.price && `${validationErrors.price}`}</span>
+                <input id='price' placeholder='Price per Night (USD)' type="text" value={price}
+                    onChange={(e) => setPrice(e.target.value)} />
 
-                    <span><label htmlFor='price'>Price: </label></span><span className='error'> {hasSubmitted && validationErrors.price && `${validationErrors.price}`}</span>
-                    <input id='price' placeholder='Price per Night (USD)' type="text" value={price}
-                        onChange={(e) => setPrice(e.target.value)} />
+                <h3>Liven up your spot with photos</h3>
+                <p>Submit a link to at least one photo to publish your spot.</p>
+                <span><label htmlFor='preview'></label></span><span className='error'> {hasSubmitted && validationErrors.previewImg && `${validationErrors.previewImg}`}</span>
+                <input id='preview' type="file" placeholder="Preview Image URL" accept=".jpg, .jpeg, .png, webp" required
+                    onChange={imgFilePreview} />
 
-                    <h3>Liven up your spot with photos</h3>
-                    <p>Submit a link to at least one photo to publish your spot.</p>    
-                    <span><label htmlFor='preview'></label></span><span className='error'> {hasSubmitted && validationErrors.previewImg && `${validationErrors.previewImg}`}</span>
-                    <input id='preview' type="file" placeholder="Preview Image URL" accept=".jpg, .jpeg, .png, webp" required
-                         onChange={imgFilePreview} />
-                        <span><label htmlFor='img1'></label></span><span className='error'> {hasSubmitted && validationErrors.img1 && `${validationErrors.img1}`}</span>
-                    <input id='img1' type="file" placeholder="Image URL"
-                         onChange={imgFile1} />
-                        <span><label htmlFor='img2'></label></span><span className='error'> {hasSubmitted && validationErrors.img2 && `${validationErrors.img2}`}</span>
-                    <input id='img2' type="file" placeholder="Image URL" 
-                         onChange={imgFile2} />
-                        <span><label htmlFor='img3'></label></span><span className='error'> {hasSubmitted && validationErrors.img3 && `${validationErrors.img3}`}</span>
-                    <input id='img3' type="file" placeholder="Image URL"
-                         onChange={imgFile3} />
-                        <span><label htmlFor='img4'></label></span><span className='error'> {hasSubmitted && validationErrors.img4 && `${validationErrors.img4}`}</span>
-                    <input id='img4' type="file" placeholder="Image URL"
-                         onChange={imgFile4} />
-    
-                    <button
-                        type="submit"
-                        className="spotbutton" style={{fontSize:"10px", padding:"10px", marginTop:"10px"}}>Create Spot</button>
-                </form >
-           
+                <span><label htmlFor='img1'></label></span><span className='error'> {hasSubmitted && validationErrors.img1 && `${validationErrors.img1}`}</span>
+                <input id='img1' type="file" placeholder="Image URL"
+                    onChange={imgFile1} />
+
+                <span><label htmlFor='img2'></label></span><span className='error'> {hasSubmitted && validationErrors.img2 && `${validationErrors.img2}`}</span>
+                <input id='img2' type="file" placeholder="Image URL"
+                    onChange={imgFile2} />
+
+                <span><label htmlFor='img3'></label></span><span className='error'> {hasSubmitted && validationErrors.img3 && `${validationErrors.img3}`}</span>
+                <input id='img3' type="file" placeholder="Image URL"
+                    onChange={imgFile3} />
+
+                <span><label htmlFor='img4'></label></span><span className='error'> {hasSubmitted && validationErrors.img4 && `${validationErrors.img4}`}</span>
+                <input id='img4' type="file" placeholder="Image URL"
+                    onChange={imgFile4} />
+
+                <button
+                    type="submit"
+                    className="spotbutton" style={{ fontSize: "10px", padding: "10px", marginTop: "10px" }}>Create Spot</button>
+            </form >
+
         </div>
     )
 }

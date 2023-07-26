@@ -12,7 +12,7 @@ import ManageSpots from "./components/ManageSpots";
 import UpdateSpot from "./components/UpdateSpot";
 import ManageReviews from "./components/ManageReviews";
 import CreateReviewModal from "./components/CreateReviewModal";
-import Booking from "./components/Booking";
+import ManageBooking from "./components/ManageBooking";
 
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
          <Route exact path="/spots/:spotId"><SpotDetails/></Route>
          <Route exact path="/spots/:spotId/edit"><UpdateSpot/></Route>
          <Route path="/reviews/current"><ManageReviews/></Route>
-         <Route path="/booking/new"><Booking/></Route>
+         <Route path="/booking/current"><ManageBooking/></Route>
         
       </Switch>
     )}

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./DeleteForm.css";
 import { deleteFetchSpot } from "../../store/SpotsReducer";
+import { fetchSpots } from '../../store/SpotsReducer';
 
 
 
@@ -14,7 +15,7 @@ function DeleteFormModal({spot}){
     
     // console.log("inside component", spot)
     const handleSubmit = (e) => {
-       return dispatch(deleteFetchSpot(spotId))
+       return dispatch(deleteFetchSpot(spotId)).then(dispatch(fetchSpots()))
        .then(closeModal)        
     }
 

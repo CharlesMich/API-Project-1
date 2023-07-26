@@ -58,6 +58,7 @@ function ProfileButton({ user }) {
             <li style={{fontSize:"12px", borderBottom: "1px solid black", paddingBottom:"10px"}}>{user.email}</li>
             <li><Link to ="/spots/current" style={{ textDecoration: 'none', color: 'inherit'}}>Manage Spots</Link></li>
             <li><Link to ="/reviews/current" style={{ textDecoration: 'none', color: 'inherit'}}>Manage Reviews</Link></li>
+            <li><Link to ="/booking/current" style={{ textDecoration: 'none', color: 'inherit'}}>Manage Bookings</Link></li>
             <li className="abc">
               
               <button onClick={logout}>Log Out</button>
