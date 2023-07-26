@@ -1,16 +1,10 @@
 const express = require('express');
-
 const Sequelize = require('sequelize');
-
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
-
 const { requireAuth } = require('../../utils/auth');
-
-// const Op = require('sequelize')
-
+const { singleFileUpload, singleMulterUpload, multipleFilesUpload, } = require("../../awsS3");
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-
 const router = express.Router();
 
 // Get all Spots owned by the Current User
@@ -283,36 +277,11 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
                 },
             },
         });
-        // console.log(Bookings[0].startDate)
-        // Bookings.forEach(ele => {
-        //     if(ele.startDate){          
-        //         let start = ele.startDate;
-        //         ele.startDate = start.toJSON().split("T")[0]
-        //     }
-        //     if(ele.endDate){
-        //         let end = ele.endDate;
-        //         ele.endDate = end.toJSON().split("T")[0]
-        //     }
-        // })
+      
         
         return res.send({ Bookings });
     }
-    // if (currentBookings) {
-    //     if (currentUserId === currentBookings.ownerId) {
-    //         const list = []
-    //         list.push(currentBookings.User);
-    //         list.push(currentBookings.Bookings)
-    //         res.json({ "Bookings": list });
-    //     } else {
-    //         res.json({ "Bookings": currentBookings })
-    //     }
-    // } else {
-    //     res.statusCode = 404;
-    //     res.json({
-    //         "message": "Spot couldn't be found"
-    //     })
-    // }
-
+   
 
 })
 
@@ -349,73 +318,6 @@ router.put('/:spotId', requireAuth, validateupDate, async (req, res) => {
         res.json(spotCheck)
     }
 })
-// Get details of a Spot from an id
-// router.get('/:id', async (req, res) => {
-
-//     const spotbyId = await Spot.findByPk(req.params.id, {
-
-        // attributes: {
-        //     include: [
-        //         [
-        //             Sequelize.fn("AVG", Sequelize.col("Reviews.stars")),
-        //             "avgStarRating"
-        //         ],
-        //         [Sequelize.fn("COUNT", Sequelize.col("Reviews.id")), "numReviews"]
-        //     ],
-        // },
-        // group: ['Spot.id', 'SpotImages.id'],
-       
-      
-       
-       
-        // include: [
-            // { model: SpotImage, attributes: ['id', 'url', 'preview'] },
-            // { model: User, attributes: ['id', 'firstName', 'lastName'] },
-            // { model: Review, attributes: [] }
-
-        // ]
-    // })
-
-    // const OwnerofSpot = await User.findOne(spotbyId.OwnerId) 
-    // const Owner = {
-    //     id:OwnerofSpot.id,
-    //     firstName:OwnerofSpot.firstName,
-    //     lastName:OwnerofSpot.lastName
-    // }
-   
-
-    // if (!spotbyId) {
-    //     res.statusCode = 404;
-    //     res.json({
-    //         "message": "Spot couldn't be found"
-    //     })
-    // } else {
-
-
-        // let spot = spotbyId.toJSON();
-       
-        // // spot['Owner'] = spot['User'];
-        // // delete spot['User'];
-
-        // // spot.numReviews = parseInt(spot.numReviews)
-        // let parsedLat = spot.lat;
-        // spot.lat = +parsedLat
-
-        // let parsedLng = spot.lng;
-        // spot.lng = +parsedLng
-
-        // let parsedPrice = spot.price;
-        // spot.price = parseInt(parsedPrice);
-
-        // let parsedRating = spot.avgStarRating;
-        // spot.avgStarRating = +parsedRating;
-
-//         spot.Owner = Owner
-
-//         res.json(spot)
-//     }
-// })
-
 
 // Get details of a Spot from an id 
 router.get('/:spotId', async (req, res, next) => {
@@ -481,70 +383,6 @@ router.post('/', requireAuth, async (req, res, next) => {
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    // if (!address) {
-    //     res.statusCode = 400
-    //     return res.json({
-    //         message: "Bad Request",
-    //         error: "Street address is required"
-    //     })
-    // }
-    // if (!city) {
-    //     res.statusCode = 400
-    //     return res.json({
-    //         message: "Bad Request",
-    //         error: "City is required"
-    //     })
-    // }
-    // if (!state) {
-    //     res.statusCode = 400
-    //     return res.json({
-    //         message: "Bad Request",
-    //         error: "State is required"
-    //     })
-    // }
-    // if (!country) {
-    //     res.statusCode = 400
-    //     return res.json({
-    //         message: "Bad Request",
-    //         error: "Country is required"
-    //     })
-    // }
-    // if (!lat) {
-    //     res.statusCode = 400
-    //     return res.json({
-    //         message: "Bad Request",
-    //         error: "Latitude is not Valid"
-    //     })
-    // }
-    // if (!lng) {
-    //     res.statusCode = 400
-    //     return res.json({
-    //         message: "Bad Request",
-    //         error: "Latitude is not valid"
-    //     })
-    // }
-    // if (!name) {
-    //     res.statusCode = 400
-    //     return res.json({
-    //         message: "Bad Request",
-    //         error: "name is required"
-    //     })
-    // }
-    // if (!description) {
-    //     res.statusCode = 400
-    //     return res.json({
-    //         message: "Bad Request",
-    //         error: "description is required"
-    //     })
-    // }
-    // if (!price) {
-    //     res.statusCode = 400
-    //     return res.json({
-    //         message: "Bad Request",
-    //         error: "Price per day is required"
-    //     })
-    // }
-
     const newSpot = await Spot.create({
         ownerId,
         address,
@@ -572,16 +410,6 @@ router.get('/', async (req, res, next) => {
     };
     page = parseInt(page);
     size = parseInt(size);
-    // if(!minLat) minLat = -90;
-    // if(!maxLat) maxLat = 90;
-    // if(!minLng) minLat = -180.00;
-    // // if(!maxLng) maxLat = 180.00;
-    // if(!minPrice) minPrice = 0;
-    // if(!maxPrice) maxPrice = Infinity;
-
-    // pagination.where.lat = {[Op.between]: [minLat, maxLat]};
-    // pagination.where.lng = {[Op.between]: [minLng, maxLng]};
-    // pagination.where.price = {[Op.between]: [minPrice, maxPrice]};
 
     if (!page) page = 1;
     if (!size) size = 20;
@@ -687,30 +515,28 @@ router.get('/', async (req, res, next) => {
 // create an image for a spot
 
 
-router.post('/:spotId/images1', requireAuth, async (req, res)=>{
-    const { url, preview } = req.body;
-    const spotId = req.params.spotId;
-    // console.log(spotId)
-    // console.log(req.body)
-    // console.log("what type of data", typeof spotId)
-    const newImage = await SpotImage.create({
-        spotId,
-        url,
-        preview
-    })
-    const imageRes = newImage.toJSON();
-    res.json(imageRes);
+// router.post('/:spotId/images1', singleMulterUpload("image"), requireAuth, async (req, res)=>{
+//     // const { url, preview } = req.body;
+//     const { preview } = req.body;
+//     const spotId = req.params.spotId;
+//     const url = req.file? await singleFileUpload({file: req.file, public:true}): null;
+//     const newImage = await SpotImage.create({
+//         spotId,
+//         url,
+//         preview
+//     })
+//     const imageRes = newImage.toJSON();
+//     res.json(imageRes);
 
-})
-router.post('/:spotId/images', requireAuth, async (req, res) => {
-
-    const { url, preview } = req.body;
-
+// })
+router.post('/:spotId/images', singleMulterUpload("image"), requireAuth, async (req, res) => {
+    const { preview } = req.body;
+    console.log('req.body', req.body, preview)
     const userId = req.user.id;
-
     const spotId = req.params.spotId;
-
+    const url = await singleFileUpload({file: req.file, public:true});
     const spotCheck = await Spot.findByPk(spotId);
+    console.log('backendroute', url)
    
     if (!spotCheck) {
         res.statusCode = 404;
@@ -725,8 +551,8 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
                 preview
             })
             const imageRes = newImage.toJSON();
-
-            delete imageRes['spotId'],
+            
+                delete imageRes['spotId'],
                 delete imageRes['updatedAt'],
                 delete imageRes['createdAt']
             res.json(

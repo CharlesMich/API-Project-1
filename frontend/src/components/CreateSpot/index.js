@@ -51,11 +51,11 @@ function CreateSpot() {
         if (isNaN(price) || price <= 0) errors.price = 'Price has be above 0 dollars';
         if(price.length >6) errors.price = 'Price has be a numeric dollar amount with maximum 6 digits including decimals';
         if (previewImg.length === 0) errors.preview = 'Preview image is required';
-        if (!(previewImg.match(/\.(jpg|jpeg|png)$/))) errors.previewImg = 'Image URL must end in .png, .jpg, or .jpeg';
-        if (img1 && !img1.match(/\.(jpg|jpeg|png)$/)) errors.img1 = 'Image URL must end in .png, .jpg, or .jpeg';
-        if (img2 && !img2.match(/\.(jpg|jpeg|png)$/)) errors.img2= 'Image URL must end in .png, .jpg, or .jpeg';
-        if (img3 && !img3.match(/\.(jpg|jpeg|png)$/)) errors.img3 = 'Image URL must end in .png, .jpg, or .jpeg';
-        if (img4 && !img4.match(/\.(jpg|jpeg|png)$/)) errors.img4 = 'Image URL must end in .png, .jpg, or .jpeg';
+        // if (!(previewImg.match(/\.(jpg|jpeg|png)$/))) errors.previewImg = 'Image URL must end in .png, .jpg, or .jpeg';
+        // if (img1 && !img1.match(/\.(jpg|jpeg|png)$/)) errors.img1 = 'Image URL must end in .png, .jpg, or .jpeg';
+        // if (img2 && !img2.match(/\.(jpg|jpeg|png)$/)) errors.img2= 'Image URL must end in .png, .jpg, or .jpeg';
+        // if (img3 && !img3.match(/\.(jpg|jpeg|png)$/)) errors.img3 = 'Image URL must end in .png, .jpg, or .jpeg';
+        // if (img4 && !img4.match(/\.(jpg|jpeg|png)$/)) errors.img4 = 'Image URL must end in .png, .jpg, or .jpeg';
         setValidationErrors(errors);
     }, [country, address, city, state, lat, lng, description, name, price, previewImg, img1, img2, img3, img4])
 
@@ -106,11 +106,11 @@ function CreateSpot() {
         setDescription('');
         setName('');
         setPrice('');
-        setPreviewImg('');
-        setImg1('');
-        setImg2('');
-        setImg3('');
-        setImg4('')
+        setPreviewImg(null);
+        setImg1(null);
+        setImg2(null);
+        setImg3(null);
+        setImg4(null)
 
         
 
@@ -120,21 +120,40 @@ function CreateSpot() {
         if (newSpot) {
             let spotId = newSpot.id;
             if(newSpot) {
-                // for (let key of picsArray){
-                    dispatch(addPics(picsArray, spotId))
-                // }
-               
+                    dispatch(addPics(previewImage, spotId))      
             }
-            
-
         }
        
-       
-
+        
+        
         if (newSpot) {
             history.push(`/spots/${newSpot.id}`);
-          }
+        }
     }
+    const imgFilePreview = (e) => {
+        const file = e.target.files[0];
+        if (file) setPreviewImg(file);
+      };
+
+      const imgFile1 = (e) => {
+        const file = e.target.files[0];
+        if (file) setImg1(file);
+      };
+
+      const imgFile2 = (e) => {
+        const file = e.target.files[0];
+        if (file) setImg2(file);
+      };
+
+      const imgFile3 = (e) => {
+        const file = e.target.files[0];
+        if (file) setImg3(file);
+      };
+
+      const imgFile4 = (e) => {
+        const file = e.target.files[0];
+        if (file) setImg4(file);
+      };
     return (
         <div className="spotform-container">
                 <div>
@@ -198,20 +217,20 @@ function CreateSpot() {
                     <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot.</p>    
                     <span><label htmlFor='preview'></label></span><span className='error'> {hasSubmitted && validationErrors.previewImg && `${validationErrors.previewImg}`}</span>
-                    <input id='preview' type="text" placeholder="Preview Image URL" value={previewImg}
-                        onChange={(e) => setPreviewImg(e.target.value)} />
+                    <input id='preview' type="file" placeholder="Preview Image URL" accept=".jpg, .jpeg, .png, webp" required
+                         onChange={imgFilePreview} />
                         <span><label htmlFor='img1'></label></span><span className='error'> {hasSubmitted && validationErrors.img1 && `${validationErrors.img1}`}</span>
-                    <input id='img1' type="text" placeholder="Image URL" value={img1}
-                        onChange={(e) => setImg1(e.target.value)} />
+                    <input id='img1' type="file" placeholder="Image URL"
+                         onChange={imgFile1} />
                         <span><label htmlFor='img2'></label></span><span className='error'> {hasSubmitted && validationErrors.img2 && `${validationErrors.img2}`}</span>
-                    <input id='img2' type="text" placeholder="Image URL" value={img2}
-                        onChange={(e) => setImg2(e.target.value)} />
+                    <input id='img2' type="file" placeholder="Image URL" 
+                         onChange={imgFile2} />
                         <span><label htmlFor='img3'></label></span><span className='error'> {hasSubmitted && validationErrors.img3 && `${validationErrors.img3}`}</span>
-                    <input id='img3' type="text" placeholder="Image URL" value={img3}
-                        onChange={(e) => setImg3(e.target.value)} />
+                    <input id='img3' type="file" placeholder="Image URL"
+                         onChange={imgFile3} />
                         <span><label htmlFor='img4'></label></span><span className='error'> {hasSubmitted && validationErrors.img4 && `${validationErrors.img4}`}</span>
-                    <input id='img4' type="text" placeholder="Image URL" value={img4}
-                        onChange={(e) => setImg4(e.target.value)} />
+                    <input id='img4' type="file" placeholder="Image URL"
+                         onChange={imgFile4} />
     
                     <button
                         type="submit"

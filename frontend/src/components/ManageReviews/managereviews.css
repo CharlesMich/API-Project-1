@@ -1,0 +1,29 @@
+.review-container{
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 100px;
+}
+
+.manage-review-each-review{
+    /* background-color: orange; */
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+
+.manage-review-each-review > * {
+    padding-bottom: 10px;
+}
+
+.manage-review-h1{
+    padding-left: 0px;
+}
+
+.managereview-topline {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.managereview-image{
+    width: 100px;
+}

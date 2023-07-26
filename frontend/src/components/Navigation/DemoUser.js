@@ -16,7 +16,7 @@ function DemoUser(){
 
       
 
-        return dispatch(sessionActions.login({ credential, password })).then(closeModal) 
+        return dispatch(sessionActions.login({ credential, password })).then(closeModal)
         
     }
 

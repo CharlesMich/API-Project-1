@@ -14,7 +14,7 @@ function UpdateSpot() {
 const history = useHistory()
   
   const spot = useSelector((state)=> 
-      state.spots ? state.spots[spotId]: null)
+      state.spots ? state.spots.allSpots[spotId]: null)
   
 
  
@@ -111,8 +111,10 @@ const dispatch = useDispatch();
 
         await dispatch(updateSpot(updateSpotForm, spotId));
         history.push(`/spots/${spotId}`)
-          
     }
+
+    
+
     return (
         <div className="spotform-container">
                 <div>

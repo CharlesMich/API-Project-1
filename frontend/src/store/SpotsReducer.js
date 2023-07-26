@@ -109,18 +109,17 @@ export const updateSpot =(updateSpotForm, spotId)=> async (dispatch) => {
 }
 
 
-
 // Manage Spots
-export const fetchManageSpots = () => async (dispatch) => {
-    const res = await csrfFetch('/api/spots/current')
+// export const fetchManageSpots = () => async (dispatch) => {
+//     const res = await csrfFetch('/api/spots/current')
    
-    if (res.ok) {
-        const spots = await res.json();
+//     if (res.ok) {
+//         const spots = await res.json();
      
-        // dispatch(loadSpots(spots))
+//         // dispatch(loadSpots(spots))
 
-    }
-}
+//     }
+// }
 
 const initialState = {allSpots:{}, userSpots:{}, singleSpot:{}}
 const spotsReducer = (state = initialState, action) => {

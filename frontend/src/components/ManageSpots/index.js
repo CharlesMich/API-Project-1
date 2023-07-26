@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchManageSpots } from '../../store/SpotsReducer';
+import { fetchSpots } from '../../store/SpotsReducer';
 import { Link } from 'react-router-dom';
 import DeleteFormModal from '../DeleteFormModal';
 import OpenModalButton from "../OpenModalButton";
@@ -12,18 +12,22 @@ function ManageSpots() {
    
     const dispatch = useDispatch();
 
-    const spots = useSelector((state) => state.spots);
-       
-    // console.log("manage spots", spots)
+    const sessionUser = useSelector((state)=> state.session.user);
 
+    let ownerId;
+    if(sessionUser){
+        ownerId = sessionUser.id;
+    }
+    const spotsArr = useSelector((state) => Object.values(state.spots.allSpots));
+    let spotsArr1 = spotsArr.filter(ele => Number(ele.ownerId) === ownerId)
+    
     useEffect(() => {
-        dispatch(fetchManageSpots())
+        dispatch(fetchSpots())
     }, [dispatch])
 
-    if(!spots) return null
+    if(!spotsArr1) return null
 
-    const spotArr = Object.values(spots)
-    if (!spotArr.length) {
+    if (!spotsArr1.length) {
         return (
             <>
                 <h1>Manage Your Spots</h1>
@@ -39,7 +43,7 @@ function ManageSpots() {
             <Link to="/spots/new" className="createNew" style={{ textDecoration: 'none', color: 'rgb(6 45 70)' }}>Create a new Spot</Link>
             </div> 
 
-            {spotArr.map(ele => (
+            {spotsArr1.map(ele => (
                 <div className="outerDiv">
                     <div className="map">
                         <div className = "imgclass"> <Link to={`/spots/${ele.id}`} key ="ele.id"><img className="manageImg" src={ele.previewImage} alt="ele.name"/></Link></div>

@@ -91,15 +91,15 @@
 .previewImg img{
   /* max-width: 500px;
    max-height:500px;*/
- border-radius: 10px; 
+ border-radius: 10px 0px 0px 10px; 
    overflow: hidden;
 
 }
 
 .imgGrid{
     display: grid;
-    
     padding-right: 10px;
+ 
 }
 .imgGrid img{
    

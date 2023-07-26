@@ -81,7 +81,7 @@ function ProfileButton({ user }) {
             </li >
             <li className = 'abc'>
               
-            <DemoUser onClick={closeMenu}/> </li>
+            <DemoUser  onClick={closeMenu}/> </li>
           </>
         )}
       </ul>

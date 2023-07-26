@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // import {Link} from 'react-router-dom'
 import { fetchSpotDetails } from '../../store/SpotsReducer';
 import './spotdetail.css'
@@ -8,6 +8,7 @@ import { fetchSpotReviews } from '../../store/reviewsReducer';
 import OpenModalButton from '../OpenModalButton';
 import CreateReviewModal from '../CreateReviewModal';
 import DeleteReviewModal from '../DeleteReviewModal';
+import {fetchAddBookings} from '../../store/booking'
 
 
 
@@ -16,7 +17,10 @@ function SpotDetails() {
 
     const spot = useSelector((state) => state.spots.singleSpot);
     const sessionUser = useSelector((state) => state.session.user);
-    const reviews = useSelector(state => state.reviews.spotReviews)
+    const reviews = useSelector(state => state.reviews.spotReviews);
+
+    const [checkin, setCheckin] = useState("");
+    const [checkout, setCheckout] = useState("")
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -61,7 +65,18 @@ function SpotDetails() {
         return (monthText + " " + year)
     }
 
-    // console.log(spot.name)
+    const handleBooking = async (e) => {
+        e.preventDefault();
+        const startDate = new Date(checkin)
+        const endDate = new Date(checkout);
+        const newBookingForm ={
+            spotId,
+            startDate,
+            endDate
+        }
+        dispatch(fetchAddBookings(newBookingForm, spotId))
+
+    }
 
     return (
 
@@ -74,12 +89,12 @@ function SpotDetails() {
 
 
             <div className="image-container">
-                <div className="previewImg"><img className={spot.SpotImages} src={spot.SpotImages[0] && spot.SpotImages[0].url} alt="" /></div>
+                <div className="previewImg" ><img  className={spot.SpotImages} src={spot.SpotImages[0] && spot.SpotImages[0].url} alt="" /></div>
                 <div class="imgGridOuter">
                     <div className="imgGrid"><img className={spot.SpotImages} src={spot.SpotImages[1] && spot.SpotImages[1].url} alt="" /></div>
                     <div className="imgGrid"><img className={spot.SpotImages} src={spot.SpotImages[2] && spot.SpotImages[2].url} alt="" /></div>
                     <div className="imgGrid"><img className={spot.SpotImages} src={spot.SpotImages[3] && spot.SpotImages[3].url} alt="" /></div>
-                    <div className="imgGrid"><img className={spot.SpotImages} src={spot.SpotImages[4] && spot.SpotImages[4].url} alt="" /></div>
+                    <div className="imgGrid" id="imgGrid1"><img className={spot.SpotImages} src={spot.SpotImages[4] && spot.SpotImages[4].url} alt="" /></div>
                 </div>
 
             </div>
@@ -102,7 +117,11 @@ function SpotDetails() {
                         </div>
                         {spot.numReviews === 1 ? <div className="abc">{spot.numReviews} Review</div> : <div className="abc">{spot.numReviews} Reviews</div>}
                     </div>
-                    <div><button className='reserve' onClick={() => alert('Feature coming soon')} style={{ textAlign: "center" }}>Reserve</button></div>
+                    <div>CHECK-IN</div>
+                    <input className="spotdetails-date-input" type="date" value={checkin} min={Date()} onChange={(e)=> setCheckin(e.target.value)}></input>
+                    <div>CHECK-OUT</div>
+                    <input className="spotdetails-date-input" type="date" value={checkout} min={Date()} onChange={(e)=> setCheckout(e.target.value)}></input>
+                    <div><button className='reserve' onClick={handleBooking} style={{ textAlign: "center" }}>Reserve</button></div>
                 </div>
             </div>
 
